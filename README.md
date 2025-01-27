@@ -1,1 +1,1 @@
-# dininghall-mealplan-management-system
+# dininghall-mealplan
