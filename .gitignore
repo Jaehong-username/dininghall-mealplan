@@ -1,0 +1,5 @@
+# list of directories, files to not commit to github
+venv/
+src/__pycache__/
+src/*.egg-info
+src/data/*.db
