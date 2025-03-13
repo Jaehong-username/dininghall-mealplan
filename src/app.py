@@ -28,4 +28,5 @@ def index():
 
 ### Program entrypoint (place at bottom of script)
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    # hannah: changed port to 3000 (5000 not working), but feel free to change it back
+    app.run(host='0.0.0.0', port=3000)
