@@ -53,9 +53,10 @@ class Student(db.Model):
     admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))                       # foreign key to admin (many-to-one)
 
     # vars for managing meal plan
-    plan_id = db.Column(db.Integer, db.ForeignKey('mealplan.plan_id'))                      # foreign key to specific meal plan
+    plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.plan_id'))                      # foreign key to specific meal plan
 
     # relationships
+    user = db.relationship('User')
     meals = db.relationship('Meal', secondary='Students_Meals')                             # many-to-many w/ meals
     menus = db.relationship('Menu', secondary='Students_Menus')                             # many-to-many w/ menus
 
@@ -69,6 +70,7 @@ class Employee(db.Model):
 
 # Meal Plan table for managing a student's plan
 class Meal_Plan(db.Model):
+    __tablename__ = 'meal_plan'                                                             # fixing errors with naming
     plan_id = db.Column(db.Integer, primary_key=True)
     price = db.Column(db.Float, nullable=False)
 
