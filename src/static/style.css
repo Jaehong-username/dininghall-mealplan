@@ -11,12 +11,61 @@ body{
     background-position: center; /*move the background to the center*/
 }
 
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: green;
+    padding: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo{
+    padding-left: 50px;
+    width: 30px;
+    height: 30px;
+}
+.navbar {
+    padding-right: 40px;
+}
+
+.navbar a{
+    font-size: 20px;
+    font-weight: 500;
+    color:beige;
+    text-decoration: none;
+    margin-left: 50px;
+}
+
+
+
+.navbar a::before{
+    content: '';
+    position: absolute;
+    top:100%;
+    left:0;
+    width:0;
+    height:2px;
+    background-color: aliceblue;
+}
+
+.navbar a:hover::before{
+    width:100%;
+    
+}
+
 .title{
     font-weight: 700;
     font-size: 70px;
     color: rgb(158, 255, 116);
 }
-
+.subtitle{
+    font-weight: 500;
+    font-size: 50px;
+    color: rgb(6, 94, 129);
+}
 .login-container{
     width: 450px;
     height: 500px;
@@ -25,7 +74,17 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    
+}
+
+.register-container{
+    width: 450px;
+    padding-top: 50px;
+    height: 700px;
+    background: rgba(205, 160, 70, 0.8);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .input-box{

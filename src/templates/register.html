@@ -1,20 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Register Page</h1>
+{% extends "layout.html" %}
 
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        {{ form.username }}
-        {{ form.password }}
-        {{ form.submit }}
-    </form>
+{% block title %}Dinning Hall Meal Plan Manager Register{% endblock %}
 
-    <a href="{{ url_for('login') }}">Already have an account? Log In</a>
-</body>
-</html>
+{% block content %}
+    
+    
+    <div class ="register-container">
+        <form action = "login.html">
+            <h2>Register</h2>
+            
+            <div class = "input-box">
+                <input type = "first-name" required>
+                <label>First Name</label>
+            </div>
+            
+            <div class = "input-box">
+                <input type = "last-name" required>
+                <label>Last Name</label>
+            </div>
+            
+            <div class = "input-box">
+                <input type = "email" required>
+                <label>Last Name</label>
+            </div>
+            
+            <div class = "input-box">
+                <input type = "email" required>
+                <label>Email</label>
+            </div>
+            
+            <div class = "input-box">
+                <input type = "password" required>
+                <label>password</label>
+            </div>
+            
+            
+            
+            <button type = "submit" class = "login-button">Sign up</button>
+            
+            <div class = "register">
+                <p>Already have an account? <a href = "{{ url_for('login') }}">Sign in</a></p>
+            </div>
+            
+        </form>
+    </div>
+    
+    
+{% endblock %}

@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+{% extends "layout.html" %}
+
+{% block title %}Dinning Hall Meal Plan Manager Login{% endblock %}
+
+{% block content %}
     
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div>
-        <h1 class = "title">Dining Hall Meal Plan Manager</h1>
-    </div>
+    
     <div class ="login-container">
         <form action = "home.html">
             <h2>Login</h2>
@@ -39,6 +33,4 @@
     </div>
     
     
-    
-</body>
-</html>
+{% endblock %}

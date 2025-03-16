@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default Title{% endblock %}</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class = "header">
+        <a href="{{ url_for('home') }}">
+            <img src="/static/images/logo.png" alt="Logo" class = "logo">
+        </a>
+        
+        <nav class = "navbar">
+            <a href = "{{ url_for('home') }}">Home</a> <!--the name of the function-->
+            <a href = "{{ url_for('view_today_menus') }}">Today's menu</a>
+            <a href = "#">Meal Plan</a>
+            <a href = "#">Feedback</a>
+            <a href = "{{ url_for('contact') }}">Contact</a>   
+        </nav>
+    </header>
+    
+    <!-- Page Content -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+    
+    
+    
+    
+    
+</body>
+</html>

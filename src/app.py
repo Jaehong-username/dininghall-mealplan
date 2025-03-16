@@ -87,8 +87,8 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
-@ app.route('/register', methods=['GET', 'POST'])
+#Accessing /register triggers this function.
+@ app.route('/register', methods=['GET', 'POST']) # specifies which HTTP methods the route should accept.
 def register():
     form = RegisterForm()
 
@@ -101,6 +101,13 @@ def register():
 
     return render_template('register.html', form=form)
 
+@ app.route('/dinning-halls', methods=['GET', 'POST'])
+def view_today_menus():
+    return render_template('dinning-halls.html')
+
+@ app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    return render_template('contact.html')
 
 if __name__ == "__main__":
     app.run(port = 3000, debug=True)
