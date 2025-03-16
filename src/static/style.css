@@ -63,8 +63,9 @@ body{
 }
 .subtitle{
     font-weight: 500;
-    font-size: 50px;
-    color: rgb(6, 94, 129);
+    font-size: 30px;
+    background-color: yellow;
+    color: rgb(255, 166, 0);
 }
 .login-container{
     width: 450px;
@@ -86,6 +87,31 @@ body{
     justify-content: center;
     align-items: center;
 }
+
+.cafeteria-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px; /*to create some space between eACH DIP*/
+}
+
+.cafeteria{
+    width: 300px;
+    padding-top: 50px;
+    height: 500px;
+    background: rgba(255, 255, 200, 0.8);
+    border-radius: 20px;
+    
+}
+.cafeteria-container .cafeteria {
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+.cafeteria-container .cafeteria img{
+    width: 300px;
+    height: 200px;
+}
+
 
 .input-box{
     position: relative;
