@@ -1,0 +1,17 @@
+<!-- Flask render templates allow for pages to inherit from one another -->
+{% extends 'base_template.html' %}
+
+<!-- Content of the page -->
+{% block content %}
+    <h1>Log in (Prototype page)</h1>
+    <div class="user_form">
+        {{ message }}
+        <form action="/login_test" method="POST">
+            {{ form.hidden_tag() }}
+            {% for field in form if field.widget.input_type != 'hidden' %}
+            <label>{{ field.label }}</label>
+            {{ field }}<br>
+            {% endfor %}
+        </form>
+    </div>
+{% endblock %}

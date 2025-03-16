@@ -13,11 +13,13 @@ setup(
         'Flask-SQLAlchemy',
         'flask-bcrypt',
         'flask-login',
+        'Flask-WTF',
         'markupsafe',
         'pandas',
         'configparser',
         'pyotp',
         'qrcode',
-        'xlsxwriter'
+        'xlsxwriter',
+        'email_validator'
     ]
 ) 

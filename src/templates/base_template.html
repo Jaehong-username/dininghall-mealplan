@@ -5,7 +5,18 @@
     <title>Dining hall meal plan project</title>
 </head>
 <body>
-    <p>Dining hall meal plan application</p>
+    <a href="{{ url_for('index') }}">Home</a>
+    {% if current_user.is_authenticated %}
+        <p style="float: right">
+            <a href="{{ url_for('account_page') }}">{{ current_user.name }}</a>
+            <a href="{{ url_for('logout') }}">Log out</a>
+        </p>
+        {% else %}
+        <p style="float: right">
+            <a href="{{ url_for('register_test') }}">Register</a> 
+            <a href="{{ url_for('login_test') }}">Log in</a>
+        </p>
+    {% endif %}
     <hr>
     <div id="content">
         <!-- Content supplied in other files goes here. -->
