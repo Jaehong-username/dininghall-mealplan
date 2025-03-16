@@ -1,8 +1,8 @@
 # models.py - Contains all definitions for database tables
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+from flask_login import UserMixin, LoginManager
 import datetime
-from flask import current_app
+from flask import current_app, Blueprint
 from flask_bcrypt import Bcrypt
 import os
 
@@ -14,6 +14,8 @@ import os
 # And is also more secure as it reduces the possibility of SQL injection attacks.
 db = SQLAlchemy()
 bcrypt = Bcrypt() # needed for password hashing
+
+models_bp = Blueprint('models_bp', __name__)
 
 ### --- Initialize databases --- ###
 # Tables are created dynamically at first run w/ SQLAlchemy.
@@ -31,8 +33,24 @@ class User(UserMixin, db.Model):
         self.email = email
         self.name = name
         self.password = bcrypt.generate_password_hash(password)
+
+        
+    def get_id(self):
+        return self.user_id
     
+    def test_login(email_address, password):
+        if User.query.filter_by(email=email_address).count() > 0:
+            user = User.query.filter_by(email=email_address).first()
+            if bcrypt.check_password_hash(user.password, password):
+                return user
+            else:
+                return None
+
 # Student table
 class Student(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
     balance = db.Column(db.Float, nullable=False)
+    
+    def __init__(self, user_id, balance):
+        self.user_id = user_id
+        self.balance = balance

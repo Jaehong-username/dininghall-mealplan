@@ -6,6 +6,12 @@
 </head>
 <body>
     <p>Dining hall meal plan application</p>
+    {% if current_user.is_authenticated %}
+        <p style="float: right">{{ current_user.name }} <a href="{{ url_for('logout') }}">Log out</a></p>
+        {% else %}
+            <a style="float: right" href="{{ url_for('register_test') }}">Register</a> 
+            <a style="float: right" href="{{ url_for('login_test') }}">Log in</a>
+    {% endif %}
     <hr>
     <div id="content">
         <!-- Content supplied in other files goes here. -->
