@@ -1,6 +1,6 @@
 #flask library packages
 from flask import *
-from flask_login import LoginManager, login_user, logout_user, current_user
+from flask_login import LoginManager, login_user, logout_user, current_user, login_required
 # Flask forms extension packages
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, SubmitField
@@ -88,6 +88,15 @@ def login_test():
 @app.route("/log-out", methods=['GET', 'POST'])
 def logout():
     logout_user()
+    return redirect(url_for('index'))
+
+@login_required
+@app.route("/account", methods=['GET','POST'])
+def account_page():
+    if(current_user.is_authenticated):
+        current_student = Student.query.filter_by(user_id=current_user.user_id).first()
+        if(current_student is not None):
+            return render_template("student_info.html", balance=current_student.balance)
     return redirect(url_for('index'))
 
 ### Program entrypoint (place at bottom of script)
