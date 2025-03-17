@@ -101,9 +101,13 @@ def register():
 
     return render_template('register.html', form=form)
 
-@ app.route('/dinning-halls', methods=['GET', 'POST'])
+@ app.route('/dining-halls', methods=['GET', 'POST'])
+def view_dining_halls():
+    return render_template('dining-halls.html')
+
+@ app.route('/menu-details', methods=['GET', 'POST'])
 def view_today_menus():
-    return render_template('dinning-halls.html')
+    return render_template('menu-details.html')
 
 @ app.route('/contact', methods=['GET', 'POST'])
 def contact():

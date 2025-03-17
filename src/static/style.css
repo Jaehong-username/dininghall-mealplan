@@ -1,4 +1,7 @@
+
+
 body{
+    
     display: flex;
     flex-direction: column;  /* Arrange flex items vertically */
     justify-content: center;
@@ -21,6 +24,7 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 50px;
 }
 .logo{
     padding-left: 50px;
@@ -29,6 +33,7 @@ body{
 }
 .navbar {
     padding-right: 40px;
+    
 }
 
 .navbar a{
@@ -80,12 +85,41 @@ body{
 .register-container{
     width: 450px;
     padding-top: 50px;
-    height: 700px;
+    height: 750px;
     background: rgba(205, 160, 70, 0.8);
     border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.contact{
+    display: flex;
+    gap: 50px; /*Space between two divs*/
+}
+.contact-info{
+    width: 450px;
+    height: 300px;
+    background: rgba(205, 160, 70, 0.8);
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.contact-info h4{
+    font-size: 20px;
+    font-family: Lora;
+}
+
+.contact-message{
+    width: 450px;
+    height: 600px;
+    background: rgba(205, 160, 70, 0.8);
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.message-form input{
+    height: 130px; width: 330px;
 }
 
 .cafeteria-container{
