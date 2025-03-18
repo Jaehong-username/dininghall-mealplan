@@ -1,0 +1,200 @@
+
+
+body{
+    
+    display: flex;
+    flex-direction: column;  /* Arrange flex items vertically */
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    background: url('/static/images/background.jpg') no-repeat;
+    background-size: cover;
+    min-height: 100vh; /* Set to 100% of the viewport height to fill up the whole scrren */
+    margin: 0; /* Ensure there's no default margin */
+    background-position: center; /*move the background to the center*/
+}
+
+.content {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: green;
+    padding: 20px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+.logo{
+    padding-left: 50px;
+    width: 30px;
+    height: 30px;
+}
+.navbar {
+    padding-right: 40px;
+    
+}
+
+.navbar a{
+    font-size: 20px;
+    font-weight: 500;
+    color:beige;
+    text-decoration: none;
+    margin-left: 50px;
+}
+
+
+
+.navbar a::before{
+    content: '';
+    position: absolute;
+    top:100%;
+    left:0;
+    width:0;
+    height:2px;
+    background-color: aliceblue;
+}
+
+.navbar a:hover::before{
+    width:100%;
+    
+}
+
+.title{
+    font-weight: 700;
+    font-size: 70px;
+    color: rgb(99, 165, 71);
+}
+.subtitle{
+    font-weight: 500;
+    font-size: 30px;
+    background-color: yellow;
+    color: rgb(255, 166, 0);
+}
+.login-container{
+    width: 450px;
+    height: 500px;
+    background: rgba(205, 160, 70, 0);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-container{
+    width: 450px;
+    height: 500;
+    background: rgba(205, 160, 70, 0);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact{
+    display: flex;
+    gap: 50px; /*Space between two divs*/
+}
+.contact-info{
+    width: 450px;
+    height: 300px;
+    background: rgba(205, 160, 70, 0.8);
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.contact-info h4{
+    font-size: 20px;
+    font-family: Lora;
+}
+
+.contact-message{
+    width: 450px;
+    height: 600px;
+    background: rgba(205, 160, 70, 0.8);
+    border-radius: 30px;
+    padding: 20px;
+}
+
+.message-form input{
+    height: 130px; width: 330px;
+}
+
+.cafeteria-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px; /*to create some space between eACH DIP*/
+}
+
+.cafeteria{
+    width: 300px;
+    padding: 5px;
+    padding-top: 50px;
+    height: 500px;
+    background: rgba(255, 255, 200, 0.8);
+    border-radius: 10px;
+}
+.cafeteria-container .cafeteria {
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+.cafeteria-container .cafeteria img{
+    width: 300px;
+    height: 200px;
+}
+
+
+.input-box{
+    position: relative;
+    width: 300px;
+    margin: 30px 0; /*top bottom margin 30px   left and right margin 0px*/
+    /*border-bottom: 2px solid wheat;*/
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: -5px;
+}
+
+
+.input-box input{
+    width: 100%; /*elongates the input box*/
+    height: 50px;
+    background: transparent; /*Remove the input box*/
+}
+
+.remember-forget{
+    display: flex;
+    justify-content: space-between;
+}
+
+.remember-forget a:hover{
+    text-decoration: underline;
+}
+
+.login-button{
+    width: 100%; /*login buttonn fill up the div*/
+    height: 55px;
+    border-radius: 40px;;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-link{
+    text-align: center;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.remember-link p a:hover{
+    text-decoration: underline;
+}

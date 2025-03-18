@@ -6,7 +6,6 @@ from flask import current_app, Blueprint
 from flask_bcrypt import Bcrypt
 import os
 
-# SQLite Viewer on the vscode extension marketplace is a useful free tool to preview db files
 # Database located in src/data/database.db
 
 # SQLAlchemy is a python library that presents SQL tables as Python objects
@@ -17,10 +16,6 @@ bcrypt = Bcrypt() # needed for password hashing
 
 models_bp = Blueprint('models_bp', __name__)
 
-### --- Initialize databases --- ###
-# Tables are created dynamically at first run w/ SQLAlchemy.
-# Don't commit database file to git!
-
 # User account table
 class User(UserMixin, db.Model):
     user_id = db.Column(db.Integer, primary_key=True) ## auto increments!
@@ -28,10 +23,12 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable = False)
 
+    # Creates new user from email, name, and (unhashed) password
     def __init__(self, email, name, password):
         # user_id automatically set to the largest value + 1
         self.email = email
         self.name = name
+        # sets password to hash
         self.password = bcrypt.generate_password_hash(password)
 
         
@@ -45,7 +42,7 @@ class User(UserMixin, db.Model):
                 return user
             else:
                 return None
-
+            
 # Student table
 class Student(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
@@ -54,3 +51,11 @@ class Student(db.Model):
     def __init__(self, user_id, balance):
         self.user_id = user_id
         self.balance = balance
+    
+    def get_student_by_id(uid):
+        st = Student.query.filter_by(user_id = uid).first()
+        
+        if st is not None:
+            return st
+        else:
+            return None

@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}Dining Halls{% endblock %}
+
+{% block content %}
+    <h1 class = "title">Dining Hall Menus</h1>
+    <h2 class = "subtitle">Click on Links to Breakfast, Lunch, Dinner to view the menu in detail!</h2>
+    <div class = "cafeteria-container">
+        
+        <div class = "cafeteria">
+            <h2>Northside Cafe</h2>
+            <img src="/static/images/northside.jpg" alt="image">
+            <div class = "cafeteria-info">
+                <ul> <!--Unordered lsit using dot-->
+                    <li>Today's hours</li>
+                    <li><a href = "{{ url_for('views.view_today_menus') }}">Breakfast</a>: 7:30 a.m. - 10:30 a.m.</li>
+                    <li><a href = "{{ url_for('views.view_today_menus') }}">Lunch</a>: 11 a.m.- 2 p.m.</li>
+                    <li><a href = "{{ url_for('views.view_today_menus') }}">Dinner</a>: 4:30 p.m- 7:30 p.m</li>
+                </ul>
+                
+                <p>Address: 1580 NE Cougar Way, Pullman, WA 99164</p>
+                <p>Phone: 111-111-1111</p>
+                <p>Email: northside@wsu.edu</p>
+            </div>
+        </div>
+        
+        <div class = "cafeteria">
+            <h2>Southside Cafe</h2>
+            <img src="/static/images/southside.jpg" alt="image">
+            <div class = "cafeteria-info">
+                <ul> <!--Unordered lsit using dot-->
+                    <li>Today's hours</li>
+                    <li><a href = "{{ url_for('views.view_today_menus') }}">Breakfast</a>: 7:30 a.m. - 10:30 a.m.</li>
+                    <li><a href = "{{ url_for('views.view_today_menus') }}">Lunch</a>: 11 a.m.- 2 p.m.</li>
+                    <li><a href = "{{ url_for('views.view_today_menus') }}">Dinner</a>: 4:30 p.m- 7:30 p.m</li>
+                </ul>
+                
+                <p>Address: 650 NE Campus St, Pullman, WA 99163</p>
+                <p>Phone: 222-222-2222</p>
+                <p>Email: southside@wsu.edu</p>
+            </div>
+        </div>
+        
+        <div class = "cafeteria">
+            <h2>Hillside Cafe</h2>
+            <img src="/static/images/hillside.png" alt="image">
+            <div class = "cafeteria-info">
+                <ul> <!--Unordered lsit using dot-->
+                    <li>Today's hours</li>
+                    <li><a href = "{{ url_for('views.view_today_menus') }}">Breakfast</a>: 7:30 a.m. - 10:30 a.m.</li>
+                    <li><a href = "{{ url_for('views.view_today_menus') }}">Lunch</a>: 11 a.m.- 2 p.m.</li>
+                    <li><a href = "{{ url_for('views.view_today_menus') }}">Dinner</a>: 4:30 p.m- 7:30 p.m</li>
+                </ul>
+                
+                <p>Address: 1395 NE Stadium Way, Pullman, WA 99163</p>
+                <p>Phone: 333-333-3333</p>
+                <p>Email: hillside@wsu.edu</p>
+            </div>
+        </div>
+        
+    </div>
+    
+    
+{% endblock %}

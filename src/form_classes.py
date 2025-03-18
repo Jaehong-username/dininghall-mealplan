@@ -1,13 +1,34 @@
+# Flask forms extension packages
 from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import *
 from wtforms.validators import *
+from models import *
+
 class RegisterForm(FlaskForm):
-    name = StringField("Name:", validators=[DataRequired(message="Name is required!"), Length(1,255)])
-    email = EmailField("Email address:", validators=[DataRequired("Email address is required!"), Email(message="Invalid Email address!"), Length(1,255)])
-    password = PasswordField("Password:", validators=[DataRequired(message="Password is required!"), Length(1, 255)])
-    submit = SubmitField('Log in')
-    
+    email = EmailField(validators=[
+                           DataRequired(), Email(), Length(min=4, max=255)], render_kw={"placeholder": "Email Address"})
+
+    name = StringField('Name', validators=[DataRequired()], render_kw={"placeholder": "Name"})
+
+    password = PasswordField(validators=[
+                             DataRequired(), Length(min=8, max=255)], render_kw={"placeholder": "Password"})
+
+    submit = SubmitField('Register')
+
+    def validate_username(self, email):
+        existing_user_email = User.query.filter_by(
+            email=email.data).first()
+        if existing_user_email is not None:
+            print("ERROR: EMAIL VALIDATION ERROR")
+            raise ValidationError(
+                'That email address already exists. Please choose a different one.')
+
+
 class LoginForm(FlaskForm):
-    email = EmailField("Email address:", validators=[DataRequired("No email provided!"), Email(message="Invalid Email address!"), Length(1,255)])
-    password = PasswordField("Password:", validators=[DataRequired(message="Invalid password!"), Length(1, 255)])
-    submit = SubmitField('Log in')
+    email = EmailField(validators=[
+                           InputRequired(), Length(min=4, max=255)], render_kw={"placeholder": "Email Address"})
+
+    password = PasswordField(validators=[
+                             InputRequired(), Length(min=0, max=255)], render_kw={"placeholder": "Password"})
+
+    submit = SubmitField('Login')
