@@ -7,111 +7,42 @@ from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, InputRequired, ValidationError
 from flask_bcrypt import Bcrypt
-
+import secrets
+from models import *
+from form_classes import *
+from views import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = 'thisisasecretkey'
-db = SQLAlchemy(app)
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "data/database.db")
 bcrypt = Bcrypt(app)
 
+# Create secret key
+secret = secrets.token_urlsafe(16)
+app.config['SECRET_KEY'] = secret
+csrf = CSRFProtect(app)
+
+app.register_blueprint(views)
+app.register_blueprint(models_bp)
+
+
+# Create all databases if they don't exist
+db.init_app(app)
+def create_db():
+    with app.app_context():
+        db.create_all()
+create_db() 
+
+# Initialize bcrypt
+bcrypt.init_app(app)
+
+# Flask login setup
 login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = 'login'
-
-
+login_manager.login_view = 'views.login'
 @login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), nullable=False, unique=True)
-    password = db.Column(db.String(80), nullable=False)
-
-
-class RegisterForm(FlaskForm):
-    username = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
-
-    password = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
-
-    submit = SubmitField('Register')
-
-    def validate_username(self, username):
-        existing_user_username = User.query.filter_by(
-            username=username.data).first()
-        if existing_user_username:
-            raise ValidationError(
-                'That username already exists. Please choose a different one.')
-
-
-class LoginForm(FlaskForm):
-    username = StringField(validators=[
-                           InputRequired(), Length(min=4, max=20)], render_kw={"placeholder": "Username"})
-
-    password = PasswordField(validators=[
-                             InputRequired(), Length(min=8, max=20)], render_kw={"placeholder": "Password"})
-
-    submit = SubmitField('Login')
-
-
-@app.route('/')
-def home():
-    return render_template('home.html')
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
-                return redirect(url_for('dashboard'))
-    return render_template('login.html', form=form)
-
-
-@app.route('/dashboard', methods=['GET', 'POST'])
-@login_required
-def dashboard():
-    return render_template('dashboard.html')
-
-
-@app.route('/logout', methods=['GET', 'POST'])
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-#Accessing /register triggers this function.
-@ app.route('/register', methods=['GET', 'POST']) # specifies which HTTP methods the route should accept.
-def register():
-    form = RegisterForm()
-
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('login'))
-
-    return render_template('register.html', form=form)
-
-@ app.route('/dining-halls', methods=['GET', 'POST'])
-def view_dining_halls():
-    return render_template('dining-halls.html')
-
-@ app.route('/menu-details', methods=['GET', 'POST'])
-def view_today_menus():
-    return render_template('menu-details.html')
-
-@ app.route('/contact', methods=['GET', 'POST'])
-def contact():
-    return render_template('contact.html')
+def load_user(id):
+    return User.query.get(int(id))
+login_manager.init_app(app)
 
 if __name__ == "__main__":
     app.run(port = 3000, debug=True)

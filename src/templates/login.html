@@ -1,32 +1,31 @@
 {% extends "layout.html" %}
 
-{% block title %}Dinning Hall Meal Plan Manager Login{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
     
     
     <div class ="login-container">
-        <form action = "home.html">
+        <form action = "{{ url_for('views.login') }}", method="POST">
             <h2>Login</h2>
+            {{ message }}
+
+            {{ form.hidden_tag() }}
+            {% for field in form if field.widget.input_type != 'hidden' %}
             <div class = "input-box">
-                <input type = "email" required>
-                <label>Email</label>
+                {{ field }}
+                <label>{{ field.label }}</label>
             </div>
+            {% endfor %}
             
-            <div class = "input-box">
-                <input type = "password" required>
-                <label>password</label>
-            </div>
-            
+            <!-- TODO: Implement this later -->
             <div class = "remember-forget">
                 <label> <input type = "checkbox"> Remember me</label>
-                <a href="{{ url_for('register') }}">Forgot Password?</a>
+                <a href="{{ url_for('views.register') }}">Forgot Password?</a>
             </div>
             
-            <button type = "submit" class = "login-button">Login</button>
-            
             <div class = "register">
-                <p>Don't have an account? <a href = "{{ url_for('register') }}">Sign up</a></p>
+                <p>Don't have an account? <a href = "{{ url_for('views.register') }}">Sign up</a></p>
             </div>
             
         </form>
