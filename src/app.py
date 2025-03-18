@@ -75,6 +75,19 @@ def login():
     return render_template('login.html', form=form)
 
 
+@ app.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    return render_template('forgot-password.html')
+
+@ app.route('/email-confirmation', methods=['GET', 'POST'])
+def confirm_email():
+    return render_template('confirm-email.html')
+
+@ app.route('/change-password', methods=['GET', 'POST'])
+def change_password():
+    return render_template('change-password.html')
+
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
