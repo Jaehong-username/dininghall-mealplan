@@ -76,3 +76,15 @@ def view_today_menus():
 @views.route('/contact', methods=['GET', 'POST'])
 def contact():
     return render_template('contact.html')
+
+@views.route('/forgot-password', methods=['GET', 'POST'])
+def forgot_password():
+    return render_template('forgot-password.html')
+
+@views.route('/email-confirmation', methods=['GET', 'POST'])
+def confirm_email():
+    return render_template('confirm-email.html')
+
+@views.route('/change-password', methods=['GET', 'POST'])
+def change_password():
+    return render_template('change-password.html')
