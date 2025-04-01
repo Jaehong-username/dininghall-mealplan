@@ -78,13 +78,13 @@ def view_today_menus():
 
 
 # choose meal plan (with id)
-@views.route('/<int:student_id>/meal-plan', methods=['GET', 'POST'])
-def meal_plan_id(student_id):
+@views.route('/meal-plan', methods=['GET', 'POST'])
+def meal_plan_id():
     # form for updating meal plan
     form = MealPlanForm()
 
     # find student in database
-    student = Student.query.filter_by(user_id=student_id).first()
+    student = Student.get_student_by_id(current_user.user_id)
     
     # display error & return to home if student not found
     if not student:

@@ -34,8 +34,24 @@
 
         <!-- Displaying information on each meal plan here -->
         <h2 class = "subtitle">Meal Plan Details</h2>
-        <hr>
-        
+            <p>With a Resident Meal Plan, enjoy 40% off in the dining centers and a 10% off at espresso bars, Freshens, Carlita's, and Einstein's Bros. Bagels. Simply use your CougarCard to pay for meals, just like a prepaid debit card. At the beginning of each semester, you will receive your dining dollars for the semester and are responsible for managing your account.</p>            
+            
+            <h5>Level {{student.plan_id}}</h3>
+            {% if student.plan_id == 1 %}
+            <p><b>$935 Base Fee + $1,120 Dining Dollars => Total Cost: $2,055</b></p>
+            <p>Recommended if you plan to eat two meals in the dining centers most week days but are frequently off-campus or cooking for yourself.</p>
+
+            {% elif student.plan_id == 2 %}
+            <p><b>$935 Base Fee + $1,475 Dining Dollars => Total Cost: $2,410</b></p>
+            <p>Recommended if you plan to eat two to three meals in the dining centers most days and are occasionally off campus on weekends.</p>
+
+            {% elif student.plan_id == 3 %}
+            <p><b>$935 Base Fee + $1,795 Dining Dollars => Total Cost: $2,730</b></p>
+            <p>Recommended if you plan to eat most meals in the dining centers and are on campus most weekends.</p>
+
+            {% else %}
+            <p>No meal plan has been selected. Please choose a meal plan option.</p>
+            {% endif %}
     </div>
 
 

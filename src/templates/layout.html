@@ -18,10 +18,10 @@
             <a href = "{{ url_for('views.view_dining_halls') }}">Today's menu</a>
             {% if current_user.is_authenticated %}
                 <a href="{{url_for('views.dashboard')}}">Dashboard</a>
+                <a href="{{ url_for('views.meal_plan_id') }}">Meal Plan</a>
             {% else %}
                 <a href = "{{ url_for('views.login') }}">Login</a>
             {% endif %}
-            <a href = "#">Meal Plan</a>
             <a href = "#">Feedback</a>
             <a href = "{{ url_for('views.contact') }}">Contact</a>   
         </nav>
