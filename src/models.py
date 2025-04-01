@@ -61,7 +61,9 @@ class Manager(db.Model):
 class Student(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
     balance = db.Column(db.Float, nullable=False)
-    
+    admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))                       # foreign key to admin (many-to-one)
+    plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.plan_id'))                     # vars for managing meal plan
+
     def __init__(self, user_id, balance):
         self.user_id = user_id
         self.balance = balance
@@ -73,10 +75,6 @@ class Student(db.Model):
             return st
         else:
             return None
-    admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))                       # foreign key to admin (many-to-one)
-
-    # vars for managing meal plan
-    plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.plan_id'))                      # foreign key to specific meal plan
 
     # relationships
     user = db.relationship('User')

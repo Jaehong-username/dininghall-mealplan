@@ -40,6 +40,7 @@ def logout():
     logout_user()
     return redirect(url_for('views.login'))
 
+
 #Accessing /register triggers this function.
 @views.route('/register', methods=['GET', 'POST']) # specifies which HTTP methods the route should accept.
 def register():
@@ -65,25 +66,56 @@ def register():
     
     return render_template('register.html', form=form,  message=message)
 
+
 @views.route('/dining-halls', methods=['GET', 'POST'])
 def view_dining_halls():
     return render_template('dining-halls.html')
+
 
 @views.route('/menu-details', methods=['GET', 'POST'])
 def view_today_menus():
     return render_template('menu-details.html')
 
+
+# choose meal plan (with id)
+@views.route('/<int:student_id>/meal-plan', methods=['GET', 'POST'])
+def meal_plan_id(student_id):
+
+    # find student in database
+    student = Student.query.filter_by(user_id=student_id).first()
+
+    # Student.get_student_by_id(user_id=student_id)
+    
+    # display error & return to home if student not found
+    if not student:
+        print("Student does not exist")
+        return "<h3>Student does not exist!</h3>" \
+        "<form action='/'><button type='submit'>Return Home</button></form>"
+    
+    # updating meal plan
+    if request.method == 'POST':
+        print("Now changing meal plan")
+        updated_plan = request.form.get("plan_id")
+        student.plan_id = int(updated_plan)
+        db.session.commit() # update in database
+
+    return render_template("meal-plan.html", student=student)
+
+
 @views.route('/contact', methods=['GET', 'POST'])
 def contact():
     return render_template('contact.html')
+
 
 @views.route('/forgot-password', methods=['GET', 'POST'])
 def forgot_password():
     return render_template('forgot-password.html')
 
+
 @views.route('/email-confirmation', methods=['GET', 'POST'])
 def confirm_email():
     return render_template('confirm-email.html')
+
 
 @views.route('/change-password', methods=['GET', 'POST'])
 def change_password():

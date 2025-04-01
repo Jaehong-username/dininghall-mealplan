@@ -1,7 +1,7 @@
-<!-- Flask render templates allow for pages to inherit from one another -->
-{% extends 'base_template.html' %}
+{% extends "layout.html" %}
 
-<!-- Content of the page -->
+{% block title %}Dining Hall Meal Plan Manager{% endblock %}
+
 {% block content %}
 
     <!-- Displaying basic information -->
