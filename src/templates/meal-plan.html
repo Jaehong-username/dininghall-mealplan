@@ -5,38 +5,40 @@
 {% block content %}
 
     <!-- Displaying basic information -->
-    <h1>Welcome to the Meal Plan Page</h1>
+    <h1 class = "title">Manage Meal Plan</h1>
     <hr>
 
-    <h2>Student Information</h2>
-    <p><b>Name:</b> {{ student.user.name }}</p>
-    <p><b>ID:</b> {{ student.user.user_id }}</p>
-    <p><b>Email:</b> {{ student.user.email }}</p>
-    <p><b>Current Plan:</b> {{ student.plan_id }}</p>
-    <p><b>Balance:</b> {{ student.balance }}</p>
-    <br><hr>
+    <div class = "mealplan">
+        <h2 class="subtitle">Current Meal Plan:</h2>
+        <p><b>Level:</b> {{ student.plan_id }}</p>
+        <p><b>Balance:</b> {{ student.balance }}</p>
+        <hr>
+    
+        <!-- Option to change meal plan -->
+        <h2 class="subtitle">Change Meal Plan</h2>
+    
+        <label for="plan_id">Choose a Meal Plan Level:</label>
 
-    <!-- Option to change meal plan -->
-    <h2>Change Meal Plan</h2>
+        <!-- form handling -->
+        <form method="POST">
+            <!-- csrf token -->
+            {{ form.hidden_tag() }}
 
-    <label for="plan_id">Choose a Meal Plan Level:</label>
+            <!-- form for mealplan -->
+            {{ form.plan_id() }}
 
-    <form method="POST">
-        <select name="plan_id" id="plan_id">
-            <option value="1">Level 1</option>
-            <option value="2">Level 2</option>
-            <option value="3">Level 3</option>
-        </select>
-        <button type="submit">Confirm Plan</button>
-    </form>
-    <br><hr>
+            <!-- submit button -->
+            {{ form.submit() }} 
+        </form>
+        <hr>
 
-    <!-- Option to return home -->
-    <h2>Return to Homescreen</h2>
+        <!-- Displaying information on each meal plan here -->
+        <h2 class = "subtitle">Meal Plan Details</h2>
+        <hr>
+        
+    </div>
 
-    <form action='/'>
-        <button type='submit'>Return Home</button>
-    </form>
-    <br><hr>
+
+
 
 {% endblock %}

@@ -80,11 +80,11 @@ def view_today_menus():
 # choose meal plan (with id)
 @views.route('/<int:student_id>/meal-plan', methods=['GET', 'POST'])
 def meal_plan_id(student_id):
+    # form for updating meal plan
+    form = MealPlanForm()
 
     # find student in database
     student = Student.query.filter_by(user_id=student_id).first()
-
-    # Student.get_student_by_id(user_id=student_id)
     
     # display error & return to home if student not found
     if not student:
@@ -93,13 +93,13 @@ def meal_plan_id(student_id):
         "<form action='/'><button type='submit'>Return Home</button></form>"
     
     # updating meal plan
-    if request.method == 'POST':
+    if form.validate_on_submit():
         print("Now changing meal plan")
-        updated_plan = request.form.get("plan_id")
-        student.plan_id = int(updated_plan)
+        updated_plan = form.plan_id.data
+        student.plan_id = updated_plan
         db.session.commit() # update in database
 
-    return render_template("meal-plan.html", student=student)
+    return render_template("meal-plan.html", form=form, student=student)
 
 
 @views.route('/contact', methods=['GET', 'POST'])

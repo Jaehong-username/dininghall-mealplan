@@ -67,6 +67,7 @@ class Student(db.Model):
     def __init__(self, user_id, balance):
         self.user_id = user_id
         self.balance = balance
+        plan_id = 0                                                                         # initialize to 0, student can choose meal plan in manage meal plan page
     
     def get_student_by_id(uid):
         st = Student.query.filter_by(user_id = uid).first()
