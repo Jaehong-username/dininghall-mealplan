@@ -11,6 +11,7 @@ import secrets
 from models import *
 from form_classes import *
 from views import *
+from datetime import date
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -35,7 +36,7 @@ def create_db():
         # TEMP STUDENT FOR TESTING PURPOSES (since no info in database yet)
         # to clean out (ONLY DO WITH NON-IMPORTANT DB): rm database.db & rerun code after commenting code out
         existing_user = User.query.filter_by(user_id=1).first()
-        
+
         if (existing_user):
             print("Temp user exists")
         
@@ -57,6 +58,89 @@ def create_db():
             db.session.add(temp_student)
             db.session.commit()
 
+        # TEMP MEAL CATEGORIES FOR TESTING PURPOSES (based on wsu)
+        base_categories = ["Bakery", "Build-a-Breakfast-Sandwich", "Chef's Creation", "Hot Cereal",
+                           "Big Cat Grille", "Deli", "Natural", "Presto Pizza", "Salads", "Soups"]
+
+        # adding categories to meal_category
+        for category in base_categories:
+            existing_category = Meal_Category.query.filter_by(category=category).first()
+            if not existing_category:
+                new_category = Meal_Category(category=category)
+                db.session.add(new_category)
+
+        db.session.commit()
+
+         # TEMP MEAL ATTRIBUTES FOR TESTING PURPOSES
+        base_nutritional = ["Halal", "Healthy Option", "Vegetarian", "Vegan", "Gluten Friendly", "Allergen-Friendly"]
+
+        # adding nutritional information
+        for info in base_nutritional:
+            existing_info = Nutritional_Information.query.filter_by(info=info).first()
+            if not existing_info:
+                new_info = Nutritional_Information(info=info)
+                db.session.add(new_info)
+
+        base_restrictions = ["Gluten/Wheat", "Milk", "Eggs", "Soy", "Sesame", "Pork", "Peanuts", "Fish", "Tree Nuts", "Coconut"]
+
+        # adding dietary restrictions
+        for restriction in base_restrictions:
+            existing_restriction = Dietary_Restriction.query.filter_by(restriction=restriction).first()
+            if not existing_restriction:
+                new_restriction = Dietary_Restriction(restriction=restriction)
+                db.session.add(new_restriction)
+
+        db.session.commit()
+
+        # TEMP MEAL FOR TESTING PURPOSES
+        existing_meal = Meal.query.filter_by(meal_id=1).first()
+
+        if (existing_meal):
+            print("Temp meal exists")
+
+        else:
+            temp_meal = Meal(
+                meal_name="Starfruit Smoothie",
+                price = 8.88,
+                number_sold = 88
+            )
+
+            # adding meal attributes
+            for info in Nutritional_Information.query.all():
+                temp_meal.infos.append(info)
+
+            # adding meal attributes
+            for restriction in Dietary_Restriction.query.all():
+                temp_meal.restrictions.append(restriction)
+
+            db.session.add(temp_meal)
+            db.session.commit()        
+
+        # TEMP MENU FOR TESTING PURPOSES (since no info in database yet)
+        existing_menu = Menu.query.filter_by(date=date(2025, 4, 2)).first()
+        
+        if (existing_menu):
+            print("Temp menu exists")
+
+        else:
+            temp_menu = Menu(
+                date = date(2025, 4, 2),
+                location = "Northside Cafe"
+            )
+
+            # updating relationship
+            for category in Meal_Category.query.all():
+                temp_menu.meal_categories.append(category)
+
+            # add temp meal
+            temp_menu.meals.append(temp_meal)
+
+            db.session.add(temp_menu)
+            db.session.commit()
+
+
+    
+        
 ### Program entrypoint (place at bottom of script)
 create_db() 
 

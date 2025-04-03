@@ -100,6 +100,11 @@ class Meal_Plan(db.Model):
 class Menu(db.Model):
     date = db.Column(db.Date, primary_key=True)
     location = db.Column(db.String, nullable=False)
+
+    # constructor
+    def __init__(self, date, location):
+        self.date = date
+        self.location = location
     
     # relationships
     meal_categories = db.relationship('Meal_Category', secondary='Menu_Meal_Categories')    # multi-valued attribute
@@ -109,11 +114,19 @@ class Menu(db.Model):
 
 # Meal table
 class Meal(db.Model):
-    meal_id = db.Column(db.Integer, primary_key=True)
+    meal_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    meal_name = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
     number_sold = db.Column(db.Integer, nullable=False)
 
+    # constructor
+    def __init__(self, meal_name, price, number_sold):
+        self.meal_name = meal_name
+        self.price = price
+        self.number_sold = number_sold
+
     # relationships
+    # TODO: add a category that the meal belongs in
     menus = db.relationship('Menu', secondary='Menu_Meals')                                         # multi-valued attribute
     restrictions = db.relationship('Dietary_Restriction', secondary='Meal_Dietary_Restrictions')    # multi-valued attribute
     infos = db.relationship('Nutritional_Information', secondary='Meal_Nutritional_Informations')   # multi-valued attribute

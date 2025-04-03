@@ -2,6 +2,7 @@ from flask import *
 from form_classes import *
 from flask_login import *
 from models import *
+from datetime import *
 
 views = Blueprint('views', __name__)
 
@@ -74,7 +75,33 @@ def view_dining_halls():
 
 @views.route('/menu-details', methods=['GET', 'POST'])
 def view_today_menus():
-    return render_template('menu-details.html')
+
+    # find menu in database
+    # TODO: change depending on the day to day basis
+    menu = Menu.query.filter_by(date=date(2025, 4, 2)).first()
+    
+    # display error & return to home if student not found
+    if not menu:
+        print("Menu does not exist")
+        return "<h3>Menu does not exist!</h3>" \
+        "<form action='/'><button type='submit'>Return Home</button></form>"
+    
+    return render_template('menu-details.html', menu=menu)
+
+@views.route('/menu-options', methods=['GET', 'POST'])
+def view_menu_options():
+
+    # find menu in database
+    # TODO: change depending on the day to day basis
+    menu = Menu.query.filter_by(date=date(2025, 4, 2)).first()
+    
+    # display error & return to home if student not found
+    if not menu:
+        print("Menu does not exist")
+        return "<h3>Menu does not exist!</h3>" \
+        "<form action='/'><button type='submit'>Return Home</button></form>"
+    
+    return render_template('menu-options.html', menu=menu)
 
 
 # choose meal plan (with id)
@@ -100,7 +127,6 @@ def meal_plan_id():
         db.session.commit() # update in database
 
     return render_template("meal-plan.html", form=form, student=student)
-
 
 @views.route('/contact', methods=['GET', 'POST'])
 def contact():

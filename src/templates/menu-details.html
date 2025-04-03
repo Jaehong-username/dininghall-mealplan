@@ -3,10 +3,44 @@
 {% block title %}Menu Details{% endblock %}
 
 {% block content %}
-    <h1 class = "title">Today's Menu</h1>
+    <h1 class = "title">{{ menu.location }} </h1>
+    <hr>
+
+    <h1 class = "subtitle">Today's Menu:</h1>
+    <!-- convert ot string version of date -->
+    <h2 class = "subtitle"> {{ menu.date.strftime('%A, %B %d') }} </h2>
     
+    <!-- for loop for each meal category stored in the menu -->
+    {% for category in menu.meal_categories %}
+
+        <!-- display category name -->
+        <h3><b>{{ category.category }}</b></h3>
+
+        <!-- display meals under the menu -->
+        <!-- TODO: check if they belong under the category -->
+        {% for meal in menu.meals %}
+            <p><b>{{ meal.meal_name }}</b></p>
+
+            <!-- displaying meal attributes -->
+            <p><b>Meal Type:</b></p>
+            
+            <!-- TODO: fix formatting later -->
+            <!-- {% for restriction in meal.restrictions %} -->
+                <!-- <p>{{ restriction.restriction }}</p> -->
+            <!-- {% endfor %} -->
+
+             <!-- displaying meal attributes -->
+             <p><b>Allergens:</b></p>
+            
+             <!-- TODO: fix formatting later -->
+             <!-- {% for info in meal.infos %} -->
+                 <!-- <p>{{ info.info }}</p> -->
+             <!-- {% endfor %} -->
+
+        {% endfor %}
+
+    {% endfor %}
     
-        
     
     
     

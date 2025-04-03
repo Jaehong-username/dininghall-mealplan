@@ -15,7 +15,7 @@
         
         <nav class = "navbar">
             <a href = "{{ url_for('views.home') }}">Home</a> <!--the name of the function-->
-            <a href = "{{ url_for('views.view_dining_halls') }}">Today's menu</a>
+            <a href = "{{ url_for('views.view_dining_halls') }}">Today's Menu</a>
             {% if current_user.is_authenticated %}
                 <a href="{{url_for('views.dashboard')}}">Dashboard</a>
                 <a href="{{ url_for('views.meal_plan_id') }}">Meal Plan</a>
