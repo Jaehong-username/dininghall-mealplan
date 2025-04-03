@@ -1,7 +1,12 @@
+var CSRFToken = ""
+
+function setCSRF(token)
+{
+    CSRFToken = token;
+}
+
 // Get data from db, must be authenticated as an admin.
 function loadAdminData(db_table, table_element_id) {
-    var data;
-
     var req = new XMLHttpRequest();
     req.onreadystatechange = function() {
         if(req.readyState == 4) {
@@ -10,23 +15,25 @@ function loadAdminData(db_table, table_element_id) {
                 return null;
             }
             else {
-                var response = JSON.parse(req.responseText)
+                var response = JSON.parse(req.responseText);
                 // request went through, populate the table with recieved data.
-                populateTable(response, table_element_id)
+                populateTable(response, table_element_id);
             }
         }
     }
 
-    req.open('POST', '/api/get_admin_data')
-    var postVars = "table_name=" + db_table
-    req.send(postVars)
+    req.open('POST', '/api/get_admin_data');
+    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    req.setRequestHeader("X-CSRFToken", CSRFToken);
+    var postVars = "table_id=" + db_table;
+    req.send(postVars);
 
     return false;
 }
 
 function populateTable(jsonData, table_element_id) {
     var t = document.getElementById(table_element_id);
-    if(t == null || jsonData == null) {
+    if(t == null) {
         return;
     }
 
@@ -41,7 +48,7 @@ function populateTable(jsonData, table_element_id) {
         table_text += "<tr>";
         var row_data = jsonData[row];
         for(var cell in row_data) {
-            tableHtml += `<td>${ row_data[cell] }</td>`;
+            table_text += `<td>${ row_data[cell] }</td>`;
         }
         table_text += "</tr>";
     }

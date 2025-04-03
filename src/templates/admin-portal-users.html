@@ -3,6 +3,9 @@
 <script src="/static/admin_data.js"></script>
 {% endblock %}
 {% block dashboard_content %}
+<script>
+    setCSRF('{{ csrf_token() }}');
+</script>
 <h2>User accounts:</h2>
 <div id="userTable">
     <button onclick="toggleElement('newUserForm');">Add User</button>
@@ -30,23 +33,10 @@
         </form>
     </div>
     
-    <table>
-        <tr>
-            <th>User ID</th>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Password Hash</th>
-        </tr>
-        <!-- Populate user data -->
-        {% for user in table_results["user_data"] %}
-        <tr>
-            <td>{{ user.user_id }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.password }}</td>
-        </tr>
-        {% endfor %}
-    </table>        
+    <table id="user-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>loadAdminData('user', 'user-entries');</script>
 </div>
 <hr>
 <div id="studentTable">
@@ -63,23 +53,10 @@
             {% endwith %}
         </form>
     </div>
-    <table>
-        <tr>
-            <th>Student ID</th>
-            <th>Balance</th>
-            <th>Admin ID</th>
-            <th>Plan ID</th>
-        </tr>
-        <!-- Populate user data -->
-        {% for student in table_results["stu_data"] %}
-        <tr>
-            <td>{{ student.user_id }}</td>
-            <td>{{ student.balance }}</td>
-            <td>{{ student.admin_id }}</td>
-            <td>{{ student.plan_id }}</td>
-        </tr>
-        {% endfor %}
+    <table id="student-entries">
+        <tr><td>Loading...</td></tr>
     </table>
+    <script>loadAdminData('student', 'student-entries');</script>
 </div>
 <hr>
 <div id="adminTable">
@@ -96,19 +73,10 @@
             {% endwith %}
         </form>
     </div>
-    <table>
-        <tr>
-            <th>Admin ID</th>
-            <th>Manager ID</th>
-        </tr>
-        <!-- Populate user data -->
-        {% for admin in table_results["admin_data"] %}
-        <tr>
-            <td>{{ admin.admin_id }}</td>
-            <td>{{ admin.manager_id }}</td>
-        </tr>
-        {% endfor %}
-    </table>    
+    <table id="admin-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>loadAdminData('admin', 'admin-entries');</script>
 </div>
 <hr>
 <div id="managerTable">
@@ -125,17 +93,10 @@
             {% endwith %}
         </form>
     </div>
-    <table>
-        <tr>
-            <th>Manager ID</th>
-        </tr>
-        <!-- Populate user data -->
-        {% for manager in table_results["mgr_data"] %}
-        <tr>
-            <td>{{ manager.manager_id }}</td>
-        </tr>
-        {% endfor %}
-    </table>    
+    <table id="manager-entries">
+        <tr><td>Loading...</td></tr>
+    </table>   
+    <script>loadAdminData('manager', 'manager-entries');</script>
 </div>
 <hr>
 <div id="employeeTable">
@@ -152,19 +113,10 @@
             {% endwith %}
         </form>
     </div>
-    <table>
-        <tr>
-            <th>Employee ID</th>
-            <th>Menu ID</th>
-        </tr>
-        <!-- Populate user data -->
-        {% for emp in table_results["emp_data"] %}
-        <tr>
-            <td>{{ emp.employee_id }}</td>
-            <td>{{ emp.menu_id }}</td>
-        </tr>
-        {% endfor %}
-    </table>    
+    <table id="employee-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>loadAdminData('employee', 'employee-entries');</script>
 </div>
 <hr>
 {% endblock %}
