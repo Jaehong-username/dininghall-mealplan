@@ -1,0 +1,18 @@
+{% extends "admin-portal.html" %}
+{% block dashboard_content %}
+<table>
+    <tr>
+        <th>Meal ID</th>
+        <th>Price ($)</th>
+        <th># sold</th>
+        <th>Password Hash</th>
+    </tr>
+{% for meal in meal_data %}
+<tr>
+    <td>{{ meal.meal_id }}</td>
+    <td>{{ meal.price }}</td>
+    <td>{{ meal.number_sold }}</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}

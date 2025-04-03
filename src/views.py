@@ -88,3 +88,42 @@ def confirm_email():
 @views.route('/change-password', methods=['GET', 'POST'])
 def change_password():
     return render_template('change-password.html')
+
+@views.route('/admin-portal', methods=['GET', 'POST'])
+@login_required
+def admin_portal_main():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+       return render_template('admin-portal-main.html')
+
+@views.route('/admin-portal/users', methods=['GET', 'POST'])
+@login_required
+def admin_portal_users():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+        user_data = User.query.all()
+        return render_template('admin-portal-users.html', user_data = user_data)
+
+@views.route('/admin-portal/menus', methods=['GET', 'POST'])
+@login_required
+def admin_portal_menus():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+        menu_data = Menu.query.all()
+        return render_template('admin-portal-menus.html', menu_data = menu_data)
+
+@views.route('/admin-portal/mealplans', methods=['GET', 'POST'])
+@login_required
+def admin_portal_mealplans():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+        mealplan_data = Meal_Plan.query.all()
+        return render_template('admin-portal-mealplans.html', mealplan_data = mealplan_data)

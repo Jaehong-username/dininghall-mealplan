@@ -42,12 +42,20 @@ class User(UserMixin, db.Model):
                 return user
             else:
                 return None
-        
+
 # ---------- [ENTITY SETS] ----------
 # Admin table (only one admin in system)
 class Admin(db.Model):
     admin_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
-    manager_id = db.Column(db.Integer, db.ForeignKey('manager.manager_id'))                 # foreign key to manager (one-to-one)
+    manager_id = db.Column(db.Integer, db.ForeignKey('manager.manager_id'))        
+    
+    def get_admin_by_id(uid):
+        ad = Admin.query.filter_by(admin_id = uid).first()
+        
+        if ad is not None:
+            return ad
+        else:
+            return None
 
 # Manager table
 class Manager(db.Model):
@@ -61,10 +69,15 @@ class Manager(db.Model):
 class Student(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
     balance = db.Column(db.Float, nullable=False)
+    admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))  # foreign key to admin (many-to-one)
+    # vars for managing meal plan
+    plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.plan_id')) # foreign key to specific meal plan
+
+    # relationships
+    user = db.relationship('User')
+    meals = db.relationship('Meal', secondary='Students_Meals') # many-to-many w/ meals
+    menus = db.relationship('Menu', secondary='Students_Menus') # many-to-many w/ menus
     
-    def __init__(self, user_id, balance):
-        self.user_id = user_id
-        self.balance = balance
     
     def get_student_by_id(uid):
         st = Student.query.filter_by(user_id = uid).first()
@@ -73,15 +86,6 @@ class Student(db.Model):
             return st
         else:
             return None
-    admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))                       # foreign key to admin (many-to-one)
-
-    # vars for managing meal plan
-    plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.plan_id'))                      # foreign key to specific meal plan
-
-    # relationships
-    user = db.relationship('User')
-    meals = db.relationship('Meal', secondary='Students_Meals')                             # many-to-many w/ meals
-    menus = db.relationship('Menu', secondary='Students_Menus')                             # many-to-many w/ menus
 
 # Employee table
 class Employee(db.Model):

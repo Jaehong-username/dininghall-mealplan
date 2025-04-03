@@ -45,18 +45,30 @@ def create_db():
                 email="test@email.com",
                 password="test"
             )
+            
+            admin_user = User(
+                name="admin",
+                email="admin@email.com",
+                password="admin"
+            )
 
             db.session.add(temp_user)
+            db.session.add(admin_user)
             db.session.commit()
+
+            temp_admin = Admin(
+                admin_id = admin_user.user_id
+            )
 
             temp_student = Student(
                 user_id=temp_user.user_id,
                 balance=1000.00,
-                admin_id=1,
+                admin_id=temp_admin.admin_id,
                 plan_id=1
             )
-
+            
             db.session.add(temp_student)
+            db.session.add(temp_admin)
             db.session.commit()
 
 create_db() ## Create all databasees if they don't exist
