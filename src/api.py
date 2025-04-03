@@ -33,3 +33,5 @@ def get_admin_data():
         else:
             print("Error retrieving data.")
     abort(403)
+    
+# TODO: Implement API endpoint for adding, deleting, and editing database items via the inline forms on the dashboard.
