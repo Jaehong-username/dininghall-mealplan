@@ -1,7 +1,10 @@
 html {
     height: 100%;
 }
-
+.hidden {
+    display: none !important;
+    visibility: collapse !important;
+}
 body{
     
     display: flex;
@@ -210,12 +213,13 @@ body{
 }
 
 .admin-dashboard {
+    overflow: auto  ;
     width: 100%;
     margin: 0 auto;
     border-radius: 5px;
     background-color: #ffffff;
     padding: 5px;
-    min-height: 90%;
+    max-height: 100%
 }
 
 .admin-dashboard-content table {

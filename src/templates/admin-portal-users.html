@@ -1,20 +1,168 @@
 {% extends "admin-portal.html" %}
 {% block dashboard_content %}
-<table>
-    <tr>
-        <th>User ID</th>
-        <th>Email</th>
-        <th>Name</th>
-        <th>Password Hash</th>
-    </tr>
-    <!-- Populate user data -->
-    {% for user in user_data %}
-    <tr>
-        <td>{{ user.user_id }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.password }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<h2>User accounts:</h2>
+<div id="userTable">
+    <button onclick="toggleElement('newUserForm');">Add User</button>
+    <button onclick="toggleElement('editUserForm');">Edit User</button>
+    <div class="inlineForm hidden" id="newUserForm">
+        <form>
+            {% with f = user_forms["new_user_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <div class="inlineForm hidden" id="editUserForm">
+        <form>
+            {% with f = user_forms["edit_user_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    
+    <table>
+        <tr>
+            <th>User ID</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Password Hash</th>
+        </tr>
+        <!-- Populate user data -->
+        {% for user in table_results["user_data"] %}
+        <tr>
+            <td>{{ user.user_id }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.password }}</td>
+        </tr>
+        {% endfor %}
+    </table>        
+</div>
+<hr>
+<div id="studentTable">
+    <h2>Students:</h2>
+    <button onclick="toggleElement('newStudentForm');">Add Student</button>
+    <div class="inlineForm hidden" id="newStudentForm">
+        <form>
+            {% with f = user_forms["new_student_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th>Student ID</th>
+            <th>Balance</th>
+            <th>Admin ID</th>
+            <th>Plan ID</th>
+        </tr>
+        <!-- Populate user data -->
+        {% for student in table_results["stu_data"] %}
+        <tr>
+            <td>{{ student.user_id }}</td>
+            <td>{{ student.balance }}</td>
+            <td>{{ student.admin_id }}</td>
+            <td>{{ student.plan_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<hr>
+<div id="adminTable">
+    <h2>Admins:</h2>
+    <button onclick="toggleElement('newAdminForm');">Add Admin</button>
+    <div class="inlineForm hidden" id="newAdminForm">
+        <form>
+            {% with f = user_forms["new_admin_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th>Admin ID</th>
+            <th>Manager ID</th>
+        </tr>
+        <!-- Populate user data -->
+        {% for admin in table_results["admin_data"] %}
+        <tr>
+            <td>{{ admin.admin_id }}</td>
+            <td>{{ admin.manager_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>    
+</div>
+<hr>
+<div id="managerTable">
+    <h2>Managers:</h2>
+    <button onclick="toggleElement('newManagerForm');">Add Manager</button>
+    <div class="inlineForm hidden" id="newManagerForm">
+        <form>
+            {% with f = user_forms["new_manager_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th>Manager ID</th>
+        </tr>
+        <!-- Populate user data -->
+        {% for manager in table_results["mgr_data"] %}
+        <tr>
+            <td>{{ manager.manager_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>    
+</div>
+<hr>
+<div id="employeeTable">
+    <h2>Employees:</h2>
+    <button onclick="toggleElement('newEmployeeForm');">Add Employee</button>
+    <div class="inlineForm hidden" id="newEmployeeForm">
+        <form>
+            {% with f = user_forms["new_employee_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <table>
+        <tr>
+            <th>Employee ID</th>
+            <th>Menu ID</th>
+        </tr>
+        <!-- Populate user data -->
+        {% for emp in table_results["emp_data"] %}
+        <tr>
+            <td>{{ emp.employee_id }}</td>
+            <td>{{ emp.menu_id }}</td>
+        </tr>
+        {% endfor %}
+    </table>    
+</div>
+<hr>
+
 {% endblock %}

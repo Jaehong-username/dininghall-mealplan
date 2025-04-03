@@ -42,6 +42,12 @@ class User(UserMixin, db.Model):
                 return user
             else:
                 return None
+            
+    def is_admin(self):
+        if(Admin.get_admin_by_id(self.user_id) is not None):
+            return True
+        else:
+            return False
 
 # ---------- [ENTITY SETS] ----------
 # Admin table (only one admin in system)

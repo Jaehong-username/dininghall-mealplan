@@ -105,8 +105,23 @@ def admin_portal_users():
     if(admin is None):
         abort(401)
     else:
-        user_data = User.query.all()
-        return render_template('admin-portal-users.html', user_data = user_data)
+        table_results = {}
+        table_results["user_data"] = User.query.all()
+        table_results["admin_data"] = Admin.query.all()
+        table_results["mgr_data"] = Manager.query.all()
+        table_results["emp_data"] = Employee.query.all()
+        table_results["stu_data"] = Student.query.all()
+
+        user_forms = {}
+
+        user_forms["new_user_form"] = NewUserForm()
+        user_forms["edit_user_form"] = EditUserForm()
+        user_forms["new_admin_form"] = newAdminForm()
+        user_forms["new_manager_form"] = newManagerForm()
+        user_forms["new_student_form"] = newStudentForm()
+        user_forms["new_employee_form"] = newEmployeeForm()
+
+        return render_template('admin-portal-users.html', user_forms = user_forms, table_results = table_results)
 
 @views.route('/admin-portal/menus', methods=['GET', 'POST'])
 @login_required
@@ -126,4 +141,5 @@ def admin_portal_mealplans():
         abort(401)
     else:
         mealplan_data = Meal_Plan.query.all()
+        
         return render_template('admin-portal-mealplans.html', mealplan_data = mealplan_data)
