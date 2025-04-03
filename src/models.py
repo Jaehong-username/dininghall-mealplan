@@ -18,6 +18,7 @@ models_bp = Blueprint('models_bp', __name__)
 
 # User account table
 class User(UserMixin, db.Model):
+    __tablename__ = 'user'
     user_id = db.Column(db.Integer, primary_key=True) ## auto increments!
     email = db.Column(db.String(255), unique=True, nullable=False)
     name = db.Column(db.String(255), nullable=False)
@@ -31,6 +32,14 @@ class User(UserMixin, db.Model):
         # sets password to hash
         self.password = bcrypt.generate_password_hash(password)
 
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            'id': self.user_id,
+            'email': self.email,
+            'name': self.name,
+            'password': str(self.password)
+        }
         
     def get_id(self):
         return self.user_id
@@ -52,8 +61,16 @@ class User(UserMixin, db.Model):
 # ---------- [ENTITY SETS] ----------
 # Admin table (only one admin in system)
 class Admin(db.Model):
+    __tablename__ = 'admin'
     admin_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
     manager_id = db.Column(db.Integer, db.ForeignKey('manager.manager_id'))        
+    
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "admin_id": self.admin_id,
+            "manager_id": self.manager_id
+        }
     
     def get_admin_by_id(uid):
         ad = Admin.query.filter_by(admin_id = uid).first()
@@ -65,7 +82,14 @@ class Admin(db.Model):
 
 # Manager table
 class Manager(db.Model):
+    __tablename__ = 'manager'
     manager_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
+
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "manager_id": self.manager_id
+        }
 
     # relationships
     menus = db.relationship('Menu', secondary='Managers_Menus')                             # many-to-many w/ menu
@@ -73,11 +97,21 @@ class Manager(db.Model):
 
 # Student table
 class Student(db.Model):
+    __tablename__ = 'student'
     user_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
     balance = db.Column(db.Float, nullable=False)
     admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))  # foreign key to admin (many-to-one)
     # vars for managing meal plan
     plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.plan_id')) # foreign key to specific meal plan
+
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "user_id": self.user_id,
+            "balance": self.balance,
+            "admin_id": self.admin_id,
+            "plan_id": self.plan_id
+        }
 
     # relationships
     user = db.relationship('User')
@@ -95,8 +129,16 @@ class Student(db.Model):
 
 # Employee table
 class Employee(db.Model):
+    __tablename__ = 'employee'
     employee_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
     menu_id = db.Column(db.Date, db.ForeignKey('menu.date'))                                # foreign key to menu (many-to-one)
+
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "employee_id": self.employee_id,
+            "menu_id": self.menu_id
+        }
 
     # relationships
     meals = db.relationship('Meal', secondary='Employees_Meals')                            # many-to-many w/ meals
@@ -106,9 +148,19 @@ class Meal_Plan(db.Model):
     __tablename__ = 'meal_plan'                                                             # fixing errors with naming
     plan_id = db.Column(db.Integer, primary_key=True)
     price = db.Column(db.Float, nullable=False)
+    
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "plan_id": self.plan_id,
+            "price": self.price
+        }
+
+    
 
 # Menu table
 class Menu(db.Model):
+    __tablename__ = 'menu'
     date = db.Column(db.Date, primary_key=True)
     location = db.Column(db.String, nullable=False)
     
@@ -116,10 +168,18 @@ class Menu(db.Model):
     meal_categories = db.relationship('Meal_Category', secondary='Menu_Meal_Categories')    # multi-valued attribute
     meals = db.relationship('Meal', secondary='Menu_Meals')                                 # multi-valued attribute
     students = db.relationship('Student', secondary='Students_Menus')                       # many-to-many w/ student
-    managers = db.relationship('Manager', secondary='Managers_Menus')                       # many-to-many w/ manager
+    managers = db.relationship('Manager', secondary='Managers_Menus')       # many-to-many w/ manager
+    
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "date": self.date,
+            "location": self.location
+        }
 
 # Meal table
 class Meal(db.Model):
+    __tablename__ = 'meal'
     meal_id = db.Column(db.Integer, primary_key=True)
     price = db.Column(db.Float, nullable=False)
     number_sold = db.Column(db.Integer, nullable=False)
@@ -131,6 +191,14 @@ class Meal(db.Model):
     students = db.relationship('Student', secondary='Students_Meals')                               # many-to-many w/ students
     managers = db.relationship('Manager', secondary='Managers_Meals')                               # many-to-many w/ managers
     employees = db.relationship('Employee', secondary='Employees_Meals')                            # many-to-many w/ employees
+    
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "meal_id": self.meal_id,
+            "price": self.price,
+            "number_sold": self.number_sold
+        }
 
 # Meal_Category (multi-valued) table for Menu
 class Meal_Category(db.Model):
@@ -139,6 +207,11 @@ class Meal_Category(db.Model):
     
     # relationships
     menus = db.relationship('Menu', secondary='Menu_Meal_Categories')                       # multi-valued attribute
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "category": self.category
+        }
 
 # Dietary_Restrictions (multi-valued) table for Meal
 class Dietary_Restriction(db.Model):
@@ -147,6 +220,11 @@ class Dietary_Restriction(db.Model):
 
     # relationships
     meals = db.relationship('Meal', secondary='Meal_Dietary_Restrictions')                  # multi-valued attribute               
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "restriction": self.restriction
+        }
 
 # Nutritional_Information (multi-valued) table for Meal
 class Nutritional_Information(db.Model):
@@ -155,6 +233,11 @@ class Nutritional_Information(db.Model):
 
     # relationships
     meals = db.relationship('Meal', secondary='Meal_Nutritional_Informations')              # multi-valued attribute
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "info": self.info
+        }
 
 # ---------- [MULTI-VALUED ATTRIBUTE TABLES] ----------
 # Menu & Meal_Category association table

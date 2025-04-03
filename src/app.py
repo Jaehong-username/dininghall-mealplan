@@ -11,6 +11,7 @@ import secrets
 from models import *
 from form_classes import *
 from views import *
+from api import *
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -24,7 +25,7 @@ csrf = CSRFProtect(app)
 
 app.register_blueprint(views)
 app.register_blueprint(models_bp)
-
+app.register_blueprint(api_bp)
 
 # Create all databases if they don't exist
 db.init_app(app)

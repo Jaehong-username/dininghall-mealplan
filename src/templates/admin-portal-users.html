@@ -1,4 +1,7 @@
 {% extends "admin-portal.html" %}
+{% block scripts %}
+<script src="/static/admin_data.js"></script>
+{% endblock %}
 {% block dashboard_content %}
 <h2>User accounts:</h2>
 <div id="userTable">
@@ -164,5 +167,4 @@
     </table>    
 </div>
 <hr>
-
 {% endblock %}
