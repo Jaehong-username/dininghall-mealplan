@@ -34,8 +34,10 @@ class User(UserMixin, db.Model):
 
     def to_dict(self):
         # Return table data in a json-ifiable format
+        # Exclamations are used to put primary keys at the front of the list, since JSON sorts keys alphabetically.
+        # They shouldn't be used for other parameters and should be trimmed in frontend code if necessary.
         return {
-            'id': self.user_id,
+            '!id': self.user_id,
             'email': self.email,
             'name': self.name,
             'password': str(self.password)
@@ -68,7 +70,7 @@ class Admin(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "admin_id": self.admin_id,
+            "!admin_id": self.admin_id,
             "manager_id": self.manager_id
         }
     
@@ -107,7 +109,7 @@ class Student(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "user_id": self.user_id,
+            "!user_id": self.user_id,
             "balance": self.balance,
             "admin_id": self.admin_id,
             "plan_id": self.plan_id
@@ -136,7 +138,7 @@ class Employee(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "employee_id": self.employee_id,
+            "!employee_id": self.employee_id,
             "menu_id": self.menu_id
         }
 
@@ -152,7 +154,7 @@ class Meal_Plan(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "plan_id": self.plan_id,
+            "!plan_id": self.plan_id,
             "price": self.price
         }
 
@@ -195,7 +197,7 @@ class Meal(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "meal_id": self.meal_id,
+            "!meal_id": self.meal_id,
             "price": self.price,
             "number_sold": self.number_sold
         }

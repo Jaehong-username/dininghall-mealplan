@@ -1,15 +1,20 @@
 {% extends "admin-portal.html" %}
+{% block scripts %}
+<script src="/static/admin_data.js"></script>
+<script>
+    setCSRF('{{ csrf_token() }}');
+</script>
+{% endblock %}
 {% block dashboard_content %}
-<table>
-    <tr>
-        <th>Meal Plan ID</th>
-        <th>Price</th>
-    </tr>
-{% for mealplan in mealplan_data %}
-<tr>
-    <td>{{ mealplan.plan_id }}</td>
-    <td>{{ mealplan.price }}</td>
-</tr>
-{% endfor %}
-</table>
+<h2>Meal plans:</h2>
+    <div id="mealplanTable">
+    <button onclick="toggleElement('newMealPlanForm');">Add Meal Plan</button>
+    <div class="inlineForm hidden" id="newMealPlanForm"><form></form></div>
+    
+    <table id="mealplan-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>loadAdminData('meal_plan', 'mealplan-entries');</script>
+
+</div>
 {% endblock %}

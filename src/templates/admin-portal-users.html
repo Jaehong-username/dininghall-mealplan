@@ -1,11 +1,12 @@
 {% extends "admin-portal.html" %}
 {% block scripts %}
 <script src="/static/admin_data.js"></script>
-{% endblock %}
-{% block dashboard_content %}
 <script>
     setCSRF('{{ csrf_token() }}');
 </script>
+{% endblock %}
+{% block dashboard_content %}
+
 <h2>User accounts:</h2>
 <div id="userTable">
     <button onclick="toggleElement('newUserForm');">Add User</button>

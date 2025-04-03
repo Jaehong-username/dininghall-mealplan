@@ -1,18 +1,20 @@
 {% extends "admin-portal.html" %}
+{% block scripts %}
+<script src="/static/admin_data.js"></script>
+<script>
+    setCSRF('{{ csrf_token() }}');
+</script>
+{% endblock %}
 {% block dashboard_content %}
-<table>
-    <tr>
-        <th>Meal ID</th>
-        <th>Price ($)</th>
-        <th># sold</th>
-        <th>Password Hash</th>
-    </tr>
-{% for meal in meal_data %}
-<tr>
-    <td>{{ meal.meal_id }}</td>
-    <td>{{ meal.price }}</td>
-    <td>{{ meal.number_sold }}</td>
-</tr>
-{% endfor %}
-</table>
+<h2>Menus:</h2>
+    <div id="menuTable">
+    <button onclick="toggleElement('newMenuForm');">Add Menu</button>
+    <div class="inlineForm hidden" id="newMenuForm"><form></form></div>
+    
+    <table id="menu-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>loadAdminData('menu', 'menu-entries');</script>
+
+</div>
 {% endblock %}
