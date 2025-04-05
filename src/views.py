@@ -75,7 +75,6 @@ def view_dining_halls():
 
 @views.route('/menu-details', methods=['GET', 'POST'])
 def view_today_menus():
-
     # find menu in database
     # TODO: change depending on the day to day basis
     menu = Menu.query.filter_by(date=date(2025, 4, 2)).first()
@@ -86,13 +85,18 @@ def view_today_menus():
         return "<h3>Menu does not exist!</h3>" \
         "<form action='/'><button type='submit'>Return Home</button></form>"
     
-    return render_template('menu-details.html', menu=menu)
+    # getting menu type (breakfast, lunch, or dinner) to know what to display
+    type = request.args.get('type')
+    
+    return render_template('menu-details.html', menu=menu, type=type)
+
 
 @views.route('/menu-options', methods=['GET', 'POST'])
 def view_menu_options():
+    # find menu in database according to today's date
+    # menu = Menu.query.filter_by(date=date.today()).first()
 
-    # find menu in database
-    # TODO: change depending on the day to day basis
+    # for now, using a temp date for testing
     menu = Menu.query.filter_by(date=date(2025, 4, 2)).first()
     
     # display error & return to home if student not found

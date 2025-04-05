@@ -34,7 +34,6 @@ def create_db():
         db.create_all()
         
         # TEMP STUDENT FOR TESTING PURPOSES (since no info in database yet)
-        # to clean out (ONLY DO WITH NON-IMPORTANT DB): rm database.db & rerun code after commenting code out
         existing_user = User.query.filter_by(user_id=1).first()
 
         if (existing_user):
@@ -96,24 +95,62 @@ def create_db():
         existing_meal = Meal.query.filter_by(meal_id=1).first()
 
         if (existing_meal):
-            print("Temp meal exists")
+            print("Temp meals exists")
 
         else:
             temp_meal = Meal(
                 meal_name="Starfruit Smoothie",
                 price = 8.88,
-                number_sold = 88
+                number_sold = 88,
+                type = "Breakfast"
+            )
+
+            breakfast_bakery1 = Meal(
+                meal_name="Lemon Poppy Seed Muffin",
+                price = 8.88,
+                number_sold = 88,
+                type = "Breakfast"
+            )
+
+            breakfast_bakery2 = Meal(
+                meal_name="Double Chocolate Chip Muffin",
+                price = 8.88,
+                number_sold = 88,
+                type = "Lunch"
+            )
+
+            breakfast_sandwich = Meal(
+                meal_name="Coug Breakfast Sandwich w/ Cheese",
+                price = 8.88,
+                number_sold = 88,
+                type = "Breakfast"
             )
 
             # adding meal attributes
             for info in Nutritional_Information.query.all():
                 temp_meal.infos.append(info)
+                breakfast_bakery1.infos.append(info)
+                breakfast_bakery2.infos.append(info)
+                breakfast_sandwich.infos.append(info)
 
             # adding meal attributes
             for restriction in Dietary_Restriction.query.all():
                 temp_meal.restrictions.append(restriction)
+                breakfast_bakery1.restrictions.append(restriction)
+                breakfast_bakery2.restrictions.append(restriction)
+                breakfast_sandwich.restrictions.append(restriction)
+
+            # relationships updating for categories
+            temp_meal.categories.append(Meal_Category.query.filter_by(category="Natural").first())
+            breakfast_bakery1.categories.append(Meal_Category.query.filter_by(category="Bakery").first())
+            breakfast_bakery2.categories.append(Meal_Category.query.filter_by(category="Bakery").first())
+            breakfast_sandwich.categories.append(Meal_Category.query.filter_by(category="Build-a-Breakfast-Sandwich").first())
 
             db.session.add(temp_meal)
+            db.session.add(breakfast_bakery1)
+            db.session.add(breakfast_bakery2)
+            db.session.add(breakfast_sandwich)
+
             db.session.commit()        
 
         # TEMP MENU FOR TESTING PURPOSES (since no info in database yet)
@@ -134,12 +171,12 @@ def create_db():
 
             # add temp meal
             temp_menu.meals.append(temp_meal)
+            temp_menu.meals.append(breakfast_bakery1)
+            temp_menu.meals.append(breakfast_bakery2)
+            temp_menu.meals.append(breakfast_sandwich)
 
             db.session.add(temp_menu)
             db.session.commit()
-
-
-    
         
 ### Program entrypoint (place at bottom of script)
 create_db() 

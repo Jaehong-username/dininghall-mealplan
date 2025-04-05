@@ -118,15 +118,17 @@ class Meal(db.Model):
     meal_name = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
     number_sold = db.Column(db.Integer, nullable=False)
+    type = db.Column(db.String, nullable=False)                                             # breakfast, lunch, or dinner               
 
     # constructor
-    def __init__(self, meal_name, price, number_sold):
+    def __init__(self, meal_name, price, number_sold, type):
         self.meal_name = meal_name
         self.price = price
         self.number_sold = number_sold
+        self.type = type
 
     # relationships
-    # TODO: add a category that the meal belongs in
+    categories = db.relationship('Meal_Category', secondary='Meal_Meal_Categories')                 # assigining each meal to a category
     menus = db.relationship('Menu', secondary='Menu_Meals')                                         # multi-valued attribute
     restrictions = db.relationship('Dietary_Restriction', secondary='Meal_Dietary_Restrictions')    # multi-valued attribute
     infos = db.relationship('Nutritional_Information', secondary='Meal_Nutritional_Informations')   # multi-valued attribute
@@ -141,6 +143,7 @@ class Meal_Category(db.Model):
     
     # relationships
     menus = db.relationship('Menu', secondary='Menu_Meal_Categories')                       # multi-valued attribute
+    meals = db.relationship('Meal', secondary='Meal_Meal_Categories')                       # each meal can have category
 
 # Dietary_Restrictions (multi-valued) table for Meal
 class Dietary_Restriction(db.Model):
@@ -221,4 +224,11 @@ Employees_Meals = db.Table (
     'Employees_Meals',
     db.Column('employee_id', db.ForeignKey('employee.employee_id'), primary_key=True),
     db.Column('meal_id', db.ForeignKey('meal.meal_id'), primary_key=True)
+)
+
+# ---------- [OTHER RELATIONSHIP TABLES] ----------
+Meal_Meal_Categories = db.Table (
+    'Meal_Meal_Categories',
+    db.Column('meal_id', db.ForeignKey('meal.meal_id'), primary_key=True),
+    db.Column('category', db.ForeignKey('meal_category.category'), primary_key=True)
 )
