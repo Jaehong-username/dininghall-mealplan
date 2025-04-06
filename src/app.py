@@ -57,20 +57,53 @@ def create_db():
             db.session.add(temp_student)
             db.session.commit()
 
-        # TEMP MEAL CATEGORIES FOR TESTING PURPOSES (based on wsu)
-        base_categories = ["Bakery", "Build-a-Breakfast-Sandwich", "Chef's Creation", "Hot Cereal",
-                           "Big Cat Grille", "Deli", "Natural", "Presto Pizza", "Salads", "Soups"]
+        # BASE TYPES FOR TESTING
+        base_types = ["Breakfast", "Lunch", "Brunch", "Dinner"]
+        for type in base_types:
+            existing_type = Meal_Category_Type.query.filter_by(type=type).first()
+            if not existing_type:
+                new_type = Meal_Category_Type(type=type)
+                db.session.add(new_type)
+
+        # BASE CATEGORIES FOR TESTING
+        base_categories = {
+            "Bakery": ["Breakfast", "Brunch", "Lunch", "Dinner"],
+            "Build-a-Breakfast-Sandwich": ["Breakfast", "Brunch"],
+            "Chef's Creation": ["Breakfast", "Brunch", "Lunch", "Dinner"],
+            "Hot Cereal": ["Breakfast", "Brunch"],
+            "Big Cat Grille": ["Brunch", "Lunch", "Dinner"],
+            "Build-a-Sandwich": ["Lunch", "Dinner"],
+            "Grapevine": ["Lunch", "Dinner"],
+            "Hot Spot": ["Lunch", "Dinner"],
+            "Deli": ["Brunch", "Lunch", "Dinner"],
+            "Grill": ["Lunch", "Dinner"],
+            "Natural": ["Brunch", "Lunch", "Dinner"],
+            "On Fire": ["Lunch", "Dinner"],
+            "Salad Bar Fruits": ["Lunch", "Dinner"],
+            "Presto Pizza": ["Brunch", "Lunch", "Dinner"],
+            "Salads": ["Brunch", "Lunch", "Dinner"],
+            "Soups": ["Lunch", "Dinner"],
+            "Stonewall Pasta": ["Lunch", "Dinner"],
+            "Stonewall Pizza": ["Lunch", "Dinner"]
+        }
 
         # adding categories to meal_category
-        for category in base_categories:
+        for category, types in base_categories.items():
+
+            # adding categories
             existing_category = Meal_Category.query.filter_by(category=category).first()
             if not existing_category:
                 new_category = Meal_Category(category=category)
                 db.session.add(new_category)
+                existing_category = new_category
 
-        db.session.commit()
+            # adding relationships with type
+            for type in types:
+                existing_type = Meal_Category_Type.query.filter_by(type=type).first()
+                if existing_type:
+                    existing_category.types.append(existing_type)
 
-         # TEMP MEAL ATTRIBUTES FOR TESTING PURPOSES
+        # MEAL ATTRIBUTES FOR TESTING PURPOSES
         base_nutritional = ["Halal", "Healthy Option", "Vegetarian", "Vegan", "Gluten Friendly", "Allergen-Friendly"]
 
         # adding nutritional information
@@ -91,13 +124,14 @@ def create_db():
 
         db.session.commit()
 
-        # TEMP MEAL FOR TESTING PURPOSES
+        # MEAL FOR TESTING PURPOSES
         existing_meal = Meal.query.filter_by(meal_id=1).first()
 
         if (existing_meal):
             print("Temp meals exists")
 
         else:
+            # TODO: change to initializing data with dictionary, when inserting dummy data for db
             temp_meal = Meal(
                 meal_name="Starfruit Smoothie",
                 price = 8.88,
@@ -162,7 +196,7 @@ def create_db():
         else:
             temp_menu = Menu(
                 date = date(2025, 4, 2),
-                location = "Northside Cafe"
+                location = "Northside"
             )
 
             # updating relationship

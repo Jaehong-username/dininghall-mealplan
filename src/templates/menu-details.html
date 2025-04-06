@@ -13,40 +13,48 @@
         <h2 class = "subtitle"> {{ menu.date.strftime('%A, %B %d') }} </h2>
         <br>
         
-        <!-- for loop for each meal category stored in the menu -->
-        {% for category in menu.meal_categories %}
+        <!-- only print according to the menu's specific location -->
+        {% if menu.location == location %} 
 
-            <!-- display category name -->
-            <h3><b>{{ category.category }}</b></h3>
+            <!-- for loop for each meal category stored in the menu -->
+            {% for category in menu.meal_categories %}
 
-            <!-- display meals under the menu -->
-            {% for meal in menu.meals %}
+                <!-- only printing category that belongs to the specific menu -->
+                {% for t in category.types %}
+                    {% if t.type == type %}
+                        <h3><b>{{ category.category }}</b></h3>
+                    {% endif %}
+                {% endfor %}
 
-                <!-- checking category and meal type -->
-                {% if category in meal.categories and meal.type == type %}
-                    <p><b>{{ meal.meal_name }}</b></p>
+                <!-- display meals under the menu -->
+                {% for meal in menu.meals %}
 
-                    <!-- displaying meal attributes -->
-                    <p><b>Meal Type:</b>
-                    {% for restriction in meal.restrictions %}
-                        {{ restriction.restriction }}{% if not loop.last %}, {% endif %}
-                    {% endfor %}
-                    </p>
+                    <!-- checking category and meal type -->
+                    {% if category in meal.categories and meal.type == type %}
+                        <p><b>{{ meal.meal_name }}</b></p>
 
-                    <!-- displaying meal attributes -->
-                    <p><span style="color:#FF0000"><b>Allergens:</b></span>
-                    {% for info in meal.infos %}
-                        {{ info.info }}{% if not loop.last %}, {% endif %}
-                    {% endfor %}
-                    </p>
+                        <!-- displaying meal attributes -->
+                        <p><b>Meal Type:</b>
+                        {% for restriction in meal.restrictions %}
+                            {{ restriction.restriction }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                        </p>
 
-                    {% if loop.last %}<br>{% endif %}
+                        <!-- displaying meal attributes -->
+                        <p><span style="color:#FF0000"><b>Allergens:</b></span>
+                        {% for info in meal.infos %}
+                            {{ info.info }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                        </p>
 
-                {% endif %} 
+                        {% if loop.last %}<br>{% endif %}
 
-            {% endfor %} <!-- end meal loop-->
-            <br>
-        {% endfor %} <!-- end category loop-->
+                    {% endif %} 
+
+                {% endfor %} <!-- end meal loop-->
+                <br>
+            {% endfor %} <!-- end category loop-->
+        {% endif %} <!-- end location loop -->
         
     </div>
     

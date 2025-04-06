@@ -87,8 +87,11 @@ def view_today_menus():
     
     # getting menu type (breakfast, lunch, or dinner) to know what to display
     type = request.args.get('type')
+
+    # getting menu location to know what to display
+    location = request.args.get('location')
     
-    return render_template('menu-details.html', menu=menu, type=type)
+    return render_template('menu-details.html', menu=menu, type=type, location=location)
 
 
 @views.route('/menu-options', methods=['GET', 'POST'])
