@@ -5,7 +5,7 @@
 {% block content %}
 
     <div style="text-align:center">
-        <h1 class = "title">{{ menu.location }} </h1>
+        <h1 class = "title">{{ location }} Cafe</h1>
         <hr>
         
         <h1 class = "subtitle">Today's Menu:</h1>
@@ -33,26 +33,25 @@
                     {% if category in meal.categories and meal.type == type %}
                         <p><b>{{ meal.meal_name }}</b></p>
 
-                        <!-- displaying meal attributes -->
+                        <!-- displaying meal attributes ; nutritional: meal type  -->
                         <p><b>Meal Type:</b>
-                        {% for restriction in meal.restrictions %}
-                            {{ restriction.restriction }}{% if not loop.last %}, {% endif %}
-                        {% endfor %}
-                        </p>
-
-                        <!-- displaying meal attributes -->
-                        <p><span style="color:#FF0000"><b>Allergens:</b></span>
                         {% for info in meal.infos %}
                             {{ info.info }}{% if not loop.last %}, {% endif %}
                         {% endfor %}
                         </p>
 
+                        <!-- displaying meal attributes ; restriction: allergen  -->
+                        <p><span style="color:#FF0000"><b>Allergens:</b></span>
+                        {% for restriction in meal.restrictions %}
+                            {{ restriction.restriction }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                        </p>
+
                         {% if loop.last %}<br>{% endif %}
-
+                        <br>
                     {% endif %} 
-
+                    
                 {% endfor %} <!-- end meal loop-->
-                <br>
             {% endfor %} <!-- end category loop-->
         {% endif %} <!-- end location loop -->
         

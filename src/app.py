@@ -64,27 +64,30 @@ def create_db():
             if not existing_type:
                 new_type = Meal_Category_Type(type=type)
                 db.session.add(new_type)
+            
+        db.session.commit()
 
         # BASE CATEGORIES FOR TESTING
+        # TODO: add location-exclusive category checks? or check if category contains no meals before printing
         base_categories = {
             "Bakery": ["Breakfast", "Brunch", "Lunch", "Dinner"],
-            "Build-a-Breakfast-Sandwich": ["Breakfast", "Brunch"],
+            "Build-a-Breakfast Sandwich": ["Breakfast", "Brunch"],
             "Chef's Creation": ["Breakfast", "Brunch", "Lunch", "Dinner"],
             "Hot Cereal": ["Breakfast", "Brunch"],
             "Big Cat Grille": ["Brunch", "Lunch", "Dinner"],
-            "Build-a-Sandwich": ["Lunch", "Dinner"],
-            "Grapevine": ["Lunch", "Dinner"],
-            "Hot Spot": ["Lunch", "Dinner"],
+            # "Build-a-Sandwich": ["Lunch", "Dinner"],
+            # "Grapevine": ["Lunch", "Dinner"],
+            # "Hot Spot": ["Lunch", "Dinner"],
             "Deli": ["Brunch", "Lunch", "Dinner"],
-            "Grill": ["Lunch", "Dinner"],
+            # "Grill": ["Lunch", "Dinner"],
             "Natural": ["Brunch", "Lunch", "Dinner"],
-            "On Fire": ["Lunch", "Dinner"],
-            "Salad Bar Fruits": ["Lunch", "Dinner"],
+            # "On Fire": ["Lunch", "Dinner"],
+            # "Salad Bar Fruits": ["Lunch", "Dinner"],
             "Presto Pizza": ["Brunch", "Lunch", "Dinner"],
             "Salads": ["Brunch", "Lunch", "Dinner"],
             "Soups": ["Lunch", "Dinner"],
-            "Stonewall Pasta": ["Lunch", "Dinner"],
-            "Stonewall Pizza": ["Lunch", "Dinner"]
+            # "Stonewall Pasta": ["Lunch", "Dinner"],
+            # "Stonewall Pizza": ["Lunch", "Dinner"]
         }
 
         # adding categories to meal_category
@@ -103,8 +106,10 @@ def create_db():
                 if existing_type:
                     existing_category.types.append(existing_type)
 
+        db.session.commit()
+
         # MEAL ATTRIBUTES FOR TESTING PURPOSES
-        base_nutritional = ["Halal", "Healthy Option", "Vegetarian", "Vegan", "Gluten Friendly", "Allergen-Friendly"]
+        base_nutritional = ["Halal", "Healthy Option", "Vegetarian", "Vegan", "Gluten Friendly", "Allergen-Friendly", "Vegan Option Available"]
 
         # adding nutritional information
         for info in base_nutritional:
@@ -131,59 +136,69 @@ def create_db():
             print("Temp meals exists")
 
         else:
-            # TODO: change to initializing data with dictionary, when inserting dummy data for db
-            temp_meal = Meal(
-                meal_name="Starfruit Smoothie",
-                price = 8.88,
-                number_sold = 88,
-                type = "Breakfast"
-            )
+            meals_test = {
+                "Lemon Poppy Seed Muffin": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk"},
+                "Double Chocolate Chip Muffin": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Mini Apple Spice Bread Loaf": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Gluten/Wheat"},
+                "Blueberry Cream Sweet Bread": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Jelly Swirl Coffee Cake": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Coug Breakfast Sandwich w/ Cheese": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Build-a-Breakfast Sandwich", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Coug Breakfast Sandwich w/ Bacon": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Build-a-Breakfast Sandwich", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Pork,Soy"},
+                "Southwest Tofu Scramble w/ Daiya Cheese": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Chef's Creation", "nutritional":"Gluten Friendly,Halal,Healthy Option,Vegan,Vegetarian", "restriction":"Soy"},
+                "Oatmeal": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Hot Cereal", "nutritional":"Halal,Healthy Option,Vegan,Vegetarian", "restriction":"Gluten/Wheat"},
+                "Coconut BLT Sandwich": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Chef's Creation", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Coconut,Gluten/Wheat,Soy"},
+                "Grasshopper Bar": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Gardein Black Bean Burger": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Big Cat Grille", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Gluten/Wheat,Sesame,Soy"},
+                "NS Par Stock Deli": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Deli", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Chile Margarita Chicken": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Natural", "nutritional":"Allergen-Friendly,Gluten Friendly", "restriction":""},
+                "Build Your Own Sandwich": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Presto Pizza", "nutritional":"Vegan Option Available", "restriction":"Eggs,Gluten/Wheat,Milk"},
+                "NS Yogurt Bar": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Salads", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Tomato Basil Soup": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Soups", "nutritional":"Gluten Friendly,Halal,Vegetarian", "restriction":"Milk"},
+                "Quick Kimchi": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Chef's Creation", "nutritional":"Allergen-Friendly,Gluten-Friendly,Halal,Healthy Option,Vegan,Vegetarian", "restriction":""},
+                # TODO: handle items (ex: grasshopper bar) that have multiple types (lunch and dinner) ; how to store?
+                "Grasshopper Bar 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Gardein Black Bean Burger 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Big Cat Grille", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Gluten/Wheat,Sesame,Soy"},
+                "NS Par Stock Deli 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Deli", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Chile Margarita Chicken 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Natural", "nutritional":"Allergen-Friendly,Gluten Friendly", "restriction":""},
+                "Build Your Own Sandwich 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Presto Pizza", "nutritional":"Vegan Option Available", "restriction":"Eggs,Gluten/Wheat,Milk"},
+                "NS Yogurt Bar 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Salads", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Tomato Basil Soup 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Soups", "nutritional":"Gluten Friendly,Halal,Vegetarian", "restriction":"Milk"}
+            }
 
-            breakfast_bakery1 = Meal(
-                meal_name="Lemon Poppy Seed Muffin",
-                price = 8.88,
-                number_sold = 88,
-                type = "Breakfast"
-            )
+            # adding meals - unpacking nested dictionary
+            for name, data in meals_test.items():
 
-            breakfast_bakery2 = Meal(
-                meal_name="Double Chocolate Chip Muffin",
-                price = 8.88,
-                number_sold = 88,
-                type = "Lunch"
-            )
+                new_meal = Meal(
+                    meal_name = name,
+                    price = data["price"],
+                    number_sold = data["number_sold"],
+                    type = data["type"],
+                )
 
-            breakfast_sandwich = Meal(
-                meal_name="Coug Breakfast Sandwich w/ Cheese",
-                price = 8.88,
-                number_sold = 88,
-                type = "Breakfast"
-            )
+                # updating relationships
+                temp_category = Meal_Category.query.filter_by(category=data["category"]).first()
+                print(temp_category)
+                new_meal.categories.append(temp_category)
 
-            # adding meal attributes
-            for info in Nutritional_Information.query.all():
-                temp_meal.infos.append(info)
-                breakfast_bakery1.infos.append(info)
-                breakfast_bakery2.infos.append(info)
-                breakfast_sandwich.infos.append(info)
+                # updating nutritional information (ex: vegetarian)
+                for info in data["nutritional"].split(","):
+                    temp_info = Nutritional_Information.query.filter_by(info=info).first()
+                    if not temp_info:
+                        break
+                    else:
+                        new_meal.infos.append(temp_info)
+                    
+                # updating restrictions information (ex: allergens)
+                for restriction in data["restriction"].split(","):
+                    temp_restriction = Dietary_Restriction.query.filter_by(restriction=restriction).first()
+                    if not temp_restriction:
+                        break
+                    else:
+                        new_meal.restrictions.append(temp_restriction)
 
-            # adding meal attributes
-            for restriction in Dietary_Restriction.query.all():
-                temp_meal.restrictions.append(restriction)
-                breakfast_bakery1.restrictions.append(restriction)
-                breakfast_bakery2.restrictions.append(restriction)
-                breakfast_sandwich.restrictions.append(restriction)
+                # updating types
 
-            # relationships updating for categories
-            temp_meal.categories.append(Meal_Category.query.filter_by(category="Natural").first())
-            breakfast_bakery1.categories.append(Meal_Category.query.filter_by(category="Bakery").first())
-            breakfast_bakery2.categories.append(Meal_Category.query.filter_by(category="Bakery").first())
-            breakfast_sandwich.categories.append(Meal_Category.query.filter_by(category="Build-a-Breakfast-Sandwich").first())
-
-            db.session.add(temp_meal)
-            db.session.add(breakfast_bakery1)
-            db.session.add(breakfast_bakery2)
-            db.session.add(breakfast_sandwich)
+                db.session.add(new_meal)
 
             db.session.commit()        
 
@@ -199,15 +214,13 @@ def create_db():
                 location = "Northside"
             )
 
-            # updating relationship
+            # updating relationship; adding categories to menu
             for category in Meal_Category.query.all():
                 temp_menu.meal_categories.append(category)
 
             # add temp meal
-            temp_menu.meals.append(temp_meal)
-            temp_menu.meals.append(breakfast_bakery1)
-            temp_menu.meals.append(breakfast_bakery2)
-            temp_menu.meals.append(breakfast_sandwich)
+            for meal in Meal.query.all():
+                temp_menu.meals.append(meal)
 
             db.session.add(temp_menu)
             db.session.commit()
