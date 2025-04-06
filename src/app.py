@@ -60,15 +60,15 @@ def create_db():
         # BASE TYPES FOR TESTING
         base_types = ["Breakfast", "Lunch", "Brunch", "Dinner"]
         for type in base_types:
-            existing_type = Meal_Category_Type.query.filter_by(type=type).first()
+            existing_type = Meal_Type.query.filter_by(type=type).first()
             if not existing_type:
-                new_type = Meal_Category_Type(type=type)
+                new_type = Meal_Type(type=type)
                 db.session.add(new_type)
             
         db.session.commit()
 
         # BASE CATEGORIES FOR TESTING
-        # TODO: add location-exclusive category checks? or check if category contains no meals before printing
+        # TODO: add location-exclusive category checks? or check if category contains no meals before printing (probably in initalization of menu)
         base_categories = {
             "Bakery": ["Breakfast", "Brunch", "Lunch", "Dinner"],
             "Build-a-Breakfast Sandwich": ["Breakfast", "Brunch"],
@@ -102,7 +102,7 @@ def create_db():
 
             # adding relationships with type
             for type in types:
-                existing_type = Meal_Category_Type.query.filter_by(type=type).first()
+                existing_type = Meal_Type.query.filter_by(type=type).first()
                 if existing_type:
                     existing_category.types.append(existing_type)
 
@@ -137,32 +137,24 @@ def create_db():
 
         else:
             meals_test = {
-                "Lemon Poppy Seed Muffin": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk"},
-                "Double Chocolate Chip Muffin": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Mini Apple Spice Bread Loaf": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Gluten/Wheat"},
-                "Blueberry Cream Sweet Bread": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Jelly Swirl Coffee Cake": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Bakery", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Coug Breakfast Sandwich w/ Cheese": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Build-a-Breakfast Sandwich", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Coug Breakfast Sandwich w/ Bacon": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Build-a-Breakfast Sandwich", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Pork,Soy"},
-                "Southwest Tofu Scramble w/ Daiya Cheese": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Chef's Creation", "nutritional":"Gluten Friendly,Halal,Healthy Option,Vegan,Vegetarian", "restriction":"Soy"},
-                "Oatmeal": {"price": 8.88, "number_sold": 88, "type":"Breakfast", "category":"Hot Cereal", "nutritional":"Halal,Healthy Option,Vegan,Vegetarian", "restriction":"Gluten/Wheat"},
-                "Coconut BLT Sandwich": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Chef's Creation", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Coconut,Gluten/Wheat,Soy"},
-                "Grasshopper Bar": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Gardein Black Bean Burger": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Big Cat Grille", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Gluten/Wheat,Sesame,Soy"},
-                "NS Par Stock Deli": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Deli", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Chile Margarita Chicken": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Natural", "nutritional":"Allergen-Friendly,Gluten Friendly", "restriction":""},
-                "Build Your Own Sandwich": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Presto Pizza", "nutritional":"Vegan Option Available", "restriction":"Eggs,Gluten/Wheat,Milk"},
-                "NS Yogurt Bar": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Salads", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Tomato Basil Soup": {"price": 8.88, "number_sold": 88, "type":"Lunch", "category":"Soups", "nutritional":"Gluten Friendly,Halal,Vegetarian", "restriction":"Milk"},
-                "Quick Kimchi": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Chef's Creation", "nutritional":"Allergen-Friendly,Gluten-Friendly,Halal,Healthy Option,Vegan,Vegetarian", "restriction":""},
-                # TODO: handle items (ex: grasshopper bar) that have multiple types (lunch and dinner) ; how to store?
-                "Grasshopper Bar 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Gardein Black Bean Burger 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Big Cat Grille", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Gluten/Wheat,Sesame,Soy"},
-                "NS Par Stock Deli 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Deli", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Chile Margarita Chicken 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Natural", "nutritional":"Allergen-Friendly,Gluten Friendly", "restriction":""},
-                "Build Your Own Sandwich 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Presto Pizza", "nutritional":"Vegan Option Available", "restriction":"Eggs,Gluten/Wheat,Milk"},
-                "NS Yogurt Bar 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Salads", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                "Tomato Basil Soup 2": {"price": 8.88, "number_sold": 88, "type":"Dinner", "category":"Soups", "nutritional":"Gluten Friendly,Halal,Vegetarian", "restriction":"Milk"}
+                "Lemon Poppy Seed Muffin": {"price": 8.88, "number_sold": 88, "types":"Breakfast", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk"},
+                "Double Chocolate Chip Muffin": {"price": 8.88, "number_sold": 88, "types":"Breakfast", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Mini Apple Spice Bread Loaf": {"price": 8.88, "number_sold": 88, "types":"Breakfast", "category":"Bakery", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Gluten/Wheat"},
+                "Blueberry Cream Sweet Bread": {"price": 8.88, "number_sold": 88, "types":"Breakfast", "category":"Bakery", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Jelly Swirl Coffee Cake": {"price": 8.88, "number_sold": 88, "types":"Breakfast", "category":"Bakery", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Coug Breakfast Sandwich w/ Cheese": {"price": 8.88, "number_sold": 88, "types":"Breakfast", "category":"Build-a-Breakfast Sandwich", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Coug Breakfast Sandwich w/ Bacon": {"price": 8.88, "number_sold": 88, "types":"Breakfast", "category":"Build-a-Breakfast Sandwich", "nutritional":"Halal,Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Pork,Soy"},
+                "Southwest Tofu Scramble w/ Daiya Cheese": {"price": 8.88, "number_sold": 88, "types":"Breakfast", "category":"Chef's Creation", "nutritional":"Gluten Friendly,Halal,Healthy Option,Vegan,Vegetarian", "restriction":"Soy"},
+                "Oatmeal": {"price": 8.88, "number_sold": 88, "types":"Breakfast", "category":"Hot Cereal", "nutritional":"Halal,Healthy Option,Vegan,Vegetarian", "restriction":"Gluten/Wheat"},
+                "Coconut BLT Sandwich": {"price": 8.88, "number_sold": 88, "types":"Lunch", "category":"Chef's Creation", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Coconut,Gluten/Wheat,Soy"},
+                "Grasshopper Bar": {"price": 8.88, "number_sold": 88, "types":"Lunch,Dinner", "category":"Bakery", "nutritional":"Vegetarian", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Gardein Black Bean Burger": {"price": 8.88, "number_sold": 88, "types":"Lunch,Dinner", "category":"Big Cat Grille", "nutritional":"Halal,Vegan,Vegetarian", "restriction":"Gluten/Wheat,Sesame,Soy"},
+                "NS Par Stock Deli": {"price": 8.88, "number_sold": 88, "types":"Lunch,Dinner", "category":"Deli", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Chile Margarita Chicken": {"price": 8.88, "number_sold": 88, "types":"Lunch,Dinner", "category":"Natural", "nutritional":"Allergen-Friendly,Gluten Friendly", "restriction":""},
+                "Build Your Own Sandwich": {"price": 8.88, "number_sold": 88, "types":"Lunch", "category":"Presto Pizza", "nutritional":"Vegan Option Available", "restriction":"Eggs,Gluten/Wheat,Milk"},
+                "NS Yogurt Bar": {"price": 8.88, "number_sold": 88, "types":"Lunch,Dinner", "category":"Salads", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
+                "Tomato Basil Soup": {"price": 8.88, "number_sold": 88, "types":"Lunch,Dinner", "category":"Soups", "nutritional":"Gluten Friendly,Halal,Vegetarian", "restriction":"Milk"},
+                "Quick Kimchi": {"price": 8.88, "number_sold": 88, "types":"Dinner", "category":"Chef's Creation", "nutritional":"Allergen-Friendly,Gluten-Friendly,Halal,Healthy Option,Vegan,Vegetarian", "restriction":""}
             }
 
             # adding meals - unpacking nested dictionary
@@ -171,11 +163,10 @@ def create_db():
                 new_meal = Meal(
                     meal_name = name,
                     price = data["price"],
-                    number_sold = data["number_sold"],
-                    type = data["type"],
+                    number_sold = data["number_sold"]
                 )
 
-                # updating relationships
+                # updating relationship with categories
                 temp_category = Meal_Category.query.filter_by(category=data["category"]).first()
                 print(temp_category)
                 new_meal.categories.append(temp_category)
@@ -197,6 +188,12 @@ def create_db():
                         new_meal.restrictions.append(temp_restriction)
 
                 # updating types
+                for type in data["types"].split(","):
+                    temp_type = Meal_Type.query.filter_by(type=type).first()
+                    if not temp_type:
+                        break
+                    else:
+                        new_meal.types.append(temp_type)
 
                 db.session.add(new_meal)
 
