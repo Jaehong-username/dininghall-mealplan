@@ -55,6 +55,7 @@ body{
     color:beige;
     text-decoration: none;
     margin-left: 30px;
+    position: relative;
 }
 
 
@@ -70,6 +71,7 @@ body{
     width:0;
     height:2px;
     background-color: aliceblue;
+    transition: width 0.3s ease;
 }
 
 .navbar a:hover::before{
@@ -179,7 +181,9 @@ body{
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
+    font-size: 16px;
     background: white;
+    transition: border-color 0.3s;
 }
 
 .input-box label {
@@ -246,7 +250,6 @@ body{
     padding-top: 0px;
 }
 .cafeteria-container .cafeteria img{
-    width: 300px;
     height: 200px;
 }
 
