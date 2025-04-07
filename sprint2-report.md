@@ -41,33 +41,38 @@ Here are links to issues we worked on but did not complete in this sprint:
 ## Code Files for Review
 Please review the following code files, which were actively developed during this sprint, for quality:
 
-* [admin_data.js] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/static/admin_data.js
-* [util.js] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/static/util.js
-* [api.py] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/api.py
-* [app.py (main)] https://github.com/Jaehong-username/dininghall-mealplan/blob/main/src/app.py
-* [app.py (mealplan-ui)] https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/app.py
-* [form_classes.py (main)] https://github.com/Jaehong-username/dininghall-mealplan/blob/main/src/form_classes.py
-* [form_classes.py (mealplan-ui)] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/form_classes.py
-* [form_classes.py (admin_portal)] https://github.com/Jaehong-username/dininghall-mealplan/tree/mealplan-ui/src
-* [models.py (main)] https://github.com/Jaehong-username/dininghall-mealplan/blob/main/src/models.py
-* [models.py (mealplan-ui)] https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/models.py
-* [models.py (admin_portal)] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/models.py
-* [views.py (menu-UI)] https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/views.py
-* [views.py (mealplan-ui)] https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/views.py
-* [views.py (admin_portal)] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/views.py
-* [style.css (menu-UI)] https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/static/style.css
-* [style.css (admin_portal)] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/static/style.css
-* [admin-portal-main.html] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-main.html
-* [admin-portal-mealplans.html] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-mealplans.html
-* [admin-portal-menus.html] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-menus.html
-* [admin-portal-users.html] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-users.html
-* [contact.html] https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/templates/contact.html
-* [dashboard.html] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/dashboard.html
-* [layout.html (menu-UI)] https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/templates/layout.html
-* [layout.html (admin_portal)] https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/layout.html
-* [meal-plan.html (menu-UI)] https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/templates/meal-plan.html
-* [meal-plan.html (mealplan-ui)] https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/templates/meal-plan.html
-* [menu-details.html] https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/templates/menu-details.html
+- **src folder**
+    * [api.py](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/api.py)
+    * [app.py (main)](https://github.com/Jaehong-username/dininghall-mealplan/blob/main/src/app.py)
+    * [app.py (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/app.py)
+    * [form_classes.py (main)](https://github.com/Jaehong-username/dininghall-mealplan/blob/main/src/form_classes.py)
+    * [form_classes.py (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/form_classes.py)
+    * [form_classes.py (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/tree/mealplan-ui/src)
+    * [models.py (main)](https://github.com/Jaehong-username/dininghall-mealplan/blob/main/src/models.py)
+    * [models.py (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/models.py)
+    * [models.py (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/models.py)
+    * [views.py (menu-UI)](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/views.py)
+    * [views.py (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/views.py)
+    * [views.py (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/views.py)
+ 
+- **static folder**
+    * [admin_data.js](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/static/admin_data.js)
+    * [util.js](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/static/util.js)
+    * [style.css (menu-UI)](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/static/style.css)
+    * [style.css (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/static/style.css)
+
+- **templates folder**
+    * [admin-portal-main.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-main.html)
+    * [admin-portal-mealplans.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-mealplans.html)
+    * [admin-portal-menus.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-menus.html)
+    * [admin-portal-users.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-users.html)
+    * [contact.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/templates/contact.html)
+    * [dashboard.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/dashboard.html)
+    * [layout.html (menu-UI)](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/templates/layout.html)
+    * [layout.html (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/layout.html)
+    * [meal-plan.html (menu-UI)](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/templates/meal-plan.html)
+    * [meal-plan.html (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/templates/meal-plan.html)
+    * [menu-details.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/templates/menu-details.html)
 
 ## Retrospective Summary
 Here's what went well:
