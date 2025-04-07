@@ -34,7 +34,7 @@ def get_admin_data():
     
     
 @api_bp.route("/api/delete_user", methods=["GET", "POST"])
-def delete_entry():
+def delete_user():
     # Get user id
     key = request.form.get("id")
     if(current_user.is_admin() and key is not None):
@@ -48,4 +48,47 @@ def delete_entry():
     else:
         return jsonify({'error': 'Unauthorized request'}), 403
     pass
-# TODO: Implement API endpoint for adding, deleting, and editing database items via the inline forms on the dashboard.
+
+@api_bp.route("/api/add_user", methods=["GET", "POST"])
+def add_user():
+    # Get user id
+    email = request.form.get("email")
+    name = request.form.get("name")
+    password = request.form.get("password")
+    
+    if(current_user.is_admin() and email is not None and name is not None and password is not None):
+        user = User(email=email, name=name, password=password)
+        if user is None:
+            return jsonify({'error': 'User could not be created'}), 404
+        else:
+            db.session.add(user)
+            db.session.commit()
+            return jsonify({'success': 'User created.'}), 200
+    else:
+        return jsonify({'error': 'Unauthorized request'}), 403
+    pass
+
+@api_bp.route("/api/add_student", methods=["GET", "POST"])
+def add_student():
+    # Get user id
+    user_id = request.form.get("user_id")
+    balance = request.form.get("balance")
+    admin_id = request.form.get("admin_id")
+    plan_id = request.form.get("plan_id")
+    
+    if(current_user.is_admin() and user_id is not None and balance is not None and admin_id is not None and plan_id is not None):
+        student = Student(user_id=int(user_id),
+                          balance=float(balance), 
+                          admin_id=int(admin_id),
+                          plan_id=int(plan_id) if plan_id is not '' else None)
+        if student is None:
+            return jsonify({'error': 'Student could not be created'}), 404
+        else:
+            db.session.add(student)
+            db.session.commit()
+            return jsonify({'success': 'Student created.'}), 200
+    else:
+        return jsonify({'error': 'Unauthorized request'}), 403
+    pass
+
+# TODO: Implement API endpoint for and editing database items via the inline forms on the dashboard.

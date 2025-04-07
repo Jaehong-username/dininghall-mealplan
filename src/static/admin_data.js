@@ -26,6 +26,27 @@ function ajax(url, method, vars, callback, reflected_element) {
     req.send(vars);
 }
 
+async function addUser() {
+    var form = document.getElementById("new_user_form");
+    const response = await fetch("/api/add_user", {
+        method: "POST",
+        // Set the FormData instance as the request body
+        body: new FormData(form),
+      });
+    getAllUsers("user-entries"); 
+}
+
+async function addStudent() {
+    var form = document.getElementById("new_student_form");
+    const response = await fetch("/api/add_student", {
+        method: "POST",
+        // Set the FormData instance as the request body
+        body: new FormData(form),
+      });
+    getAllStudents("student-entries"); 
+}
+
+
 // Get data from db, must be authenticated as an admin.
 function loadAdminData(db_table, table_element_id) {
     var req = new XMLHttpRequest();
@@ -56,13 +77,17 @@ function deleteUserRequest(id, table) {
     if(confirm("Delete user?")) {
         console.log("Deleting user" + id)
         ajax('/api/delete_user', 'POST', 'id=' + String(id), () => {}, null);
-        getAllUsers(table)
+        getAllUsers(table);
     }
 }
 
 function getAllUsers(table_element) {
     ajax('/api/get_admin_data', 'POST', 'table_id=user', populateUserTable, table_element);
 }
+function getAllStudents(table_element) {
+    ajax('/api/get_admin_data', 'POST', 'table_id=student', populateTable, table_element);
+}
+
 function populateUserTable(jsonData, table_element_id) {
     var t = document.getElementById(table_element_id);
     if(t == null) {

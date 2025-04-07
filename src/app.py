@@ -43,9 +43,6 @@ def create_db():
     with app.app_context():
         # Create all tables
         db.create_all()
-
-        
-            
         
         # TEMP STUDENT FOR TESTING PURPOSES (since no info in database yet)
         existing_user = User.query.filter_by(user_id=1).first()

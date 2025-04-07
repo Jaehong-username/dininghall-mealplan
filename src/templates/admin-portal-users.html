@@ -9,10 +9,13 @@
 
 <h2>User accounts:</h2>
 <div id="userTable">
-    <button onclick="toggleElement('newUserForm');">Add User</button>
+    <button onclick="toggleElement('newUserFormContainer');">Add User</button>
     <button onclick="toggleElement('editUserForm');">Edit User</button>
-    <div class="inlineForm hidden" id="newUserForm">
-        <form>
+    <div class="inlineForm hidden" id="newUserFormContainer">
+        <form action="javascript:addUser()" method="post" id="new_user_form">
+            {% if message %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endif %}
             {% with f = user_forms["new_user_form"] %}
             {{ message }}
             {{ f.hidden_tag() }}
@@ -44,7 +47,7 @@
     <h2>Students:</h2>
     <button onclick="toggleElement('newStudentForm');">Add Student</button>
     <div class="inlineForm hidden" id="newStudentForm">
-        <form>
+        <form  action="javascript:addStudent()" method="post" id="new_student_form">
             {% with f = user_forms["new_student_form"] %}
             {{ message }}
             {{ f.hidden_tag() }}
