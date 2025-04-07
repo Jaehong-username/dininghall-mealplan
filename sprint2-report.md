@@ -27,6 +27,10 @@ Here are links to the issues that we completed in this sprint:
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/38
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/39
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/40
+* https://github.com/Jaehong-username/dininghall-mealplan/issues/42
+* https://github.com/Jaehong-username/dininghall-mealplan/issues/43
+* https://github.com/Jaehong-username/dininghall-mealplan/issues/44
+* https://github.com/Jaehong-username/dininghall-mealplan/issues/45
 
 ## Incomplete Issues/User Stories
 Here are links to issues we worked on but did not complete in this sprint:
