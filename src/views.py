@@ -23,7 +23,8 @@ def login():
             
             next_url = request.args.get("next")
             next_url = next_url or request.form.get("next")
-            if(next_url is not None and next_url != ''):
+            
+            if(next_url is not None and next_url != '' and next_url != 'None'):
                 print("Redirecting to URL: " + str(next_url))
                 return redirect(next_url)
             else:
