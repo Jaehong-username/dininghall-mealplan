@@ -3,7 +3,6 @@ Video Link:
 
 ## What's New (User Facing)
 * Feature 3: Display Menus, Nutritional Information, and Food Ingredients
-* Feature 6: Employees’ Ability to Upload Menu/Meal Photos
 * Feature 7: Managers’ Ability to Post Dietary Restrictions
 * Feature 10: User Feedback System for Dining Hall Services
 * Feature 11: Admin Portal to Manage Menus, Meal Plans, and Usage Reports
@@ -15,7 +14,6 @@ During Sprint 2, we decided to split up our tasks to make sure that everyone wou
 ## Completed Issues/User Stories
 Here are links to the issues that we completed in this sprint:
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/3
-* https://github.com/Jaehong-username/dininghall-mealplan/issues/6
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/7
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/10
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/25
@@ -33,8 +31,9 @@ Here are links to the issues that we completed in this sprint:
 ## Incomplete Issues/User Stories
 Here are links to issues we worked on but did not complete in this sprint:
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/4: This feature was not implemented due to time constraints and overlapping tasks; managers are unable to track meal usage without having a portal implemented.
+* https://github.com/Jaehong-username/dininghall-mealplan/issues/6: This feature was not fully implemented during Sprint 2 due to time constraints and focus placed on the admin portal. We aim to complete this feature by the end of the next sprint.
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/9: This feature was not fully implemented due to the complexity of user authorization in our application; in order to have a password change functionality, the server would have to send an email to the user.
-* * https://github.com/Jaehong-username/dininghall-mealplan/issues/11: This feature was not fully implemented due to time constraints; however, it has partially been completed. We aim to complete this feature by the end of the next sprint.
+* https://github.com/Jaehong-username/dininghall-mealplan/issues/11: This feature was not fully implemented due to time constraints; however, it has partially been completed. We aim to complete this feature by the end of the next sprint.
 
 * Our group decided to discuss and plan how to approach these issues in our next sprint.
 
