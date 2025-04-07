@@ -34,4 +34,11 @@ def get_admin_data():
             print("Error retrieving data.")
     abort(403)
     
+    
+@api_bp.route("/api/delete_user", methods=["GET", "POST"])
+def delete_entry():
+    # Get user id
+    key = request.form.get("id")
+    
+    pass
 # TODO: Implement API endpoint for adding, deleting, and editing database items via the inline forms on the dashboard.
