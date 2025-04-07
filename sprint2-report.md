@@ -1,10 +1,10 @@
 # Sprint 2 Report
-Video Link:
+Video Link: https://www.youtube.com/watch?v=LKqO8qhN3Gc
 
 ## What's New (User Facing)
 * Feature 3: Display Menus, Nutritional Information, and Food Ingredients
 * Feature 7: Managers’ Ability to Post Dietary Restrictions
-* Feature 10: User Feedback System for Dining Hall Services
+* Feature 10, 42, 43, 44, 45: User Feedback System for Dining Hall Services
 * Feature 11: Admin Portal to Manage Menus, Meal Plans, and Usage Reports
 * Feature 25, 31, 40: Today’s Menu, Manage Meal Plan, & Meal Feedback UI
 * Feature 42, 43, 44, 45: Create Feedback Page List, Post Meal Page, Setting up new models for comment feature, Create forms for post meal and comment  
