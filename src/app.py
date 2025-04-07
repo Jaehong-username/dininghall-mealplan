@@ -129,7 +129,10 @@ def load_user(id):
     return User.query.get(int(id))
 login_manager.init_app(app)
 
-
+@login_manager.unauthorized_handler
+def unauthorized():
+    print(f"Redirecting to login: {url_for(login_manager.login_view, next=request.url)}")
+    return redirect(url_for(login_manager.login_view, next=request.url))
 
 
 

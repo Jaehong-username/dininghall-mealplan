@@ -65,6 +65,9 @@ class User(UserMixin, db.Model):
             return True
         else:
             return False
+        
+    def set_password(self, new_pw):
+        self.password = bcrypt.generate_password_hash(new_pw)
 
 # ---------- [ENTITY SETS] ----------
 # Admin table (only one admin in system)

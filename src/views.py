@@ -19,7 +19,15 @@ def login():
         # User was found with matching credentials
         if user is not None:
             login_user(user)
-            return redirect(url_for('views.dashboard'))
+            print(request.args.get("next"))
+            
+            next_url = request.args.get("next")
+            next_url = next_url or request.form.get("next")
+            if(next_url is not None and next_url != ''):
+                print("Redirecting to URL: " + str(next_url))
+                return redirect(next_url)
+            else:
+                return redirect(url_for('views.dashboard'))
         else:
             message = "ERROR: Incorrect username or password!"
     return render_template('login.html', form=form, message=message)

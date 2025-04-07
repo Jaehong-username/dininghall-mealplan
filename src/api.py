@@ -91,4 +91,28 @@ def add_student():
         return jsonify({'error': 'Unauthorized request'}), 403
     pass
 
+@api_bp.route("/api/edit_user", methods=["GET", "POST"])
+def edit_user():
+    # Get user id
+    user_id = request.form.get("user_id")
+    email = request.form.get("email")
+    name = request.form.get("name")
+    password = request.form.get("password")
+    
+    if(current_user.is_admin() and user_id is not None):
+        user = User.query.get(int(user_id))
+        if user is None:
+            return jsonify({'error': 'User not found'}), 404
+        else:
+            if email is not None and email is not '':
+                user.email = email
+            if name is not None and name is not '':
+                user.name = name
+            if password is not None and password is not '':
+                user.set_password(password)
+            
+            db.session.commit()
+            return jsonify({'success': 'User updated.'}), 200
+    else:
+        return jsonify({'error': 'Unauthorized request'}), 403
 # TODO: Implement API endpoint for and editing database items via the inline forms on the dashboard.

@@ -36,6 +36,17 @@ async function addUser() {
     getAllUsers("user-entries"); 
 }
 
+async function updateUser() {
+    var form = document.getElementById("update_user_form");
+    const response = await fetch("/api/edit_user", {
+        method: "POST",
+        // Set the FormData instance as the request body
+        body: new FormData(form),
+      });
+    getAllUsers("user-entries"); 
+}
+
+
 async function addStudent() {
     var form = document.getElementById("new_student_form");
     const response = await fetch("/api/add_student", {

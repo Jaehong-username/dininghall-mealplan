@@ -26,7 +26,7 @@
         </form>
     </div>
     <div class="inlineForm hidden" id="editUserForm">
-        <form>
+        <form action="javascript:updateUser()" method="post" id="update_user_form">
             {% with f = user_forms["edit_user_form"] %}
             {{ message }}
             {{ f.hidden_tag() }}
