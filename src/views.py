@@ -106,6 +106,7 @@ def view_menu_options():
 
 # choose meal plan (with id)
 @views.route('/meal-plan', methods=['GET', 'POST'])
+@login_required
 def meal_plan_id():
     # form for updating meal plan
     form = MealPlanForm()
