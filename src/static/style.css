@@ -116,7 +116,7 @@ body{
     font-family: Lora;
 }
 
-.contact-message{
+.message{
     width: 450px;
     height: 600px;
     background: rgba(205, 160, 70, 0.8);
@@ -125,7 +125,9 @@ body{
 }
 
 .message-form input{
-    height: 130px; width: 330px;
+    height: 200px; width: 330px;
+    border-radius: 30px;
+    
 }
 
 .cafeteria-container{
@@ -197,4 +199,87 @@ body{
 
 .remember-link p a:hover{
     text-decoration: underline;
+}
+
+
+.meal-feedback{
+    width: 350px;
+    height: 500px;
+    background: rgba(215, 198, 46, 0.8);
+    border-radius: 30px;
+    padding: 10px;
+}
+
+
+.fa-star {
+    font-size: 35px !important;
+    color: gray;
+    cursor: pointer; /*signals users that the is clickable*/
+    transition: color 0.2s; /*the color will fade instead of fading instantly*/
+}
+
+/*when selecting the star or hovering the stars*/
+.fa-star.hover,
+.fa-star.selected {
+    color: orange;
+}
+
+
+#imagePreview {
+    max-height: 300px;
+    display: none;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+#feedback {
+    gap: 20px; /*to create some space between eACH DIP*/
+}
+
+#nutrition_info{
+    height: 350px;
+}
+
+.dropdown{
+    display: inline-block;
+}
+
+.dropdown button{
+    background-color:rgb(201, 109, 47);
+    color:rgb(255, 255, 255);
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    width: 300px; /* Set a fixed width (optional) */
+}
+
+.dropdown a{
+    display: block;
+    color: black;
+    text-decoration: none;
+    padding: 15px;
+}
+
+.dropdown .content{
+    display: none;
+    position: absolute;
+    background-color: burlywood;
+    min-width: px;
+    box-shadow: 2px 2px 5px hsla;
+    overflow-y: auto; /* Enable vertical scrolling */
+    
+}
+
+.dropdown:hover .content{
+    display: block;
+}
+
+.dropdown:hover button{
+    background-color: bisque;
+}
+
+#postmeal{
+    gap: 3px;
+    height: 500px;
 }

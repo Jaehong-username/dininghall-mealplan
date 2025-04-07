@@ -2,4 +2,5 @@
 venv/
 src/__pycache__/
 src/*.egg-info
-src/data/*.db
+# src/data/*.db
+src/data
