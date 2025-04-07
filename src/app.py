@@ -1,6 +1,8 @@
 #flask library packages
 from flask import Flask, render_template, url_for, redirect
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
 from flask_login import UserMixin,LoginManager, login_user, logout_user, current_user, login_required
 # Flask forms extension packages
 from flask_wtf import FlaskForm, CSRFProtect
@@ -30,16 +32,25 @@ app.register_blueprint(api_bp)
 # Create all databases if they don't exist
 db.init_app(app)
 
+# Enable foreign key constraints for SQLite every query connection.
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
+
 def create_db():
     with app.app_context():
+        # Create all tables
         db.create_all()
+
+        
+            
         
         # TEMP STUDENT FOR TESTING PURPOSES (since no info in database yet)
-        # to clean out (ONLY DO WITH NON-IMPORTANT DB): rm database.db & rerun code after commenting code out
         existing_user = User.query.filter_by(user_id=1).first()
-        if (existing_user):
+        if existing_user:
             print("Temp user exists")
-        
         else:
             temp_user = User(
                 name="test",
@@ -58,22 +69,23 @@ def create_db():
             db.session.commit()
 
             temp_admin = Admin(
-                admin_id = admin_user.user_id
+                admin_id=admin_user.user_id
             )
-
+            db.session.add(temp_admin)
+            db.session.commit()
+            
             temp_student = Student(
                 user_id=temp_user.user_id,
                 balance=1000.00,
                 admin_id=temp_admin.admin_id,
-                plan_id=1
+                plan_id=None
             )
             
             db.session.add(temp_student)
-            db.session.add(temp_admin)
             db.session.commit()
 
-create_db() ## Create all databasees if they don't exist
 
+create_db() ## Create all databasees if they don't exist
 ### -- Routes -- ###
 @app.route("/")
 def index():

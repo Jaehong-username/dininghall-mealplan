@@ -70,7 +70,7 @@ class User(UserMixin, db.Model):
 # Admin table (only one admin in system)
 class Admin(db.Model):
     __tablename__ = 'admin'
-    admin_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='cascade'), primary_key=True)
+    admin_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='CASCADE'), primary_key=True)
     manager_id = db.Column(db.Integer, db.ForeignKey('manager.manager_id'))        
     
     def to_dict(self):
@@ -91,7 +91,7 @@ class Admin(db.Model):
 # Manager table
 class Manager(db.Model):
     __tablename__ = 'manager'
-    manager_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='cascade'), primary_key=True)
+    manager_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='CASCADE'), primary_key=True)
 
     def to_dict(self):
         # Return table data in a json-ifiable format
@@ -106,11 +106,11 @@ class Manager(db.Model):
 # Student table
 class Student(db.Model):
     __tablename__ = 'student'
-    user_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='cascade'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='CASCADE'), primary_key=True)
     balance = db.Column(db.Float, nullable=False)
-    admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))  # foreign key to admin (many-to-one)
+    admin_id = db.Column(db.Integer, db.ForeignKey(Admin.admin_id, ondelete='SET NULL'))  # foreign key to admin (many-to-one)
     # vars for managing meal plan
-    plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.plan_id')) # foreign key to specific meal plan
+    plan_id = db.Column(db.Integer, db.ForeignKey("meal_plan.plan_id", ondelete='SET NULL')) # foreign key to specific meal plan
 
     def to_dict(self):
         # Return table data in a json-ifiable format
@@ -138,7 +138,7 @@ class Student(db.Model):
 # Employee table
 class Employee(db.Model):
     __tablename__ = 'employee'
-    employee_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='cascade'), primary_key=True)
+    employee_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='CASCADE'), primary_key=True)
     menu_id = db.Column(db.Date, db.ForeignKey('menu.date'))                                # foreign key to menu (many-to-one)
 
     def to_dict(self):
