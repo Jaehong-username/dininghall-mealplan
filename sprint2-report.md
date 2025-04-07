@@ -4,7 +4,7 @@ Video Link: https://www.youtube.com/watch?v=LKqO8qhN3Gc
 ## What's New (User Facing)
 * Feature 3: Display Menus, Nutritional Information, and Food Ingredients
 * Feature 7: Managers’ Ability to Post Dietary Restrictions
-* Feature 10, 42, 43, 44, 45: User Feedback System for Dining Hall Services
+* Feature 10: User Feedback System for Dining Hall Services
 * Feature 11: Admin Portal to Manage Menus, Meal Plans, and Usage Reports
 * Feature 25, 31, 40: Today’s Menu, Manage Meal Plan, & Meal Feedback UI
 * Feature 42, 43, 44, 45: Create Feedback Page List, Post Meal Page, Setting up new models for comment feature, Create forms for post meal and comment  
@@ -84,7 +84,7 @@ Please review the following code files, which were actively developed during thi
     * [menu-details.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/templates/menu-details.html)
     * [feedback-page.html(post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/templates/feedback-page.html)
     * [meal-feedback-list.html (post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/templates/meal-feedback-list.html)
-    * [post-meal.html (post)][https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/templates/post-meal.html]
+    * [post-meal.html (post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/templates/post-meal.html)
 
 ## Retrospective Summary
 Here's what went well:
