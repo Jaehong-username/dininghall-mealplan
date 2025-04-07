@@ -7,6 +7,7 @@ Video Link:
 * Feature 10: User Feedback System for Dining Hall Services
 * Feature 11: Admin Portal to Manage Menus, Meal Plans, and Usage Reports
 * Feature 25, 31, 40: Today’s Menu, Manage Meal Plan, & Meal Feedback UI
+* Feature 42, 43, 44, 45: Create Feedback Page List, Post Meal Page, Setting up new models for comment feature, Create forms for post meal and comment  
 
 ## Work Summary (Developer Facing)
 During Sprint 2, we decided to split up our tasks to make sure that everyone would be able to contribute to the sprint. We worked on both frontend and backend to ensure that there would be steady progress in the overall project. On the frontend, we refined the visual design to create a more cohesive look while also creating new pages such as meal plan, today’s menu, admin portal, and feedback page. Meanwhile, the backend focused on enabling core functionality features that allowed us to focus more on authorization and permissions for features such as the admin portal, and database models. Due to the importance of databases in this project, we ensured to refine and use our models efficiently in order to complete our tasks. 
