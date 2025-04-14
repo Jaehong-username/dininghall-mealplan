@@ -247,7 +247,7 @@ body{
     width: 300px; /* Set a fixed width */
     background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
-    text-align: center;
+    text-align: left;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
 }
