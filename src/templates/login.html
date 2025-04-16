@@ -13,8 +13,7 @@
             {{ form.hidden_tag() }}
             {% for field in form if field.widget.input_type != 'hidden' %}
             <div class = "input-box">
-                {{ field }}
-                <label>{{ field.label }}</label>
+                {{ field(placeholder=field.label.text) }}
             </div>
             {% endfor %}
             

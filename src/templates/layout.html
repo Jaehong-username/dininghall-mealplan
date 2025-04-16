@@ -21,7 +21,7 @@
             {% else %}
                 <a href = "{{ url_for('views.login') }}">Login</a>
             {% endif %}
-            <a href = "#">Meal Plan</a>
+            <a href = "{{ url_for('views.meal_plan_id') }}">Meal Plan</a>
             <a href = "#">Feedback</a>
             <a href = "{{ url_for('views.contact') }}">Contact</a>   
         </nav>
