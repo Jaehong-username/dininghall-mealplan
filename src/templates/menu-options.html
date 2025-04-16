@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Add Items to Menu{% endblock %}
+
+{% block content %}
+
+    <div style="text-align:center">
+        
+        <h1 class = "title">{{ menu.location }} </h1>
+        <hr>
+        
+        <h1 class = "subtitle">Today's Menu:</h1>
+        <!-- convert ot string version of date -->
+        <h2 class = "subtitle"> {{ menu.date.strftime('%A, %B %d') }} </h2>
+        <br>
+    
+    </div>
+    
+{% endblock %}

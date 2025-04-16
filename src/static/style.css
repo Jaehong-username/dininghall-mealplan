@@ -333,3 +333,10 @@ body{
 .remember-link p a:hover{
     text-decoration: underline;
 }
+
+/* manage meal plan */
+.mealplan{
+    width: 1000px;
+    padding: 5px;
+    height: 500px;
+}
