@@ -65,11 +65,8 @@ def create_db():
 
             temp_student = Student(
                 user_id=temp_user.user_id,
-
                 balance=1000.00,
                 #admin_id=1,
-                plan_id=1
-
             )
 
             db.session.add(temp_student)
@@ -86,7 +83,8 @@ def create_db():
         db.session.commit()
 
         # BASE CATEGORIES FOR TESTING
-        # TODO: add location-exclusive category checks? or check if category contains no meals before printing (probably in initalization of menu)
+        # TODO: add location-exclusive category checks?  
+        # TODO: check if category contains no meals before printing?
         base_categories = {
             "Bakery": ["Breakfast", "Brunch", "Lunch", "Dinner"],
             "Build-a-Breakfast Sandwich": ["Breakfast", "Brunch"],
@@ -148,7 +146,7 @@ def create_db():
         db.session.commit()
 
         # MEAL FOR TESTING PURPOSES
-        existing_meal = Meal.query.filter_by(meal_id=1).first()
+        existing_meal = Meal.query.filter_by(id=1).first()
 
         if (existing_meal):
             print("Temp meals exists")
@@ -218,12 +216,13 @@ def create_db():
             db.session.commit()        
 
         # TEMP MENU FOR TESTING PURPOSES (since no info in database yet)
-        existing_menu = Menu.query.filter_by(date=date(2025, 4, 2)).first()
+        existing_menu = Menu.query.filter_by(id=1).first()
         
         if (existing_menu):
             print("Temp menu exists")
 
         else:
+            
             temp_menu = Menu(
                 date = date(2025, 4, 2),
                 location = "Northside"
@@ -239,38 +238,6 @@ def create_db():
 
             db.session.add(temp_menu)
             db.session.commit()
-
-# ### -- Routes -- ###
-# @app.route("/")
-# def index():
-#     return render_template("index.html")
-
-# # choose meal plan (with id)
-# @app.route("/<int:student_id>/meal-plan", methods=["GET", "POST"])
-# def meal_plan_id(student_id):
-
-#     # find student in database
-#     student = Student.query.filter_by(user_id=student_id).first()
-    
-#     # display error & return to home if student not found
-#     if not student:
-#         print("Student does not exist")
-#         return "<h3>Student does not exist!</h3>" \
-#         "<form action='/'><button type='submit'>Return Home</button></form>"
-    
-#     # updating meal plan
-#     if request.method == 'POST':
-#         print("Now changing meal plan")
-#         updated_plan = request.form.get("plan_id")
-#         student.plan_id = int(updated_plan)
-#         db.session.commit() # update in database
-
-#     return render_template("meal-plan.html", student=student)
-
-# # choose meal plan (without id)
-# @app.route("/meal-plan")
-# def meal_plan():
-#     return render_template("meal-plan.html")
         
 ### Program entrypoint (place at bottom of script)
 create_db() ## Create all databasees if they don't exist
@@ -285,8 +252,6 @@ login_manager.login_view = 'views.login'
 def load_user(id):
     return User.query.get(int(id))
 login_manager.init_app(app)
-
-
 
 def allowed_file(filename):
     return '.' in filename and \
