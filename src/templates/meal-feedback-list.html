@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+
+{% block title %}Feedback{% endblock %}
+
+{% block content %}
+    <h1 class = "title">Meal Feedback List</h1>
+    <h2 class = "subtitle">Do you want to see what other students think of the meal?</h2>
+    <div class = "cafeteria-container" id="feedback">
+        
+        <div class = "cafeteria">
+            <h2>Selected Meal</h2>
+            <img src="/static/images/foodfeedbackgood.png" alt="image">
+            <div class = "cafeteria-info">
+                <ul> <!--Unordered lsit using dot-->
+                    <li>Meal Name: Egg Scramble</li>
+                    <li>Price: </li>
+                    <li>Ingredients: </li>
+                    <li>Dietary Restriction: </li>
+                </ul>  
+            </div>
+        </div>
+        
+        
+        <div class = "meal-feedback">
+            <p>Average Rating: {{ avg_rating }}</p>
+
+            <div class="feedback">
+                {% for student, comment in comments.items() %}
+                    <h2>{{ student }}</h2> <!-- Display the student's name -->
+                    <ul>
+                        
+                        <li>{{ comment }}</li> <!-- Display each comment for the student -->
+                        
+                    </ul>
+                {% endfor %}
+            </div>
+            
+        </div>
+        
+        <div class = "meal-feedback">
+            <div class="feedback">
+                {% for student, comment in another_comments.items() %}
+                    <h2>{{ student }}</h2> <!-- Display the student's name -->
+                    <ul>
+                        
+                        <li>{{ comment }}</li> <!-- Display each comment for the student -->
+                        
+                    </ul>
+                {% endfor %}
+            </div>
+            <div class = "form-info">
+                <h2>Please let others know of your thought!</h2>
+                <a href="{{ url_for('views.feedback') }}" class="btn btn-success">Comment</a>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+    
+    
+{% endblock %}

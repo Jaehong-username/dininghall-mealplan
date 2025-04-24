@@ -156,3 +156,41 @@ def confirm_email():
 @views.route('/change-password', methods=['GET', 'POST'])
 def change_password():
     return render_template('change-password.html')
+
+@views.route('/feedback-page', methods=['GET', 'POST'])
+def feedback():
+    return render_template('feedback-page.html')
+
+
+@views.route('/feedback-page', methods=['POST'])
+def submit_rating():
+    rating = request.form.get('rating')
+    print(f'User submitted rating: {rating}')
+    # You can store this rating in your database here
+    return redirect(url_for('views.feedback'))  # Or show a "Thank you" page
+
+@views.route('/post-meal', methods=['GET', 'POST'])
+def post_meal():
+    return render_template('post-meal.html')
+
+
+@views.route('/meal-feedback-list', methods=['GET', 'POST'])
+def meal_feedback_list():
+    # Sample data - a list of comments
+    students = ['Student1', 'Student2', 'Student3', 'Student4']
+    
+    comments = {
+        'student1': 'It was great food',
+        'student2': 'The egg scramble was pretty dried.',
+        'student3': 'It looks different from what I expected.',
+        'student4': 'Its okay.',
+        'student5': 'It was great food'
+    }
+    
+    another_comments = {
+        'student6': 'Great food.',
+        'student7': 'I liked how the eggs tasted!',
+        'student8': 'Its alright.'
+    }
+    avg_rating = 3.5
+    return render_template('meal-feedback-list.html', comments = comments, avg_rating = avg_rating, another_comments = another_comments)

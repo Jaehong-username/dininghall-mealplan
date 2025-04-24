@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block title %}Post Meal{% endblock %}
+
+{% block content %}
+    <h1 class = "title">Post Meal</h1>
+    <h2 class = "subtitle">Posting a meal plan for students to view today's meal in detail!</h2>
+    <div class = "cafeteria-container" id="postmeal">
+        
+        <div class = "meal-feedback">
+            <!-- File Upload Form -->
+            
+            <h2>Upload an Image</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" id="fileInput" accept="image/*">
+                <br><br>
+                <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
+                <br><br>
+                <input type="submit" value="Upload">
+            </form>
+            
+            <!-- Display uploaded image -->
+            {% if filename %}
+                <h2>Uploaded Image:</h2>
+                <img src="{{ url_for('uploaded_file', filename=filename) }}" width="300">
+            {% endif %}
+            
+        </div>
+        
+        <div class = "meal-feedback">
+            <div class = "form-info">
+                <h2>Meal Information</h2>
+                <form action = "#" method = "get">
+                    
+                    <div class = "input-box">
+                        <input type = "name" required>
+                        <label>Meal Name: </label>
+                    </div>
+                    
+                    <div class = "input-box">
+                        <input type = "name" required placeholder="Enter your username">
+                        <label>Menu Name: </label>
+                    </div>
+                    
+                    <div class = "input-box">
+                        <input type = "price" required placeholder="$7.99">
+                        <label>Price: </label>
+                    </div>
+                    
+                        <div class = "input-box" id= "menu">
+                            <input type = "menu" required id = "menu-input" placeholder="Please choose one" readonly>
+                            <label>Menu: </label>
+                        </div>
+                    
+                        <div class = "dropdown">
+                            <button>Menu</button>
+                            <div class = "content">
+                                <a href="#" onclick="setValue('Northside Breakfast Menu')">Northside Breakfast Menu</a>
+                                <a href="#" onclick="setValue('Northside Lunch Menu')">Northside Lunch Menu</a>
+                                <a href="#" onclick="setValue('Northside Dinner Menu')">Northside Dinner Menu</a>
+                                <a href="#" onclick="setValue('Southside Breakfast Menu')">Southside Breakfast Menu</a>
+                                <a href="#" onclick="setValue('Southside Lunch Menu')">Southside Lunch Menu</a>
+                                <a href="#" onclick="setValue('Southside Dinner Menu')">Southside Dinner Menu</a>
+                                <a href="#" onclick="setValue('Hillside Breakfast Menu')">Hillside Breakfast Menu</a>
+                                <a href="#" onclick="setValue('Hillside Lunch Menu')">Hillside Lunch Menu</a>
+                                <a href="#" onclick="setValue('Hillside Dinner Menu')">Hillside Dinner Menu</a>
+                                
+                            </div>
+                        </div>
+                        
+                        
+                    
+                </form>
+            </div>
+        </div>
+        
+        <div class = "meal-feedback">
+            <div class = "form-box login">
+                <form action = "#" method = "get"> 
+                    
+                        
+                    <h2>Food Nutrition</h2>
+                        
+                    <div class ="message-form">
+                        <label>Please start typing here</label>
+                        <br/>
+                        <input type="text" name="message" value="" placeholder="Calories: 95 kcal, Total Fat: 0.3 g, etc." id ="nutrition_info">
+                    </div>
+                    
+                    
+                    <button type="button" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class = "meal-feedback">
+            <div class = "form-box login">
+                <form action = "#" method = "get" onsubmit="return validateEmail()"> 
+                    
+                        
+                    <h2>Dietary Restriction</h2>
+                        
+                    <div class ="message-form">
+                        <label>Please start typingh here</label>
+                        <br/>
+                        <input type="text" name="message" value="">
+                    </div>
+                    
+                    
+                    <div class = "input-box">
+                        <input type = "category" required placeholder="Soups">
+                        <label>Menu Category: </label>
+                    </div>
+                    
+                    <button type="button" class="btn btn-success">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    
+{% endblock %}
