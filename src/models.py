@@ -61,10 +61,13 @@ class Manager(db.Model):
 class Student(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
     balance = db.Column(db.Float, nullable=False)
-    
+    admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))                       # foreign key to admin (many-to-one)
+    plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.plan_id'))                     # vars for managing meal plan
+
     def __init__(self, user_id, balance):
         self.user_id = user_id
         self.balance = balance
+        plan_id = 0                                                                         # initialize to 0, student can choose meal plan in manage meal plan page
     
     def get_student_by_id(uid):
         st = Student.query.filter_by(user_id = uid).first()
@@ -73,10 +76,12 @@ class Student(db.Model):
             return st
         else:
             return None
+
     admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))                       # foreign key to admin (many-to-one)
 
     # vars for managing meal plan
     plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.plan_id'))                      # foreign key to specific meal plan
+
 
     # relationships
     user = db.relationship('User')
@@ -101,6 +106,13 @@ class Meal_Plan(db.Model):
 class Menu(db.Model):
     date = db.Column(db.Date, primary_key=True)
     location = db.Column(db.String, nullable=False)
+
+
+    # constructor
+    def __init__(self, date, location):
+        self.date = date
+        self.location = location
+
     
     # relationships
     meal_categories = db.relationship('Meal_Category', secondary='Menu_Meal_Categories')    # multi-valued attribute
@@ -110,11 +122,23 @@ class Menu(db.Model):
 
 # Meal table
 class Meal(db.Model):
-    meal_id = db.Column(db.Integer, primary_key=True)
+
+    meal_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    meal_name = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
     number_sold = db.Column(db.Integer, nullable=False)
+    # type = db.Column(db.String, nullable=False)                                             # breakfast, lunch, or dinner               
+
+    # constructor
+    def __init__(self, meal_name, price, number_sold):
+        self.meal_name = meal_name
+        self.price = price
+        self.number_sold = number_sold
 
     # relationships
+    categories = db.relationship('Meal_Category', secondary='Meal_Meal_Categories')                 # assigining each meal to a category
+    types = db.relationship('Meal_Type', secondary="Meal_Types")                                    # each meal can have a type
+
     menus = db.relationship('Menu', secondary='Menu_Meals')                                         # multi-valued attribute
     restrictions = db.relationship('Dietary_Restriction', secondary='Meal_Dietary_Restrictions')    # multi-valued attribute
     infos = db.relationship('Nutritional_Information', secondary='Meal_Nutritional_Informations')   # multi-valued attribute
@@ -126,9 +150,22 @@ class Meal(db.Model):
 class Meal_Category(db.Model):
     __tablename__ = 'meal_category'                                                         # fixing errors with naming
     category = db.Column(db.String, primary_key = True)
-    
+
+
     # relationships
     menus = db.relationship('Menu', secondary='Menu_Meal_Categories')                       # multi-valued attribute
+    meals = db.relationship('Meal', secondary='Meal_Meal_Categories')                       # each meal can have category
+    types = db.relationship('Meal_Type', secondary="Meal_Category_Types")                   # each meal can have a type
+
+# Meal_Type (for assigning each category a type; can be multiple)
+class Meal_Type(db.Model):
+    __tablename__ = 'meal_type'
+    type = db.Column(db.String, primary_key = True)
+
+    # relationships
+    categories = db.relationship('Meal_Category', secondary="Meal_Category_Types")          # each category can have a type
+    meals = db.relationship('Meal', secondary="Meal_Types")                                 # each meal can have a type
+
 
 # Dietary_Restrictions (multi-valued) table for Meal
 class Dietary_Restriction(db.Model):
@@ -175,6 +212,22 @@ Meal_Nutritional_Informations = db.Table (
     db.Column('info', db.ForeignKey('nutritional_information.info'), primary_key=True)
 )
 
+
+# Meal_Category & Type
+Meal_Category_Types = db.Table (
+    'Meal_Category_Types',
+    db.Column('category', db.ForeignKey('meal_category.category'), primary_key=True),
+    db.Column('type', db.ForeignKey('meal_type.type'), primary_key=True)
+)
+
+# Meal & Type
+Meal_Types = db.Table (
+    'Meal_Types',
+    db.Column('meal_id', db.ForeignKey('meal.meal_id'), primary_key=True),
+    db.Column('type', db.ForeignKey('meal_type.type'), primary_key=True)
+)
+
+
 # ---------- [MANY-TO-MANY RELATIONSHIP TABLES] ----------
 #  Student and Meal table
 Students_Meals = db.Table (
@@ -209,4 +262,13 @@ Employees_Meals = db.Table (
     'Employees_Meals',
     db.Column('employee_id', db.ForeignKey('employee.employee_id'), primary_key=True),
     db.Column('meal_id', db.ForeignKey('meal.meal_id'), primary_key=True)
+
+)
+
+# ---------- [OTHER RELATIONSHIP TABLES] ----------
+Meal_Meal_Categories = db.Table (
+    'Meal_Meal_Categories',
+    db.Column('meal_id', db.ForeignKey('meal.meal_id'), primary_key=True),
+    db.Column('category', db.ForeignKey('meal_category.category'), primary_key=True)
+
 )

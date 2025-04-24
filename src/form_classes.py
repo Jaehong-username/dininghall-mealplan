@@ -32,3 +32,13 @@ class LoginForm(FlaskForm):
                              InputRequired(), Length(min=0, max=255)], render_kw={"placeholder": "Password"})
 
     submit = SubmitField('Login')
+
+
+class MealPlanForm(FlaskForm):
+    plan_id = SelectField(
+        choices=[(1, 'Level 1'), (2, 'Level 2'), (3, 'Level 3')],
+        validators=[DataRequired()],
+        render_kw={"class": "meal-form-class"}
+    )
+
+    submit = SubmitField('Confirm Plan', render_kw={"class": "meal-plan-btn"})
