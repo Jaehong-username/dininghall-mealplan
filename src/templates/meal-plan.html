@@ -2,50 +2,8 @@
 {% extends "layout.html" %}
 
 {% block title %}Dining Hall Meal Plan Manager{% endblock %}
-{% extends "layout.html" %}
-
-{% block title %}Dining Hall Meal Plan Manager{% endblock %}
 
 {% block content %}
-
-
-<!-- Displaying basic information -->
-    <h1>Welcome to the Meal Plan Page</h1>
-    <hr>
-
-    <h2>Student Information</h2>
-    <p><b>Name:</b> {{ student.user.name }}</p>
-    <p><b>ID:</b> {{ student.user.user_id }}</p>
-    <p><b>Email:</b> {{ student.user.email }}</p>
-    <p><b>Current Plan:</b> {{ student.plan_id }}</p>
-    <p><b>Balance:</b> {{ student.balance }}</p>
-    <br><hr>
-
-    <!-- Option to change meal plan -->
-    <h2>Change Meal Plan</h2>
-
-    <label for="plan_id">Choose a Meal Plan Level:</label>
-
-    <form method="POST">
-        <select name="plan_id" id="plan_id">
-            <option value="1">Level 1</option>
-            <option value="2">Level 2</option>
-            <option value="3">Level 3</option>
-        </select>
-        <button type="submit">Confirm Plan</button>
-    </form>
-    <br><hr>
-
-    <!-- Option to return home -->
-    <h2>Return to Homescreen</h2>
-
-    <form action='/'>
-        <button type='submit'>Return Home</button>
-    </form>
-    <br><hr>
-
-
-
 
 <div class="container mt-5 d-flex justify-content-center">
     <div class="w-100" style="max-width: 600px;"> <!-- Constrain width -->

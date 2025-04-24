@@ -17,6 +17,7 @@
         <nav class = "navbar">
             <a href = "{{ url_for('views.home') }}">Home</a> <!--the name of the function-->
             <a href = "{{ url_for('views.view_dining_halls') }}">Today's Menu</a>
+            
             {% if current_user.is_authenticated %}
                 <a href="{{url_for('views.dashboard')}}">Dashboard</a>
                 <a href="{{ url_for('views.meal_plan_id') }}">Meal Plan</a>
@@ -24,12 +25,9 @@
                 <a href = "{{ url_for('views.login') }}">Login</a>
             {% endif %}
 
-            <a href = "#">Meal Plan</a>
             <a href = "{{ url_for('views.meal_feedback_list') }}">Feedback</a> <!--should be the name of the url-->
             <a href = "{{ url_for('views.contact') }}">Contact</a>
-            <a href = "{{url_for ('views.post_meal')}}">Upload Meal</a>
-            <a href = "{{ url_for('views.meal_plan_id') }}">Meal Plan</a>
-           
+            <a href = "{{url_for ('views.post_meal')}}">Upload Meal</a>           
 
         </nav>
     </header>
