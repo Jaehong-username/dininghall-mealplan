@@ -20,8 +20,8 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "data/database.db")
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/14253/Desktop/dininghall-mealplan-1/data/database.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "data/database.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/14253/Desktop/dininghall-mealplan-1/data/database.db'
 bcrypt = Bcrypt(app)
 
 
@@ -259,7 +259,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # upload file images
-@app.route('/comment-page', methods=['GET', 'POST'])
+@app.route('/feedback-page', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
         #check if the post request has the file part
