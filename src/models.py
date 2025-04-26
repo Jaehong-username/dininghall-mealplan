@@ -79,7 +79,7 @@ class Admin(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "!admin_id": self.admin_id,
+            "!id": self.admin_id,
             "manager_id": self.manager_id
         }
     
@@ -118,7 +118,7 @@ class Student(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "!user_id": self.user_id,
+            "!id": self.user_id,
             "balance": self.balance,
             "admin_id": self.admin_id,
             "plan_id": self.plan_id
@@ -142,12 +142,12 @@ class Student(db.Model):
 class Employee(db.Model):
     __tablename__ = 'employee'
     employee_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='CASCADE'), primary_key=True)
-    menu_id = db.Column(db.Date, db.ForeignKey('menu.date'))                                # foreign key to menu (many-to-one)
+    menu_id = db.Column(db.Integer, db.ForeignKey('menu.id'))                                # foreign key to menu (many-to-one)
 
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "!employee_id": self.employee_id,
+            "!id": self.employee_id,
             "menu_id": self.menu_id
         }
 
@@ -163,7 +163,7 @@ class Meal_Plan(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "!plan_id": self.plan_id,
+            "!id": self.plan_id,
             "price": self.price
         }
 
@@ -172,7 +172,8 @@ class Meal_Plan(db.Model):
 # Menu table
 class Menu(db.Model):
     __tablename__ = 'menu'
-    date = db.Column(db.Date, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Date, unique=True)
     location = db.Column(db.String, nullable=False)
     
     # relationships
@@ -184,6 +185,7 @@ class Menu(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
+            "!id": self.id,
             "date": self.date,
             "location": self.location
         }
@@ -206,7 +208,7 @@ class Meal(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "!meal_id": self.meal_id,
+            "!id": self.meal_id,
             "price": self.price,
             "number_sold": self.number_sold
         }
@@ -214,19 +216,23 @@ class Meal(db.Model):
 # Meal_Category (multi-valued) table for Menu
 class Meal_Category(db.Model):
     __tablename__ = 'meal_category'                                                         # fixing errors with naming
-    category = db.Column(db.String, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String)
     
     # relationships
     menus = db.relationship('Menu', secondary='Menu_Meal_Categories')                       # multi-valued attribute
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
+            "!id": self.id,
             "category": self.category
         }
 
 # Dietary_Restrictions (multi-valued) table for Meal
 class Dietary_Restriction(db.Model):
-    __tablename__ = 'dietary_restriction'                                                   # fixing errors with naming
+    __tablename__ = 'dietary_restriction' 
+    id = db.Column(db.Integer, primary_key=True)
+    # fixing errors with naming
     restriction = db.Column(db.String, primary_key=True)
 
     # relationships
@@ -234,19 +240,22 @@ class Dietary_Restriction(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
+            "!id": self.id,
             "restriction": self.restriction
         }
 
 # Nutritional_Information (multi-valued) table for Meal
 class Nutritional_Information(db.Model):
     __tablename__ = 'nutritional_information'                                               # fixing errors with naming
-    info = db.Column(db.String, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    info = db.Column(db.String)
 
     # relationships
     meals = db.relationship('Meal', secondary='Meal_Nutritional_Informations')              # multi-valued attribute
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
+            "!id": self.id,
             "info": self.info
         }
 

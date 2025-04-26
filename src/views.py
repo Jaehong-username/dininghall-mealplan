@@ -132,7 +132,9 @@ def admin_portal_menus():
     if(admin is None):
         abort(401)
     else:
-        return render_template('admin-portal-menus.html')
+        
+        
+        return render_template('admin-portal-menus.html', new_menu_form = newMenuForm())
 
 @views.route('/admin-portal/mealplans', methods=['GET', 'POST'])
 @login_required
@@ -141,5 +143,4 @@ def admin_portal_mealplans():
     if(admin is None):
         abort(401)
     else:
-        
-        return render_template('admin-portal-mealplans.html')
+        return render_template('admin-portal-mealplans.html', new_mealplan_form = newMealPlanForm())

@@ -12,7 +12,8 @@
     <button onclick="toggleElement('newUserFormContainer');">Add User</button>
     <button onclick="toggleElement('editUserForm');">Edit User</button>
     <div class="inlineForm hidden" id="newUserFormContainer">
-        <form action="javascript:addUser()" method="post" id="new_user_form">
+        <form action="javascript:writeAdminApi('/api/add_user', 'user', 'user-entries', 
+        'new_user_form')" method="post" id="new_user_form">
             {% if message %}
                 <div class="alert alert-info">{{ message }}</div>
             {% endif %}
@@ -26,7 +27,8 @@
         </form>
     </div>
     <div class="inlineForm hidden" id="editUserForm">
-        <form action="javascript:updateUser()" method="post" id="update_user_form">
+        <form action="javascript:writeAdminApi('/api/update_user', 'user', 'user-entries', 
+        'update_user_form')" method="post" id="update_user_form">
             {% with f = user_forms["edit_user_form"] %}
             {{ message }}
             {{ f.hidden_tag() }}
@@ -40,14 +42,15 @@
     <table id="user-entries">
         <tr><td>Loading...</td></tr>
     </table>
-    <script>getAllUsers('user-entries');</script>
+    <script>getDataInTable("user", "user-entries");</script>
 </div>
 <hr>
 <div id="studentTable">
     <h2>Students:</h2>
     <button onclick="toggleElement('newStudentForm');">Add Student</button>
     <div class="inlineForm hidden" id="newStudentForm">
-        <form  action="javascript:addStudent()" method="post" id="new_student_form">
+        <form  action="javascript:writeAdminApi('/api/add_student', 'student', 'student-entries', 
+        'new_student_form')" method="post" id="new_student_form">
             {% with f = user_forms["new_student_form"] %}
             {{ message }}
             {{ f.hidden_tag() }}
@@ -60,14 +63,15 @@
     <table id="student-entries">
         <tr><td>Loading...</td></tr>
     </table>
-    <script>loadAdminData('student', 'student-entries');</script>
+    <script>getDataInTable("student", "student-entries");</script>
 </div>
 <hr>
 <div id="adminTable">
     <h2>Admins:</h2>
     <button onclick="toggleElement('newAdminForm');">Add Admin</button>
     <div class="inlineForm hidden" id="newAdminForm">
-        <form>
+        <form action="javascript:writeAdminApi('/api/add_admin', 'admin', 'admin-entries', 
+        'new_admin_form')" method="post" id="new_admin_form">
             {% with f = user_forms["new_admin_form"] %}
             {{ message }}
             {{ f.hidden_tag() }}
@@ -80,14 +84,15 @@
     <table id="admin-entries">
         <tr><td>Loading...</td></tr>
     </table>
-    <script>loadAdminData('admin', 'admin-entries');</script>
+    <script>getDataInTable("admin", "admin-entries");</script>
 </div>
 <hr>
 <div id="managerTable">
     <h2>Managers:</h2>
     <button onclick="toggleElement('newManagerForm');">Add Manager</button>
     <div class="inlineForm hidden" id="newManagerForm">
-        <form>
+        <form action="javascript:writeAdminApi('/api/add_manager', 'manager', 'manager-entries', 
+        'new_manager_form')" method="post" id="new_manager_form">
             {% with f = user_forms["new_manager_form"] %}
             {{ message }}
             {{ f.hidden_tag() }}
@@ -100,14 +105,15 @@
     <table id="manager-entries">
         <tr><td>Loading...</td></tr>
     </table>   
-    <script>loadAdminData('manager', 'manager-entries');</script>
+    <script>getDataInTable("manager", "manager-entries");</script>
 </div>
 <hr>
 <div id="employeeTable">
     <h2>Employees:</h2>
     <button onclick="toggleElement('newEmployeeForm');">Add Employee</button>
     <div class="inlineForm hidden" id="newEmployeeForm">
-        <form>
+        <form action="javascript:writeAdminApi('/api/add_employee', 'employee', 'employee-entries', 
+        'new_employee_form')" method="post" id="new_employee_form">
             {% with f = user_forms["new_employee_form"] %}
             {{ message }}
             {{ f.hidden_tag() }}
@@ -120,7 +126,7 @@
     <table id="employee-entries">
         <tr><td>Loading...</td></tr>
     </table>
-    <script>loadAdminData('employee', 'employee-entries');</script>
+    <script>getDataInTable("employee", "employee-entries");</script>
 </div>
 <hr>
 {% endblock %}

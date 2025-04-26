@@ -91,7 +91,16 @@ class newStudentForm(FlaskForm):
     
 class newEmployeeForm(FlaskForm):
     user_id = IntegerField(validators=[DataRequired()], render_kw={"placeholder": "Employee user ID"})
-    menu_id = IntegerField(validators=[DataRequired()], render_kw={"placeholder": "Menu ID"})
+    menu_id = IntegerField(render_kw={"placeholder": "Menu ID"})
     
     submit = SubmitField('Add Employee')
     
+class newMenuForm(FlaskForm):
+    date = DateField(validators=[DataRequired()], render_kw={"placeholder": "Date"})
+    location = StringField('Location', validators=[DataRequired()], render_kw={"placeholder": "Location"})
+    
+    submit = SubmitField('Add Menu')
+
+class newMealPlanForm(FlaskForm):
+    price = FloatField(validators=[DataRequired()], render_kw={"placeholder": "Price ($)"})
+    submit = SubmitField('Add Meal Plan')
