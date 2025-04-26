@@ -183,6 +183,34 @@ class Nutritional_Information(db.Model):
     # relationships
     meals = db.relationship('Meal', secondary='meal_nutritional_informations', back_populates='infos')          # multi-valued attribute
 
+
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    # Primary key for each comment
+    comment_id = db.Column(db.Integer, primary_key=True) #make it autom incremented
+    content = db.Column(db.String(500), nullable=False)
+    # Timestamp when the comment was created
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    
+    # Foreign key to Meal model (Many-to-One relationship)
+    meal_id = db.Column(db.Integer, db.ForeignKey('meal.meal_id'), nullable=False)
+    # Foreign key to User model (Many-to-One relationship)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    
+    #The backref='comments' allows you to access all comments related to a specific meal, e.g., meal.comments.
+    # Relationship to the Meal model a meal can have many comments
+    meal = db.relationship('Meal', backref=db.backref('meal_comments', lazy=True))
+    # Relationship to the User model  a user can write many comments
+    user = db.relationship('User', backref=db.backref('user_comments', lazy=True))
+    
+    
+    
+    def __repr__(self):
+        return f"<Comment {self.comment_id} by User {self.user_id} on Meal {self.meal_id} at {self.created_at}>"
+
+
+
 # ---------- [MULTI-VALUED ATTRIBUTE TABLES] ----------
 # first attribute in quotations is the title of the table columns
 
