@@ -5,6 +5,7 @@ import datetime
 from flask import current_app, Blueprint
 from flask_bcrypt import Bcrypt
 import os
+from datetime import datetime, timezone
 
 # Database located in src/data/database.db
 
@@ -129,6 +130,8 @@ class Meal(db.Model):
     meal_name = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
     number_sold = db.Column(db.Integer, nullable=False)
+    
+    #newly addedfor the comment :  
 
     # constructor
     def __init__(self, meal_name, price, number_sold):
@@ -193,11 +196,11 @@ class Comment(db.Model):
     comment_id = db.Column(db.Integer, primary_key=True) #make it autom incremented
     content = db.Column(db.String(500), nullable=False)
     # Timestamp when the comment was created
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     
     
     # Foreign key to Meal model (Many-to-One relationship)
-    meal_id = db.Column(db.Integer, db.ForeignKey('meal.meal_id'), nullable=False)
+    meal_id = db.Column(db.Integer, db.ForeignKey('meal.id'), nullable=False)
     # Foreign key to User model (Many-to-One relationship)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     

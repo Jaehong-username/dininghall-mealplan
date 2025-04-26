@@ -20,8 +20,8 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "data/database.db")
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/14253/Desktop/dininghall-mealplan-1/data/database.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "data/database.db")
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/14253/Desktop/dininghall-mealplan-1/data/database.db'
 bcrypt = Bcrypt(app)
 
 
@@ -44,6 +44,7 @@ db.init_app(app)
 # sample data for database
 def create_db():
     with app.app_context():
+        db.drop_all()  # This will drop all tables from the database
         db.create_all()
         
         # TEMP STUDENT FOR TESTING PURPOSES (since no info in database yet)
@@ -238,7 +239,7 @@ def create_db():
 
             db.session.add(temp_menu)
             db.session.commit()
-        
+
 ### Program entrypoint (place at bottom of script)
 create_db() ## Create all databasees if they don't exist
 
