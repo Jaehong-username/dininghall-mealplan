@@ -4,6 +4,12 @@ from flask_login import *
 from models import *
 from datetime import *
 
+# for 2FA
+import pyotp  
+import qrcode
+import io
+from base64 import b64encode
+
 views = Blueprint('views', __name__)
 
 @views.route('/')
@@ -50,7 +56,15 @@ def register():
     
     if form.validate_on_submit():
         print("Form submitted!")
+
+        # generate a 2FA secret key
+        secret = pyotp.random_base32()
+
         new_user = User(form.email.data, form.name.data, form.password.data)
+
+        # save the secret to the db
+        new_user.twofa_secret = secret  
+
         db.session.add(new_user)
         
         db.session.commit()
@@ -59,11 +73,22 @@ def register():
         new_student = Student(new_user.user_id, "500")
         db.session.add(new_student)
         db.session.commit()
-        
+  
         if User.test_login(form.email.data, form.password.data) is None:
             message = "ERROR: Could not create account!"
         else:
             return redirect(url_for('views.login'))
+        
+
+        # generate QR code for google authenticator
+        uri = pyotp.TOTP(secret).provisioning_uri(name=form.email.data, issuer_name="DiningHallManager")
+        qr = qrcode.make(uri)
+        buf = io.BytesIO()
+        qr.save(buf, format='PNG')
+        img_str = b64encode(buf.getvalue()).decode('ascii')
+
+        # show QR code after registration
+        return render_template('2fa.html', qr_code=img_str)  
     
     return render_template('register.html', form=form,  message=message)
 
