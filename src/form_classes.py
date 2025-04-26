@@ -104,3 +104,13 @@ class newMenuForm(FlaskForm):
 class newMealPlanForm(FlaskForm):
     price = FloatField(validators=[DataRequired()], render_kw={"placeholder": "Price ($)"})
     submit = SubmitField('Add Meal Plan')
+
+
+class MealPlanForm(FlaskForm):
+    plan_id = SelectField(
+        choices=[(1, 'Level 1'), (2, 'Level 2'), (3, 'Level 3')],
+        validators=[DataRequired()],
+        render_kw={"class": "meal-form-class"}
+    )
+
+    submit = SubmitField('Confirm Plan', render_kw={"class": "meal-plan-btn"})

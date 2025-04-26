@@ -6,10 +6,10 @@
     <title>{% block title %}{% endblock %} - Dining hall meal plan manager</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
     <script src="/static/util.js"></script>
     <!-- Any other required scripts -->
     {% block scripts %}{% endblock %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <header class = "header">
@@ -19,19 +19,24 @@
         
         <nav class = "navbar">
             <a href = "{{ url_for('views.home') }}">Home</a> <!--the name of the function-->
-            <a href = "{{ url_for('views.view_dining_halls') }}">Today's menu</a>
+            <a href = "{{ url_for('views.view_dining_halls') }}">Today's Menu</a>
+            
             {% if current_user.is_authenticated %}
                 <a href="{{url_for('views.dashboard')}}">Dashboard</a>
+
                 {% if current_user.is_admin() %}
                 <a href="{{url_for('views.admin_portal_main')}}">Admin Portal</a>
                 {% endif %}
                 <a href="{{url_for('views.logout')}}">Log Out</a>
+                <a href="{{ url_for('views.meal_plan_id') }}">Meal Plan</a>
             {% else %}
                 <a href = "{{ url_for('views.login') }}">Login</a>
             {% endif %}
-            <a href = "#">Meal Plan</a>
-            <a href = "#">Feedback</a>
-            <a href = "{{ url_for('views.contact') }}">Contact</a>   
+
+            <a href = "{{ url_for('views.meal_feedback_list') }}">Feedback</a> <!--should be the name of the url-->
+            <a href = "{{ url_for('views.contact') }}">Contact</a>
+            <a href = "{{url_for ('views.post_meal')}}">Upload Meal</a>           
+
         </nav>
     </header>
     
@@ -39,6 +44,7 @@
     <div class="content">
         {% block content %}{% endblock %}
     </div>
+    <script src="{{ url_for('static', filename='dynamic.js') }}"></script>
 
 </body>
 </html>

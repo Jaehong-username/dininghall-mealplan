@@ -1,42 +1,64 @@
-<!-- Flask render templates allow for pages to inherit from one another -->
-{% extends 'base_template.html' %}
 
-<!-- Content of the page -->
+{% extends "layout.html" %}
+
+{% block title %}Dining Hall Meal Plan Manager{% endblock %}
+
 {% block content %}
 
-    <!-- Displaying basic information -->
-    <h1>Welcome to the Meal Plan Page</h1>
-    <hr>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="w-100" style="max-width: 600px;"> <!-- Constrain width -->
+        <h1 class="display-5 text-center mb-4">Manage Your Meal Plan</h1>
+        <hr>
 
-    <h2>Student Information</h2>
-    <p><b>Name:</b> {{ student.user.name }}</p>
-    <p><b>ID:</b> {{ student.user.user_id }}</p>
-    <p><b>Email:</b> {{ student.user.email }}</p>
-    <p><b>Current Plan:</b> {{ student.plan_id }}</p>
-    <p><b>Balance:</b> {{ student.balance }}</p>
-    <br><hr>
+        <!-- Current Plan Summary -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h4 class="card-title mb-3">Your Current Plan</h4>
+                <p class="mb-1"><strong>Level:</strong> {{ student.plan_id }}</p>
+                <p><strong>Balance:</strong> ${{ student.balance }}</p>
+            </div>
+        </div>
 
-    <!-- Option to change meal plan -->
-    <h2>Change Meal Plan</h2>
+        <!-- Form to Change Plan -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h4 class="card-title mb-3">Change Meal Plan</h4>
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group mb-3">
+                        <label for="plan_id"><strong>Select a new level:</strong></label>
+                        {{ form.plan_id(class="form-control") }}
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-    <label for="plan_id">Choose a Meal Plan Level:</label>
+        <!-- Plan Details -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <h4 class="card-title mb-3">Plan Info</h4>
+                <p class="mb-3">All plans get 40% off dining center meals and 10% off at campus cafés. Use your CougarCard like a prepaid card.</p>
 
-    <form method="POST">
-        <select name="plan_id" id="plan_id">
-            <option value="1">Level 1</option>
-            <option value="2">Level 2</option>
-            <option value="3">Level 3</option>
-        </select>
-        <button type="submit">Confirm Plan</button>
-    </form>
-    <br><hr>
-
-    <!-- Option to return home -->
-    <h2>Return to Homescreen</h2>
-
-    <form action='/'>
-        <button type='submit'>Return Home</button>
-    </form>
-    <br><hr>
-
+                {% if student.plan_id == 1 %}
+                    <h6><strong>Level 1</strong></h6>
+                    <p>$935 Base + $1,120 Dining Dollars → <b>$2,055 Total</b></p>
+                    <p>2 meals most weekdays, cook often or off-campus.</p>
+                {% elif student.plan_id == 2 %}
+                    <h6><strong>Level 2</strong></h6>
+                    <p>$935 Base + $1,475 Dining Dollars → <b>$2,410 Total</b></p>
+                    <p>2–3 meals daily, occasionally away on weekends.</p>
+                {% elif student.plan_id == 3 %}
+                    <h6><strong>Level 3</strong></h6>
+                    <p>$935 Base + $1,795 Dining Dollars → <b>$2,730 Total</b></p>
+                    <p>Eat every meal on campus, stay most weekends.</p>
+                {% else %}
+                    <p class="text-danger"> No plan selected. Please choose one above.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
