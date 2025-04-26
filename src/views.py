@@ -89,6 +89,14 @@ def register():
     if form.validate_on_submit():
         print("Form submitted!")
 
+        # check if email already exists
+        existing_user = User.query.filter_by(email=form.email.data).first()
+
+        if existing_user:
+            message = "An account with that email already exists. Please log in."
+            return render_template('register.html', form=form, message=message)
+
+        # if not continue: 
         # generate a 2FA secret key
         secret = pyotp.random_base32()
 
