@@ -106,10 +106,10 @@ def register():
         db.session.add(new_student)
         db.session.commit()
   
-        if User.test_login(form.email.data, form.password.data) is None:
-            message = "ERROR: Could not create account!"
-        else:
-            return redirect(url_for('views.login'))
+        #if User.test_login(form.email.data, form.password.data) is None:
+        #    message = "ERROR: Could not create account!"
+        #else:
+        #    return redirect(url_for('views.login'))
         
 
         # generate QR code for google authenticator
