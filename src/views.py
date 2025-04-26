@@ -3,6 +3,7 @@ from form_classes import *
 from flask_login import *
 from models import *
 from datetime import *
+from wtforms_alchemy import QuerySelectMultipleField
 
 views = Blueprint('views', __name__)
 
