@@ -21,6 +21,7 @@ setup(
         'Pillow',    
         'qrcode',
         'xlsxwriter',
+        'WTForms-Alchemy',
         'email_validator'
     ]
 ) 
