@@ -38,12 +38,16 @@ def login():
 
 @views.route('/2fa', methods=['GET', 'POST'])
 def two_factor():
-    if request.method == 'POST':
-        otp = request.form.get('otp')
+
+    #create an instance of the otp form
+    form = OTPForm()
+
+    if form.validate_on_submit():
+        otp = form.otp.data
         user_id = session.get('pre_2fa_user_id')
 
         if not user_id:
-            flash("Session expired, please login again.")
+            flash("Session expired, please login again.", "danger")
             return redirect(url_for('views.login'))
 
         user = User.query.get(user_id)
@@ -56,12 +60,13 @@ def two_factor():
 
             # remove temp session
             session.pop('pre_2fa_user_id', None)  
+            flash("Successfully logged in!", "success") 
             return redirect(url_for('views.dashboard'))
         else:
-            flash("Invalid OTP code. Try again.")
+            flash("Invalid OTP code. Try again.", "danger")
             return redirect(url_for('views.two_factor'))
 
-    return render_template('verify-otp.html')
+    return render_template('verify-otp.html', form=form)
 
 @views.route('/dashboard', methods=['GET', 'POST'])
 @login_required

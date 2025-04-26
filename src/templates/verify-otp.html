@@ -7,9 +7,9 @@
         <h2>Enter your OTP code</h2>
         <form method="POST">
             {{ form.hidden_tag() }}  <!--need this to automatically insert csfr token and fix error-->
-            <input type="text" name="otp" placeholder="Enter OTP" required>
+            {{ form.otp(size=32) }}
             <br><br>
-            <button type="submit" class="btn btn-primary">Verify</button>
+            {{ form.submit(class_="btn btn-primary") }}
         </form>
     </div>
 {% endblock %}
