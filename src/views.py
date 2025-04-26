@@ -21,16 +21,12 @@ def login():
     form = LoginForm()
     message = ""
     if form.validate_on_submit():
-        user = User.test_login(form.email.data, form.password.data)
-        # User was found with matching credentials
-        if user is not None:
+        user = User.query.filter_by(email=form.email.data).first()
 
-            # after password check, now prompt for OTP verification
-            session['pre_2fa_user_id'] = user.user_id  # temporarily store user ID
-            return redirect(url_for('views.two_factor'))  # Go to OTP input page
-        
-            #login_user(user)
-            #return redirect(url_for('views.dashboard'))
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            # password correct, proceed to OTP
+            session['pre_2fa_user_id'] = user.user_id
+            return redirect(url_for('views.two_factor'))
         else:
             message = "ERROR: Incorrect username or password!"
     return render_template('login.html', form=form, message=message)
@@ -51,6 +47,11 @@ def two_factor():
             return redirect(url_for('views.login'))
 
         user = User.query.get(user_id)
+
+        if not user or not hasattr(user, 'twofa_secret') or user.twofa_secret is None:
+            flash("User 2FA setup incomplete. Please register again.", "danger")
+            return redirect(url_for('views.login'))
+
         totp = pyotp.TOTP(user.twofa_secret)
 
         if totp.verify(otp):
