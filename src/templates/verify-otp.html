@@ -6,6 +6,7 @@
     <div style="text-align: center; margin-top: 50px;">
         <h2>Enter your OTP code</h2>
         <form method="POST">
+            {{ form.hidden_tag() }}  <!--need this to automatically insert csfr token and fix error-->
             <input type="text" name="otp" placeholder="Enter OTP" required>
             <br><br>
             <button type="submit" class="btn btn-primary">Verify</button>
