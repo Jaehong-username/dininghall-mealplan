@@ -1,6 +1,6 @@
 # Flask forms extension packages
 from flask_wtf import FlaskForm, CSRFProtect
-from wtforms.ext.sqlalchemy.fields import QuerySelectMultipleField
+from wtforms_alchemy import QuerySelectMultipleField
 from wtforms import *
 from wtforms.validators import *
 from models import *

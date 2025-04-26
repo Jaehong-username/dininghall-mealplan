@@ -5,6 +5,7 @@ import datetime
 from flask import current_app, Blueprint
 from flask_bcrypt import Bcrypt
 import os
+from datetime import datetime
 
 # Database located in src/data/database.db
 
@@ -143,6 +144,7 @@ class Meal(db.Model):
     students = db.relationship('Student', secondary='students_meals', back_populates='meals')                                  # many-to-many w/ students
     managers = db.relationship('Manager', secondary='managers_meals', back_populates='meals')                                  # many-to-many w/ managers
     employees = db.relationship('Employee', secondary='employees_meals', back_populates='meals')                               # many-to-many w/ employees
+    comments = db.relationship('Comment', back_populates='meal')
 
 # Meal_Category (multi-valued) table for Menu
 class Meal_Category(db.Model):
@@ -187,27 +189,27 @@ class Nutritional_Information(db.Model):
 class Comment(db.Model):
     __tablename__ = 'comments'
     # Primary key for each comment
-    comment_id = db.Column(db.Integer, primary_key=True) #make it autom incremented
+    id = db.Column(db.Integer, primary_key=True) #make it autom incremented
     content = db.Column(db.String(500), nullable=False)
     # Timestamp when the comment was created
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
-    
     # Foreign key to Meal model (Many-to-One relationship)
-    meal_id = db.Column(db.Integer, db.ForeignKey('meal.meal_id'), nullable=False)
+    meal_id = db.Column(db.Integer, db.ForeignKey('meal.id'), nullable=False)
+
     # Foreign key to User model (Many-to-One relationship)
+    # TODO: update user id here once finished merging with dante's code
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     
     #The backref='comments' allows you to access all comments related to a specific meal, e.g., meal.comments.
     # Relationship to the Meal model a meal can have many comments
-    meal = db.relationship('Meal', backref=db.backref('meal_comments', lazy=True))
+    meal = db.relationship('Meal', back_populates='comments')
+
     # Relationship to the User model  a user can write many comments
     user = db.relationship('User', backref=db.backref('user_comments', lazy=True))
     
-    
-    
     def __repr__(self):
-        return f"<Comment {self.comment_id} by User {self.user_id} on Meal {self.meal_id} at {self.created_at}>"
+        return f"<Comment {self.id} by User {self.user_id} on Meal {self.meal_id} at {self.created_at}>"
 
 
 
