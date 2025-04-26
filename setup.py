@@ -18,6 +18,7 @@ setup(
         'pandas',
         'configparser',
         'pyotp',
+        'Pillow',    
         'qrcode',
         'xlsxwriter',
         'email_validator'

@@ -5,6 +5,12 @@ from models import *
 from datetime import *
 from wtforms_alchemy import QuerySelectMultipleField
 
+# for 2FA
+import pyotp  
+import qrcode
+import io
+from base64 import b64encode
+
 views = Blueprint('views', __name__)
 
 @views.route('/')
@@ -16,15 +22,53 @@ def login():
     form = LoginForm()
     message = ""
     if form.validate_on_submit():
-        user = User.test_login(form.email.data, form.password.data)
-        # User was found with matching credentials
-        if user is not None:
-            login_user(user)
-            return redirect(url_for('views.dashboard'))
+        user = User.query.filter_by(email=form.email.data).first()
+
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            # password correct, proceed to OTP
+            session['pre_2fa_user_id'] = user.user_id
+            return redirect(url_for('views.two_factor'))
         else:
             message = "ERROR: Incorrect username or password!"
     return render_template('login.html', form=form, message=message)
 
+
+@views.route('/2fa', methods=['GET', 'POST'])
+def two_factor():
+
+    #create an instance of the otp form
+    form = OTPForm()
+
+    if form.validate_on_submit():
+        otp = form.otp.data
+        user_id = session.get('pre_2fa_user_id')
+
+        if not user_id:
+            flash("Session expired, please login again.", "danger")
+            return redirect(url_for('views.login'))
+
+        user = User.query.get(user_id)
+
+        if not user or not hasattr(user, 'twofa_secret') or user.twofa_secret is None:
+            flash("User 2FA setup incomplete. Please register again.", "danger")
+            return redirect(url_for('views.login'))
+
+        totp = pyotp.TOTP(user.twofa_secret)
+
+        if totp.verify(otp):
+
+            # actually log them in now
+            login_user(user)  
+
+            # remove temp session
+            session.pop('pre_2fa_user_id', None)  
+            flash("Successfully logged in!", "success") 
+            return redirect(url_for('views.dashboard'))
+        else:
+            flash("Invalid OTP code. Try again.", "danger")
+            return redirect(url_for('views.two_factor'))
+
+    return render_template('verify-otp.html', form=form)
 
 @views.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -51,7 +95,23 @@ def register():
     
     if form.validate_on_submit():
         print("Form submitted!")
+
+        # check if email already exists
+        existing_user = User.query.filter_by(email=form.email.data).first()
+
+        if existing_user:
+            message = "An account with that email already exists. Please log in."
+            return render_template('register.html', form=form, message=message)
+
+        # if not continue: 
+        # generate a 2FA secret key
+        secret = pyotp.random_base32()
+
         new_user = User(form.email.data, form.name.data, form.password.data)
+
+        # save the secret to the db
+        new_user.twofa_secret = secret  
+
         db.session.add(new_user)
         
         db.session.commit()
@@ -60,11 +120,22 @@ def register():
         new_student = Student(new_user.user_id, "500")
         db.session.add(new_student)
         db.session.commit()
+  
+        #if User.test_login(form.email.data, form.password.data) is None:
+        #    message = "ERROR: Could not create account!"
+        #else:
+        #    return redirect(url_for('views.login'))
         
-        if User.test_login(form.email.data, form.password.data) is None:
-            message = "ERROR: Could not create account!"
-        else:
-            return redirect(url_for('views.login'))
+
+        # generate QR code for google authenticator
+        uri = pyotp.TOTP(secret).provisioning_uri(name=form.email.data, issuer_name="DiningHallManager")
+        qr = qrcode.make(uri)
+        buf = io.BytesIO()
+        qr.save(buf, format='PNG')
+        img_str = b64encode(buf.getvalue()).decode('ascii')
+
+        # show QR code after registration
+        return render_template('2fa.html', qr_code=img_str)  
     
     return render_template('register.html', form=form,  message=message)
 

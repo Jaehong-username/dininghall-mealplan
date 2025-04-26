@@ -45,6 +45,11 @@ class MealPlanForm(FlaskForm):
     )
 
     submit = SubmitField('Confirm Plan', render_kw={"class": "meal-plan-btn"})
+
+# so flask can use the hidden_tag
+class OTPForm(FlaskForm):
+    otp = StringField('OTP', validators=[DataRequired()])
+    submit = SubmitField('Verify')
     
     
 

@@ -26,6 +26,9 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable = False)
 
+    # 2FA secret key for each usre
+    twofa_secret = db.Column(db.String(32))
+
     # Creates new user from email, name, and (unhashed) password
     def __init__(self, email, name, password):
         # user_id automatically set to the largest value + 1
