@@ -24,12 +24,44 @@ def login():
         user = User.test_login(form.email.data, form.password.data)
         # User was found with matching credentials
         if user is not None:
-            login_user(user)
-            return redirect(url_for('views.dashboard'))
+
+            # after password check, now prompt for OTP verification
+            session['pre_2fa_user_id'] = user.user_id  # temporarily store user ID
+            return redirect(url_for('views.two_factor'))  # Go to OTP input page
+        
+            #login_user(user)
+            #return redirect(url_for('views.dashboard'))
         else:
             message = "ERROR: Incorrect username or password!"
     return render_template('login.html', form=form, message=message)
 
+
+@views.route('/2fa', methods=['GET', 'POST'])
+def two_factor():
+    if request.method == 'POST':
+        otp = request.form.get('otp')
+        user_id = session.get('pre_2fa_user_id')
+
+        if not user_id:
+            flash("Session expired, please login again.")
+            return redirect(url_for('views.login'))
+
+        user = User.query.get(user_id)
+        totp = pyotp.TOTP(user.twofa_secret)
+
+        if totp.verify(otp):
+
+            # actually log them in now
+            login_user(user)  
+
+            # remove temp session
+            session.pop('pre_2fa_user_id', None)  
+            return redirect(url_for('views.dashboard'))
+        else:
+            flash("Invalid OTP code. Try again.")
+            return redirect(url_for('views.two_factor'))
+
+    return render_template('verify-otp.html')
 
 @views.route('/dashboard', methods=['GET', 'POST'])
 @login_required

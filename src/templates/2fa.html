@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}Two-Factor Authentication{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; margin-top: 50px;">
+        <h2>Scan this QR Code with Google Authenticator</h2>
+        <img src="data:image/png;base64,{{ qr_code }}" alt="QR Code">
+        <br><br>
+        <a href="{{ url_for('views.login') }}" class="btn btn-primary">Proceed to Login</a>
+    </div>
+{% endblock %}
