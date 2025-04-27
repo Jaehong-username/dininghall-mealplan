@@ -32,9 +32,12 @@ def login():
       user = User.test_login(form.email.data, form.password.data)
       # User was found with matching credentials
       if user is not None:
-          login_user(user)
-          session['pre_2fa_user_id'] = user.user_id
-          return redirect(url_for('views.two_factor'))
+            if user.twofa_secret is None:
+                login_user(user)
+                return redirect(url_for('views.dashboard'))
+            else:
+                session['pre_2fa_user_id'] = user.user_id
+                return redirect(url_for('views.two_factor'))
       else:
           message = "ERROR: Incorrect username or password!"
     return render_template('login.html', form=form, message=message)
