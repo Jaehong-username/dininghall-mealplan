@@ -29,7 +29,8 @@
                 {% endif %}
 
                 {% if current_user.is_employee() %}
-                <a href = "{{url_for ('views.post_meal')}}">Upload Meal</a>           
+                <a href = "{{url_for ('views.post_meal')}}">Upload Meal</a>    
+                <a href = "{{ url_for('views.meal_data') }}">Meal Data</a>       
                 {% endif %}
 
                 <a href="{{url_for('views.logout')}}">Log Out</a>

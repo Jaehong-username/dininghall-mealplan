@@ -43,7 +43,8 @@
                             {% for val in meal.types %}
                                 {% if val.type == type %}
                                     
-                                    <p><b>{{ meal.meal_name }}</b></p>
+                                    <a href="{{ url_for('views.feedback', meal_id=meal.id) }}">                                
+                                    <p><b>{{ meal.meal_name }}</b></p></a>
 
                                     <!-- displaying meal attributes ; nutritional: meal type  -->
                                     <p><b>Meal Type:</b>

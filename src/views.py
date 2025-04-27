@@ -387,3 +387,14 @@ def upload_file():
 @views.route('/uploads/meals/<name>')
 def image_file(name):
     return send_from_directory(current_app.config["UPLOAD_FOLDER"], name)
+
+@views.route('/meal-data',  methods=['GET'])
+def meal_data():
+    #gives you the first one using first()
+    most_sold_meal = Meal.query.order_by(Meal.number_sold.desc()).first()
+    least_sold_meal = Meal.query.order_by(Meal.number_sold.asc()).first()
+    
+    most_total_revenue = most_sold_meal.price * most_sold_meal.number_sold
+    least_total_revenue = least_sold_meal.price * least_sold_meal.number_sold
+    
+    return render_template('meal-data.html', most_sold_meal = most_sold_meal, least_sold_meal = least_sold_meal, most = most_total_revenue, least = least_total_revenue)
