@@ -328,12 +328,19 @@ h3 {
     color: #2c3e50;
 }
 
+input[type="file"] {
+    padding: 12px 15px;   /* increase padding for height */
+    font-size: 16px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #ccc;
+}
 
 
 .input-box{
     position: relative;
     width: 100%;
-    margin: 20px; /*top bottom margin 30px   left and right margin 0px*/
+    margin: 10px; /*top bottom margin 30px   left and right margin 0px*/
     /*border-bottom: 2px solid wheat;*/
 }
 
@@ -566,4 +573,14 @@ h3 {
 
 .card {
     margin-top: 1200px; /* Adjust this value to move it further down */
+}
+
+
+.tell-us-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    height: auto;
+    margin-top: 5px;
 }

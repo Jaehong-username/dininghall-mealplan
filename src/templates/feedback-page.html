@@ -6,12 +6,12 @@
     <h1 class="title">Feedback for the Meal</h1>
     <h2 class="subtitle">Your feedback MATTERS! Please let us know how you like the food!</h2>
 
-    <div class="feedback-grid"> <!-- ✨ All small columns inside -->
+    <div class="feedback-grid"> 
 
-        <!-- Select Meal -->
+        <!-- select meal -->
         <div class="cafeteria small-card">
             <h2 style="text-align: center;">Select a Meal</h2>
-            <form style="margin-top: 20px; text-align: center;">
+            <form style="margin-top: 5px; text-align: center;">
                 <select id="meal-select" name="meal" style="padding: 10px; font-size: 16px; width: 100%;">
                     <option>Egg Scramble</option>
                     <option>Veggie Burger</option>
@@ -21,7 +21,7 @@
             </form>
         </div>
 
-        <!-- Selected Meal Info -->
+        <!-- selected meal info -->
         <div class="cafeteria small-card">
             <h2 style="text-align: center;">Selected Meal</h2>
             <img src="/static/images/foodfeedbackgood.png" alt="Meal Image">
@@ -33,7 +33,7 @@
             </ul>
         </div>
 
-        <!-- Upload Image -->
+        <!-- upload image -->
         <div class="cafeteria small-card">
             <h2 style="text-align: center;">Upload Meal Image</h2>
             <form method="POST" enctype="multipart/form-data" style="margin-top: 20px; text-align: center;">
@@ -45,10 +45,10 @@
             </form>
         </div>
 
-        <!-- Basic Info Form -->
+        <!-- basic info form -->
         <div class="cafeteria small-card">
             <h2 style="text-align: center;">Tell Us About Yourself</h2>
-            <form style="margin-top: 20px;">
+            <form class="tell-us-form" style="margin-top: 5px;">
                 <div class="input-box">
                     <input type="text" name="first_name" required>
                     <label>First Name</label>
@@ -68,25 +68,25 @@
             </form>
         </div>
 
-        <!-- Rate Your Meal -->
+        <!-- rate your meal -->
         <div class="cafeteria small-card">
             <h2 style="text-align: center;">Rate Your Meal</h2>
             <form action="/submit-rating" method="POST" style="margin-top: 20px;">
                 <div id="star-rating" style="text-align: center; margin-bottom: 20px;">
-                    <!-- JavaScript will fill in stars -->
+                    <!-- javaScript will fill in stars -->
                 </div>
                 <input type="hidden" name="rating" id="rating-value">
 
                 <div class="message-form" style="margin-top: 20px;">
                     <label>Your Feedback</label>
                     <br/>
-                    <input type="text" name="message" placeholder="Write something nice..." style="height: 80px;">
+                    <input type="text" name="message" placeholder="Honest thoughts..." style="height: 80px;">
                 </div>
 
                 <button type="submit" class="btn" style="margin-top: 20px;">Submit Feedback</button>
             </form>
         </div>
 
-    </div> <!-- ✨ End feedback grid -->
+    </div>
 
 {% endblock %}
