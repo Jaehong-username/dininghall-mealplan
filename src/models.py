@@ -218,6 +218,15 @@ class Comment(db.Model):
 
 
 
+
+class Feedback(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(100), nullable=False)
+    last_name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+    message = db.Column(db.Text, nullable=False)
+
+
 # ---------- [MULTI-VALUED ATTRIBUTE TABLES] ----------
 # first attribute in quotations is the title of the table columns
 

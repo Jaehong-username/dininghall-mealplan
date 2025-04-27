@@ -13,10 +13,15 @@ from base64 import b64encode
 
 views = Blueprint('views', __name__)
 
+#flask will look for any route that matches that URL.
+# when a user visits the root url, the home function will be invoked!
 @views.route('/')
 def home():
     return render_template('home.html')
 
+
+# handles request made to /login url
+# When someone visits /login, Flask will execute the login() function.
 @views.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -209,8 +214,34 @@ def meal_plan_id():
 
     return render_template("meal-plan.html", form=form, student=student)
 
+
 @views.route('/contact', methods=['GET', 'POST'])
 def contact():
+    if request.method == 'POST':
+        # Get the form data
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
+        message = request.form['message']
+        
+        # Create a new Comment object
+        new_comment = Feedback(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            message=message
+        )
+        
+         # Add the new comment to the session and commit it to the database
+        db.session.add(new_comment)
+        db.session.commit()
+        
+        flash("Your message has been successfully sent!", "success")
+
+        #It automatically looks up the route associated with that view function and generates the URL for it. In this cas
+        # it generates /contact
+        return redirect(url_for('contact'))  # Redirect after submission
+        
     return render_template('contact.html')
 
 
