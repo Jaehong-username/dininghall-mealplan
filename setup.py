@@ -18,8 +18,10 @@ setup(
         'pandas',
         'configparser',
         'pyotp',
+        'Pillow',    
         'qrcode',
         'xlsxwriter',
+        'WTForms-Alchemy',
         'email_validator'
     ]
 ) 
