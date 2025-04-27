@@ -320,22 +320,24 @@ def admin_portal_mealplans():
 
 
 
-@views.route('/feedback-page', methods=['GET', 'POST'])
+@views.route('/feedback-page', methods=['GET'])
 def feedback():
-    # Get the meal_id from the query parameter
     meal_id = request.args.get('meal_id')
     print(f"Meal ID: {meal_id}")
-    
-    # Fetch the meal data based on the meal_id
 
-    meal = Meal.query.filter_by(id = meal_id)
+    if not meal_id:
+        return "<h3>No meal selected!</h3><form action='/'><button type='submit'>Return Home</button></form>"
+
+    meal = Meal.query.get(meal_id)
     print(meal)
-    # Fetch the comments for the meal
-    
+
+    if not meal:
+        return "<h3>Meal does not exist!</h3><form action='/'><button type='submit'>Return Home</button></form>"
+
     comments = get_comments_for_meal(meal_id)
-    
-    # Render the feedback page with meal data
+
     return render_template('feedback-page.html', meal=meal, comments=comments)
+
 
 
 #fetch the meal by id
@@ -354,12 +356,12 @@ def get_comments_for_meal(meal_id):
 
 
 
-@views.route('/feedback-page', methods=['POST'])
+@views.route('/submit-rating', methods=['POST'])
 def submit_rating():
     rating = request.form.get('rating')
     print(f'User submitted rating: {rating}')
-    # You can store this rating in your database here
-    return redirect(url_for('views.feedback'))  # Or show a "Thank you" page
+    # TODO: save rating to database here if you want
+    return redirect(url_for('views.feedback'))
 
 # to access the meal's official image for a menu, it will follow the format: static/uploads/meal/<meal_id>
 @views.route('/post-meal', methods=['GET', 'POST'])
@@ -400,7 +402,9 @@ def post_meal():
 @views.route('/meal-feedback-list', methods=['GET', 'POST'])
 def meal_feedback_list():
     # Sample data - a list of comments
-    students = ['Student1', 'Student2', 'Student3', 'Student4']
+    
+    # for now, grab the FIRST meal in the database as an example
+    meal = Meal.query.first()
     
     comments = {
         'student1': 'It was great food',
@@ -416,35 +420,34 @@ def meal_feedback_list():
         'student8': 'Its alright.'
     }
     avg_rating = 3.5
-    return render_template('meal-feedback-list.html', comments = comments, avg_rating = avg_rating, another_comments = another_comments)
+    return render_template('meal-feedback-list.html', meal=meal, comments=comments, avg_rating=avg_rating, another_comments=another_comments)
+
+
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # upload file images
-@views.route('/feedback-page', methods=['GET', 'POST'])
-def upload_file():
+@views.route('/upload-feedback-image', methods=['POST'])
+def upload_feedback_image():
     form = ImageForm()
-    
-    # checking if form went through
+
     if form.validate_on_submit():
         file = form.file.data
-        
         if file:
             filename = secure_filename(file.filename)
-
-            # error checking name (if empty) or if correct extension type
             if filename == '' or not allowed_file(file.filename):
                 flash('Incompatible file. Please try again.')
                 return redirect(request.url)
             
-            # otherwise continue with data
             file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
-            return render_template('feedback-page.html', filename=filename, form=form)
+            flash('Image uploaded successfully!', 'success')
+            return redirect(url_for('views.feedback'))
 
-    return render_template('feedback-page.html', form=form)
+    flash('Failed to upload image.', 'danger')
+    return redirect(url_for('views.feedback'))
 
 # image handling
 @views.route('/uploads/meals/<name>')
