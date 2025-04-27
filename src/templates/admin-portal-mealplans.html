@@ -1,0 +1,31 @@
+{% extends "admin-portal.html" %}
+{% block scripts %}
+<script src="/static/admin_data.js"></script>
+<script>
+    setCSRF('{{ csrf_token() }}');
+</script>
+{% endblock %}
+{% block dashboard_content %}
+<h2>Meal plans:</h2>
+    <div id="mealplanTable">
+    <button onclick="toggleElement('newMealPlanForm');">Add Meal Plan</button>
+    <div class="inlineForm hidden" id="newMealPlanForm">
+        <form action="javascript:writeAdminApi('/api/add_mealplan', 'meal_plan', 'mealplan-entries', 
+        'new_mealplan_form')" method="post" id="new_mealplan_form">
+            {% with f = new_mealplan_form %}
+                {{ message }}
+                {{ f.hidden_tag() }}
+                {% for field in f if field.widget.input_type != 'hidden' %}
+                {{ field.label }}: {{ field }}
+                {% endfor %}
+                {% endwith %}
+        </form>
+    </div>
+    
+    <table id="mealplan-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>getDataInTable('meal_plan', 'mealplan-entries');</script>
+
+</div>
+{% endblock %}

@@ -22,14 +22,14 @@ def login():
     form = LoginForm()
     message = ""
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            # password correct, proceed to OTP
-            session['pre_2fa_user_id'] = user.user_id
-            return redirect(url_for('views.two_factor'))
-        else:
-            message = "ERROR: Incorrect username or password!"
+      user = User.test_login(form.email.data, form.password.data)
+      # User was found with matching credentials
+      if user is not None:
+          login_user(user)
+          session['pre_2fa_user_id'] = user.user_id
+          return redirect(url_for('views.two_factor'))
+      else:
+          message = "ERROR: Incorrect username or password!"
     return render_template('login.html', form=form, message=message)
 
 
@@ -228,6 +228,54 @@ def confirm_email():
 def change_password():
     return render_template('change-password.html')
 
+
+@views.route('/admin-portal', methods=['GET', 'POST'])
+@login_required
+def admin_portal_main():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+       return render_template('admin-portal-main.html')
+
+@views.route('/admin-portal/users', methods=['GET', 'POST'])
+@login_required
+def admin_portal_users():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+        user_forms = {}
+
+        user_forms["new_user_form"] = NewUserForm()
+        user_forms["edit_user_form"] = EditUserForm()
+        user_forms["new_admin_form"] = newAdminForm()
+        user_forms["new_manager_form"] = newManagerForm()
+        user_forms["new_student_form"] = newStudentForm()
+        user_forms["new_employee_form"] = newEmployeeForm()
+
+        return render_template('admin-portal-users.html', user_forms = user_forms)
+
+@views.route('/admin-portal/menus', methods=['GET', 'POST'])
+@login_required
+def admin_portal_menus():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+        
+        
+        return render_template('admin-portal-menus.html', new_menu_form = newMenuForm())
+
+@views.route('/admin-portal/mealplans', methods=['GET', 'POST'])
+@login_required
+def admin_portal_mealplans():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+        return render_template('admin-portal-mealplans.html', new_mealplan_form = newMealPlanForm())
+
 @views.route('/feedback-page', methods=['GET', 'POST'])
 def feedback():
     return render_template('feedback-page.html')
@@ -265,3 +313,4 @@ def meal_feedback_list():
     }
     avg_rating = 3.5
     return render_template('meal-feedback-list.html', comments = comments, avg_rating = avg_rating, another_comments = another_comments)
+
