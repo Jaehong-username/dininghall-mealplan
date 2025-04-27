@@ -33,7 +33,7 @@
                 <h2>Details:</h2>
                 <p><b>Selected Meal: </b>{{ selected_meal.meal_name }}</p>
                 <p><b>Uploaded Image:</b></p>
-                <img src="{{ url_for('static', filename='uploads/meals/' + filename) }}" width="100">
+                <img src="{{ url_for('static', filename='uploads/meals/' ~ selected_meal.id ~ selected_meal.file_extension) }}" width="100">
             {% endif %}
             
         </div>

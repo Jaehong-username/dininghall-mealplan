@@ -204,7 +204,7 @@ def meal_plan_id():
     
     # updating meal plan choices
     form.plan_id.choices = [(plan.id, f'Level {plan.id}') for plan in Meal_Plan.query.all()]
-    
+
     # find student in database
     student = Student.get_student_by_id(current_user.user_id)
     
@@ -332,6 +332,11 @@ def post_meal():
 
             # details of meal
             selected_meal = Meal.query.get(meal_id)
+
+            # updating extension
+            selected_meal.file_extension = ext
+            db.session.commit()
+            
             return render_template('post-meal.html', filename=filename, form=form, meals=meals, selected_meal=selected_meal)
 
     return render_template('post-meal.html', form=form, meals=meals)

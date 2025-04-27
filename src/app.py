@@ -233,7 +233,7 @@ def create_db():
                     "Chile Margarita Chicken": {"price": 8.88, "number_sold": 88, "types":"Lunch,Dinner", "category":"Natural", "nutritional":"Allergen-Friendly,Gluten Friendly", "restriction":""},
                     "Build Your Own Sandwich": {"price": 8.88, "number_sold": 88, "types":"Lunch", "category":"Presto Pizza", "nutritional":"Vegan Option Available", "restriction":"Eggs,Gluten/Wheat,Milk"},
                     "NS Yogurt Bar": {"price": 8.88, "number_sold": 88, "types":"Lunch,Dinner", "category":"Salads", "nutritional":"", "restriction":"Eggs,Gluten/Wheat,Milk,Soy"},
-                    "Tomato Basil Soup": {"price": 8.88, "number_sold": 88, "types":"Lunch,Dinner", "category":"Soups", "nutritional":"Gluten Friendly,Halal,Vegetarian", "restriction":"Milk"},
+                    "Tomato Basil Soup": {"price": 0.88, "number_sold": 4, "types":"Lunch,Dinner", "category":"Soups", "nutritional":"Gluten Friendly,Halal,Vegetarian", "restriction":"Milk"},
                     "Quick Kimchi": {"price": 8.88, "number_sold": 88, "types":"Dinner", "category":"Chef's Creation", "nutritional":"Allergen-Friendly,Gluten-Friendly,Halal,Healthy Option,Vegan,Vegetarian", "restriction":""}
                 }
 
