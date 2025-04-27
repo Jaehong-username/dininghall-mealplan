@@ -11,7 +11,7 @@ body{
     flex-direction: column;  /* Arrange flex items vertically */
     justify-content: center;
     align-items: center;
-    background: url('/static/images/background.jpg') no-repeat;
+    background: url('/static/images/background.jpg');
     background-size: cover;
     margin: 0; /* Ensure there's no default margin */
     font-family: 'Inter', sans-serif;

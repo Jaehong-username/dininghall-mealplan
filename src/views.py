@@ -317,9 +317,41 @@ def admin_portal_mealplans():
     else:
         return render_template('admin-portal-mealplans.html', new_mealplan_form = newMealPlanForm())
 
+
+
+
 @views.route('/feedback-page', methods=['GET', 'POST'])
 def feedback():
-    return render_template('feedback-page.html')
+    # Get the meal_id from the query parameter
+    meal_id = request.args.get('meal_id')
+    print(f"Meal ID: {meal_id}")
+    
+    # Fetch the meal data based on the meal_id
+
+    meal = Meal.query.filter_by(id = meal_id)
+    print(meal)
+    # Fetch the comments for the meal
+    
+    comments = get_comments_for_meal(meal_id)
+    
+    # Render the feedback page with meal data
+    return render_template('feedback-page.html', meal=meal, comments=comments)
+
+
+#fetch the meal by id
+def get_meal_by_id(meal_id):
+    # Example of fetching meal data from a database
+    return db.session.query(Meal).filter(Meal.id == meal_id).first()
+
+
+# Function to get comments for a specific meal (example)
+def get_comments_for_meal(meal_id):
+    # Example of fetching comments for a meal
+    comments = db.session.query(Comment).filter(Comment.meal_id == meal_id).all()
+    return {comment.student_name: comment.comment_text for comment in comments}
+
+
+
 
 
 @views.route('/feedback-page', methods=['POST'])
@@ -418,3 +450,16 @@ def upload_file():
 @views.route('/uploads/meals/<name>')
 def image_file(name):
     return send_from_directory(current_app.config["UPLOAD_FOLDER"], name)
+
+
+@views.route('/meal-data',  methods=['GET'])
+def meal_data():
+    #gives you the first one using first()
+    most_sold_meal = Meal.query.order_by(Meal.number_sold.desc()).first()
+    least_sold_meal = Meal.query.order_by(Meal.number_sold.asc()).first()
+    
+    most_total_revenue = most_sold_meal.price * most_sold_meal.number_sold
+    least_total_revenue = least_sold_meal.price * least_sold_meal.number_sold
+    
+    
+    return render_template('meal-data.html', most_sold_meal = most_sold_meal, least_sold_meal = least_sold_meal, most = most_total_revenue, least = least_total_revenue)

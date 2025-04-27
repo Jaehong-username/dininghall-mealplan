@@ -9,10 +9,13 @@
         
         <div class = "cafeteria">
             <h2>Selected Meal</h2>
-            <img src="/static/images/foodfeedbackgood.png" alt="image">
+            <img src="{{ url_for('static', filename='uploads/meals/' ~ meal.id ~ meal.file_extension) }}" alt="meal image" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px; align-self: center">
+            
+            <!--<img src="/static/images/foodfeedbackgood.png" alt="image">-->
             <div class = "cafeteria-info">
                 <ul> <!--Unordered lsit using dot-->
-                    <li>Meal Name: Egg Scramble</li>
+                    
+                    <li>Meal Name: {{ meal.meal_name }}</li>
                     <li>Price: </li>
                     <li>Ingredients: </li>
                     <li>Dietary Restriction: </li>
