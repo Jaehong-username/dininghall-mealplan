@@ -11,6 +11,13 @@ import qrcode
 import io
 from base64 import b64encode
 
+# import related to uploading images
+import os
+from werkzeug.utils import secure_filename
+
+# variables related to image uploads
+ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg'}
+
 views = Blueprint('views', __name__)
 
 #flask will look for any route that matches that URL.
@@ -27,14 +34,17 @@ def login():
     form = LoginForm()
     message = ""
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            # password correct, proceed to OTP
-            session['pre_2fa_user_id'] = user.user_id
-            return redirect(url_for('views.two_factor'))
-        else:
-            message = "ERROR: Incorrect username or password!"
+      user = User.test_login(form.email.data, form.password.data)
+      # User was found with matching credentials
+      if user is not None:
+            if user.twofa_secret is None:
+                login_user(user)
+                return redirect(url_for('views.dashboard'))
+            else:
+                session['pre_2fa_user_id'] = user.user_id
+                return redirect(url_for('views.two_factor'))
+      else:
+          message = "ERROR: Incorrect username or password!"
     return render_template('login.html', form=form, message=message)
 
 
@@ -259,6 +269,54 @@ def confirm_email():
 def change_password():
     return render_template('change-password.html')
 
+
+@views.route('/admin-portal', methods=['GET', 'POST'])
+@login_required
+def admin_portal_main():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+       return render_template('admin-portal-main.html')
+
+@views.route('/admin-portal/users', methods=['GET', 'POST'])
+@login_required
+def admin_portal_users():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+        user_forms = {}
+
+        user_forms["new_user_form"] = NewUserForm()
+        user_forms["edit_user_form"] = EditUserForm()
+        user_forms["new_admin_form"] = newAdminForm()
+        user_forms["new_manager_form"] = newManagerForm()
+        user_forms["new_student_form"] = newStudentForm()
+        user_forms["new_employee_form"] = newEmployeeForm()
+
+        return render_template('admin-portal-users.html', user_forms = user_forms)
+
+@views.route('/admin-portal/menus', methods=['GET', 'POST'])
+@login_required
+def admin_portal_menus():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+        
+        
+        return render_template('admin-portal-menus.html', new_menu_form = newMenuForm())
+
+@views.route('/admin-portal/mealplans', methods=['GET', 'POST'])
+@login_required
+def admin_portal_mealplans():
+    admin = Admin.get_admin_by_id(current_user.user_id)
+    if(admin is None):
+        abort(401)
+    else:
+        return render_template('admin-portal-mealplans.html', new_mealplan_form = newMealPlanForm())
+
 @views.route('/feedback-page', methods=['GET', 'POST'])
 def feedback():
     return render_template('feedback-page.html')
@@ -271,9 +329,40 @@ def submit_rating():
     # You can store this rating in your database here
     return redirect(url_for('views.feedback'))  # Or show a "Thank you" page
 
+# to access the meal's official image for a menu, it will follow the format: static/uploads/meal/<meal_id>
 @views.route('/post-meal', methods=['GET', 'POST'])
 def post_meal():
-    return render_template('post-meal.html')
+    meals = Meal.query.all()
+    form = ImageForm()
+    
+    # checking if form went through
+    if form.validate_on_submit():
+        file = form.file.data
+        
+        if file:
+            filename = secure_filename(file.filename)
+
+            # error checking name (if empty) or if correct extension type
+            if filename == '' or not allowed_file(file.filename):
+                flash('Incompatible file. Please try again.')
+                return redirect(request.url)
+            
+            # otherwise continue with data
+
+            # first, rename according to meal option
+            root, ext = os.path.splitext(filename)
+            meal_id = str(form.meal_id.data)
+            new_filename = meal_id + ext
+
+            # create new file path
+            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], new_filename)
+            file.save(file_path)
+
+            # details of meal
+            selected_meal = Meal.query.get(meal_id)
+            return render_template('post-meal.html', filename=filename, form=form, meals=meals, selected_meal=selected_meal)
+
+    return render_template('post-meal.html', form=form, meals=meals)
 
 
 @views.route('/meal-feedback-list', methods=['GET', 'POST'])
@@ -296,3 +385,36 @@ def meal_feedback_list():
     }
     avg_rating = 3.5
     return render_template('meal-feedback-list.html', comments = comments, avg_rating = avg_rating, another_comments = another_comments)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# upload file images
+@views.route('/feedback-page', methods=['GET', 'POST'])
+def upload_file():
+    form = ImageForm()
+    
+    # checking if form went through
+    if form.validate_on_submit():
+        file = form.file.data
+        
+        if file:
+            filename = secure_filename(file.filename)
+
+            # error checking name (if empty) or if correct extension type
+            if filename == '' or not allowed_file(file.filename):
+                flash('Incompatible file. Please try again.')
+                return redirect(request.url)
+            
+            # otherwise continue with data
+            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            return render_template('feedback-page.html', filename=filename, form=form)
+
+    return render_template('feedback-page.html', form=form)
+
+# image handling
+@views.route('/uploads/meals/<name>')
+def image_file(name):
+    return send_from_directory(current_app.config["UPLOAD_FOLDER"], name)

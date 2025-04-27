@@ -26,6 +26,11 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable = False)
 
+    # Allow for on delete cascade
+    admins = db.relationship("Admin", cascade="all, delete", passive_deletes=True)
+    students = db.relationship("Student", cascade="all, delete", passive_deletes=True)
+    managers = db.relationship("Manager", cascade="all, delete", passive_deletes=True)
+    employees = db.relationship("Employee", cascade="all, delete", passive_deletes=True)
     # 2FA secret key for each usre
     twofa_secret = db.Column(db.String(32))
 
@@ -37,6 +42,16 @@ class User(UserMixin, db.Model):
         # sets password to hash
         self.password = bcrypt.generate_password_hash(password)
 
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        # Exclamations are used to put primary keys at the front of the list, since JSON sorts keys alphabetically.
+        # They shouldn't be used for other parameters and should be trimmed in frontend code if necessary.
+        return {
+            '!id': self.user_id,
+            'email': self.email,
+            'name': self.name,
+            'password': str(self.password)
+        }
         
     def get_id(self):
         return self.user_id
@@ -48,17 +63,69 @@ class User(UserMixin, db.Model):
                 return user
             else:
                 return None
+            
+    def is_admin(self):
+        if(Admin.get_admin_by_id(self.user_id) is not None):
+            return True
+        else:
+            return False
         
+    # checks if they are working at dining hall (employee, manager, admin)
+    def is_employee(self):
+        if(Employee.get_employee_by_id(self.user_id) is not None or Admin.get_admin_by_id(self.user_id) is not None or Manager.get_manager_by_id(self.user_id) is not None):
+            return True
+        else:
+            return False
+        
+    def is_student(self):
+        if(Student.get_student_by_id(self.user_id) is not None):
+            return True
+        else:
+            return False
+        
+    def set_password(self, new_pw):
+        self.password = bcrypt.generate_password_hash(new_pw)
+
+# ---------- [ENTITY SETS] ----------
 # Admin table (only one admin in system)
 class Admin(db.Model):
-    __tablename__ = "admin"
-    admin_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
-    manager_id = db.Column(db.Integer, db.ForeignKey('manager.manager_id'))                 # foreign key to manager (one-to-one)
+    __tablename__ = 'admin'
+    admin_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='CASCADE'), primary_key=True)
+    manager_id = db.Column(db.Integer, db.ForeignKey('manager.manager_id'))        
+    
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "!id": self.admin_id,
+            "manager_id": self.manager_id
+        }
+    
+    def get_admin_by_id(uid):
+        ad = Admin.query.filter_by(admin_id = uid).first()
+        
+        if ad is not None:
+            return ad
+        else:
+            return None
 
 # Manager table
 class Manager(db.Model):
-    __tablename__ = "manager"
-    manager_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
+    __tablename__ = 'manager'
+    manager_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='CASCADE'), primary_key=True)
+
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "manager_id": self.manager_id
+        }
+    
+    def get_manager_by_id(uid):
+        man = Manager.query.filter_by(manager_id = uid).first()
+        
+        if man is not None:
+            return man
+        else:
+            return None
 
     # relationships
     menus = db.relationship('Menu', secondary='managers_menus', back_populates='managers')  # many-to-many w/ menu
@@ -66,16 +133,33 @@ class Manager(db.Model):
 
 # Student table
 class Student(db.Model):
-    __tablename__ = "student"
-    user_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
+    __tablename__ = 'student'
+    user_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='CASCADE'), primary_key=True)
     balance = db.Column(db.Float, nullable=False)
-    admin_id = db.Column(db.Integer, db.ForeignKey('admin.admin_id'))                       # foreign key to admin (many-to-one)
-    plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.id'))                          # vars for managing meal plan
+    admin_id = db.Column(db.Integer, db.ForeignKey(Admin.admin_id, ondelete='SET NULL'))  # foreign key to admin (many-to-one)
+    # vars for managing meal plan
+    plan_id = db.Column(db.Integer, db.ForeignKey("meal_plan.id", ondelete='SET NULL')) # foreign key to specific meal plan
 
-    def __init__(self, user_id, balance):
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "!id": self.user_id,
+            "balance": self.balance,
+            "admin_id": self.admin_id,
+            "plan_id": self.plan_id
+        }
+
+    # relationships
+    user = db.relationship('User')
+    meals = db.relationship('Meal', secondary='students_meals', back_populates='students')  # many-to-many w/ meals
+    menus = db.relationship('Menu', secondary='students_menus', back_populates='students')  # many-to-many w/ menus
+    
+
+    def __init__(self, user_id, admin_id, plan_id, balance):
         self.user_id = user_id
         self.balance = balance
-        plan_id = 0                                                                         # initialize to 0, student can choose meal plan in manage meal plan page
+        self.admin_id = admin_id
+        self.plan_id = plan_id
     
     def get_student_by_id(uid):
         st = Student.query.filter_by(user_id = uid).first()
@@ -85,16 +169,28 @@ class Student(db.Model):
         else:
             return None
 
-    # relationships
-    user = db.relationship('User')
-    meals = db.relationship('Meal', secondary='students_meals', back_populates='students')  # many-to-many w/ meals
-    menus = db.relationship('Menu', secondary='students_menus', back_populates='students')  # many-to-many w/ menus
+    
 
 # Employee table
 class Employee(db.Model):
-    __tablename__ = "employee"
-    employee_id = db.Column(db.Integer, db.ForeignKey(User.user_id), primary_key=True)
-    menu_id = db.Column(db.Integer, db.ForeignKey('menu.id'))                               # foreign key to menu (many-to-one)
+    __tablename__ = 'employee'
+    employee_id = db.Column(db.Integer, db.ForeignKey(User.user_id, ondelete='CASCADE'), primary_key=True)
+    menu_id = db.Column(db.Integer, db.ForeignKey('menu.id'))                                # foreign key to menu (many-to-one)
+
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "!id": self.employee_id,
+            "menu_id": self.menu_id
+        }
+
+    def get_employee_by_id(uid):
+        emp = Employee.query.filter_by(employee_id = uid).first()
+        
+        if emp is not None:
+            return emp
+        else:
+            return None
 
     # relationships
     meals = db.relationship('Meal', secondary='employees_meals', back_populates='employees') # many-to-many w/ meals
@@ -104,6 +200,15 @@ class Meal_Plan(db.Model):
     __tablename__ = 'meal_plan'                                                             # fixing errors with naming
     id = db.Column(db.Integer, primary_key=True)                                            # simplifying primary key to id
     price = db.Column(db.Float, nullable=False)
+    
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "!id": self.id,
+            "price": self.price
+        }
+
+    
 
 # Menu table
 class Menu(db.Model):
@@ -117,11 +222,19 @@ class Menu(db.Model):
         self.date = date
         self.location = location
 
-    # relationships
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "!id": self.id,
+            "date": self.date,
+            "location": self.location
+        }
+      
     meal_categories = db.relationship('Meal_Category', secondary='menu_meal_categories', back_populates='menus')    # multi-valued attribute
     meals = db.relationship('Meal', secondary='menu_meals', back_populates='menus')                                 # multi-valued attribute
     students = db.relationship('Student', secondary='students_menus', back_populates='menus')                       # many-to-many w/ student
     managers = db.relationship('Manager', secondary='managers_menus', back_populates='menus')                       # many-to-many w/ manager
+
 
 # Meal table
 class Meal(db.Model):
@@ -130,6 +243,9 @@ class Meal(db.Model):
     meal_name = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
     number_sold = db.Column(db.Integer, nullable=False)
+
+    # default to jpg for now - will be able to edit whenever a new image is uploaded by employees
+    file_extension = db.Column(db.String)
     
     #newly addedfor the comment :  
 
@@ -138,11 +254,19 @@ class Meal(db.Model):
         self.meal_name = meal_name
         self.price = price
         self.number_sold = number_sold
+        self.file_extension = '.jpg'
+        
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "!id": self.id,
+            "price": self.price,
+            "number_sold": self.number_sold
+        }
 
     # relationships
     categories = db.relationship('Meal_Category', secondary='meal_meal_categories', back_populates='meals')                    # assigining each meal to a category
-    types = db.relationship('Meal_Type', secondary="meal_types", back_populates='meals')                                       # each meal can have a type
-    
+    types = db.relationship('Meal_Type', secondary="meal_types", back_populates='meals')                                       # each meal can have a type   
     menus = db.relationship('Menu', secondary='menu_meals', back_populates='meals')                                            # multi-valued attribute
     restrictions = db.relationship('Dietary_Restriction', secondary='meal_dietary_restrictions', back_populates='meals')       # multi-valued attribute
     infos = db.relationship('Nutritional_Information', secondary='meal_nutritional_informations', back_populates='meals')      # multi-valued attribute
@@ -150,6 +274,7 @@ class Meal(db.Model):
     managers = db.relationship('Manager', secondary='managers_meals', back_populates='meals')                                  # many-to-many w/ managers
     employees = db.relationship('Employee', secondary='employees_meals', back_populates='meals')                               # many-to-many w/ employees
     comments = db.relationship('Comment', back_populates='meal')
+
 
 # Meal_Category (multi-valued) table for Menu
 class Meal_Category(db.Model):
@@ -179,16 +304,29 @@ class Dietary_Restriction(db.Model):
     restriction = db.Column(db.String, nullable=False)
 
     # relationships
-    meals = db.relationship('Meal', secondary='meal_dietary_restrictions', back_populates='restrictions')       # multi-valued attribute               
+
+    meals = db.relationship('Meal', secondary='meal_dietary_restrictions', back_populates='restrictions')       # multi-valued attribute                      
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "!id": self.id,
+            "restriction": self.restriction
+        }
 
 # Nutritional_Information (multi-valued) table for Meal
 class Nutritional_Information(db.Model):
-    __tablename__ = 'nutritional_information'                                               # fixing errors with naming
+    __tablename__ = 'nutritional_information'
     id = db.Column(db.Integer, primary_key = True)
     info = db.Column(db.String, nullable=False)
 
     # relationships
     meals = db.relationship('Meal', secondary='meal_nutritional_informations', back_populates='infos')          # multi-valued attribute
+    def to_dict(self):
+        # Return table data in a json-ifiable format
+        return {
+            "!id": self.id,
+            "info": self.info
+        }
 
 
 class Comment(db.Model):
