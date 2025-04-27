@@ -114,7 +114,7 @@ class newMealPlanForm(FlaskForm):
 
 class MealPlanForm(FlaskForm):
     plan_id = SelectField(
-        choices=[(1, 'Level 1'), (2, 'Level 2'), (3, 'Level 3')],
+        choices=[],
         validators=[DataRequired()],
         render_kw={"class": "meal-form-class"}
     )

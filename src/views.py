@@ -201,7 +201,10 @@ def view_menu_options():
 def meal_plan_id():
     # form for updating meal plan
     form = MealPlanForm()
-
+    
+    # updating meal plan choices
+    form.plan_id.choices = [(plan.id, f'Level {plan.id}') for plan in Meal_Plan.query.all()]
+    
     # find student in database
     student = Student.get_student_by_id(current_user.user_id)
     

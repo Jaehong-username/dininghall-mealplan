@@ -54,6 +54,9 @@
                     <h6><strong>Level 3</strong></h6>
                     <p>$935 Base + $1,795 Dining Dollars → <b>$2,730 Total</b></p>
                     <p>Eat every meal on campus, stay most weekends.</p>
+                {% elif student.plan_id > 3 %}
+                    <h6><strong>Level {{ student.plan_id }}</strong></h6>
+                    <p>Eat every meal on campus, stay all weekends.</p>
                 {% else %}
                     <p class="text-danger"> No plan selected. Please choose one above.</p>
                 {% endif %}
