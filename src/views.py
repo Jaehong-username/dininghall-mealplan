@@ -125,9 +125,12 @@ def register():
         db.session.add(new_user)
         
         db.session.commit()
+
+        # finding admin for initializer of user
+        admin = Admin.query.first()
         
         ### Create a student account for the user too.
-        new_student = Student(new_user.user_id, "500")
+        new_student = Student(new_user.user_id, admin.admin_id, None, 500.00)        
         db.session.add(new_student)
         db.session.commit()
   
@@ -164,9 +167,8 @@ def view_today_menus():
     
     # display error & return to home if student not found
     if not menu:
-        print("Menu does not exist")
-        return "<h3>Menu does not exist!</h3>" \
-        "<form action='/'><button type='submit'>Return Home</button></form>"
+        flash("Menu does not exist")
+        return redirect(request.url)  
     
     # getting menu type (breakfast, lunch, or dinner) to know what to display
     type = request.args.get('type')
@@ -185,11 +187,10 @@ def view_menu_options():
     # for now, using a temp date for testing
     menu = Menu.query.filter_by(date=date(2025, 4, 2)).first()
     
-    # display error & return to home if student not found
+    # display error & return to home if menu not found
     if not menu:
-        print("Menu does not exist")
-        return "<h3>Menu does not exist!</h3>" \
-        "<form action='/'><button type='submit'>Return Home</button></form>"
+        flash("Menu does not exist")
+        return redirect(request.url)   
     
     return render_template('menu-options.html', menu=menu)
 
@@ -206,15 +207,14 @@ def meal_plan_id():
     
     # display error & return to home if student not found
     if not student:
-        print("Student does not exist")
-        return "<h3>Student does not exist!</h3>" \
-        "<form action='/'><button type='submit'>Return Home</button></form>"
+        flash("Student does not exist")
+        return redirect(request.url)   
     
     # updating meal plan
     if form.validate_on_submit():
         print("Now changing meal plan")
-        updated_plan = form.plan_id.data
-        student.plan_id = updated_plan
+        updated_plan = Meal_Plan.query.get(form.plan_id.data)
+        student.plan_id = updated_plan.id
         db.session.commit() # update in database
 
     return render_template("meal-plan.html", form=form, student=student)

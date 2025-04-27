@@ -60,7 +60,28 @@ def create_db():
         with db.session.no_autoflush:
             # TEMP STUDENT FOR TESTING PURPOSES (since no info in database yet)
             # to clean out (ONLY DO WITH NON-IMPORTANT DB): rm database.db & rerun code after commenting code out
-            # TEMP STUDENT FOR TESTING PURPOSES (since no info in database yet)
+
+            # base meal plans
+            plan1 = Meal_Plan(
+                    id=1,
+                    price=2055.00
+                )
+            
+            plan2 = Meal_Plan(
+                    id=2,
+                    price=2410.00
+                )
+            
+            plan3 = Meal_Plan(
+                    id=3,
+                    price=2730.00
+                )
+
+            db.session.add(plan1)
+            db.session.add(plan2)
+            db.session.add(plan3)
+            db.session.commit()
+
             existing_user = User.query.filter_by(user_id=1).first()
             if existing_user:
                 print("Temp user exists")
@@ -133,27 +154,17 @@ def create_db():
             db.session.commit()
 
             # BASE CATEGORIES FOR TESTING
-            # TODO: add location-exclusive category checks?  
-            # TODO: check if category contains no meals before printing?
             base_categories = {
                 "Bakery": ["Breakfast", "Brunch", "Lunch", "Dinner"],
                 "Build-a-Breakfast Sandwich": ["Breakfast", "Brunch"],
                 "Chef's Creation": ["Breakfast", "Brunch", "Lunch", "Dinner"],
                 "Hot Cereal": ["Breakfast", "Brunch"],
                 "Big Cat Grille": ["Brunch", "Lunch", "Dinner"],
-                # "Build-a-Sandwich": ["Lunch", "Dinner"],
-                # "Grapevine": ["Lunch", "Dinner"],
-                # "Hot Spot": ["Lunch", "Dinner"],
                 "Deli": ["Brunch", "Lunch", "Dinner"],
-                # "Grill": ["Lunch", "Dinner"],
                 "Natural": ["Brunch", "Lunch", "Dinner"],
-                # "On Fire": ["Lunch", "Dinner"],
-                # "Salad Bar Fruits": ["Lunch", "Dinner"],
                 "Presto Pizza": ["Brunch", "Lunch", "Dinner"],
                 "Salads": ["Brunch", "Lunch", "Dinner"],
                 "Soups": ["Lunch", "Dinner"],
-                # "Stonewall Pasta": ["Lunch", "Dinner"],
-                # "Stonewall Pizza": ["Lunch", "Dinner"]
             }
 
             # adding categories to meal_category
