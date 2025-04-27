@@ -22,10 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
   
     function highlightStars(rating) {
       const stars = document.querySelectorAll("#star-rating .fa-star");
+
       stars.forEach(star => {
-        star.classList.remove("hover", "selected");
-        if (parseInt(star.dataset.value) <= rating) {
-          star.classList.add("selected");
+
+        const starValue = parseInt(star.dataset.value);
+
+        if (starValue <= rating) {
+            star.classList.add("selected");
+            star.classList.remove("hover");
+        } else {
+            star.classList.remove("selected", "hover");
         }
       });
     }

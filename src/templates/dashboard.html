@@ -1,22 +1,44 @@
 {% extends "layout.html" %}
 
 {% block title %}Dashboard{% endblock %}
+
 {% block content %}
-<div class="dashboard">
-    <h1>Dashboard</h1>
-    <p>Under construction!</p>
-    <h2>Account Details for {{ current_user.name }}</h2>
-    <ul>
-        <li>User id: {{ current_user.user_id }}</li>
-        <li>Email: {{ current_user.email }}</li>
-    </ul>
-    <h2>Student info:</h2>
-    {% if student is not none %}
-        <ul>
-            <li>Balance: ${{ student.balance }}</li>
+<div class="content">
+  <div class="dashboard">
+
+    <h1 class="title" style="text-align: center;">Welcome, {{ current_user.name }}!</h1>
+    <h2 class="subtitle" style="text-align: center;">Here’s your account overview</h2>
+
+    <div class="cafeteria-container" id="account-info" style="margin-top: 30px; justify-content: center;">
+
+      <!-- account information -->
+      <div class="cafeteria">
+        <h2 style="text-align: center;">Account Details</h2>
+        <ul style="padding: 20px;">
+          <li><strong>User ID:</strong> {{ current_user.user_id }}</li>
+          <li><strong>Email:</strong> {{ current_user.email }}</li>
         </ul>
-    {% else %}
-        <p>User is not a student!</p>
-    {% endif %}
+      </div>
+
+      <!-- student information -->
+      <div class="cafeteria">
+        <h2 style="text-align: center;">Student Info</h2>
+        {% if student is not none %}
+        <ul style="padding: 20px;">
+          <li><strong>Balance:</strong> ${{ student.balance }}</li>
+          {% if student.plan_id %}
+          <li><strong>Meal Plan ID:</strong> {{ student.plan_id }}</li>
+          {% else %}
+          <li><em>No meal plan selected yet.</em></li>
+          {% endif %}
+        </ul>
+        {% else %}
+          <p style="text-align: center;">User is not a student.</p>
+        {% endif %}
+      </div>
+
+    </div>
+
+  </div>
 </div>
 {% endblock %}

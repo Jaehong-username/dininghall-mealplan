@@ -1,106 +1,101 @@
-{% extends "layout.html" %}
+    {% extends "layout.html" %}
 
-{% block title %}Feedback{% endblock %}
+    {% block title %}Feedback{% endblock %}
 
-{% block content %}
-    <h1 class = "title">Feedback for the Meal</h1>
-    <h2 class = "subtitle">Your FEEDBACK Matters! Please let me know how you like the food</h2>
-    <div class = "cafeteria-container" id="feedback">
+    {% block content %}
+        <h1 class = "title">Feedback for the Meal</h1>
+        <h2 class = "subtitle">Your feedback MATTERS! Please let me know how you like the food!</h2>
+        <div class = "cafeteria-container" id="feedback" style="justify-content: center;">
+
+
+            <h1 class="title" style="text-align: center;">Meal Feedback</h1>
+            <h2 class="subtitle" style="text-align: center; margin-bottom: 30px;">We value your opinion!</h2>
         
-        <div class = "cafeteria">
-            <h2>Selected Meal</h2>
-            <img src="/static/images/foodfeedbackgood.png" alt="image">
-            <div class = "cafeteria-info">
-                <ul> <!--Unordered lsit using dot-->
-                    <li>Meal Name: Egg Scramble</li>
-                    <li>Price: </li>
-                    <li>Ingredients: </li>
-                    <li>Dietary Restriction: </li>
-                </ul>  
-            </div>
-        </div>
+            <div class="cafeteria-container" id="feedback">
+                
+                <div style="margin-bottom: 30px; text-align: center;">
+                    <label for="meal-select"><strong>Select a Meal:</strong></label><br><br>
+                    <select id="meal-select" name="meal" style="padding: 10px; font-size: 16px;">
+                        <option>Egg Scramble</option>
+                        <option>Veggie Burger</option>
+                        <option>Chicken Alfredo</option>
+                        <option>Vegan Salad</option>
+                    </select>
+                </div>
+
+                <!-- Selected Meal Info -->
+                <div class="cafeteria">
+                    <h2 style="text-align: center;">Selected Meal</h2>
+                    <img src="/static/images/foodfeedbackgood.png" alt="Meal Image">
+                    <ul style="padding: 10px; list-style-type: none;">
+                        <li><strong>Meal:</strong> Egg Scramble</li>
+                        <li><strong>Price:</strong> $5.99</li>
+                        <li><strong>Ingredients:</strong> Eggs, Cheese, Veggies</li>
+                        <li><strong>Dietary Restriction:</strong> Vegetarian</li>
+                    </ul>
+                </div>
         
+                <!-- Upload Image -->
+                <div class="cafeteria">
+                    <h2 style="text-align: center;">Upload Meal Image</h2>
+                    <form method="POST" enctype="multipart/form-data" style="margin-top: 20px; text-align: center;">
+                        <input type="file" name="file" id="fileInput" class="btn" style="background: #3498db;">
+                        <br><br>
+                        <img id="imagePreview" src="#" alt="Image Preview" style="display: none; max-width: 100%; margin-top: 10px;">
+                        <br>
+                        <input type="submit" value="Upload" class="btn" style="background: #27ae60; margin-top: 10px;">
+                    </form>
+                </div>
         
-        <div class = "meal-feedback">
-            <!-- File Upload Form -->
-            
-            <h2>Upload an Image</h2>
-            <form method="POST" enctype="multipart/form-data">
-                <input type="file" name="file" id="fileInput" accept="image/*">
-                <br><br>
-                <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
-                <br><br>
-                <input type="submit" value="Upload">
-            </form>
-            
-            
-        
-            
-            <!-- Display uploaded image -->
-            {% if filename %}
-                <h2>Uploaded Image:</h2>
-                <img src="{{ url_for('uploaded_file', filename=filename) }}" width="300">
-            {% endif %}
-            
-        </div>
-        
-        <div class = "meal-feedback">
-                <div class = "form-info">
-                    <h2>Filling in your Feedback</h2>
-                    <form action = "#" method = "get" onsubmit="return validateEmail()">
-                        
-                        <div class = "input-box">
-                            <input type = "name" required>
+                <!-- Basic Info Form -->
+                <div class="cafeteria">
+                    <h2 style="text-align: center;">Tell Us About Yourself</h2>
+                    <form style="margin-top: 20px;">
+                        <div class="input-box">
+                            <input type="text" name="first_name" required>
                             <label>First Name</label>
                         </div>
-                        
-                        <div class = "input-box">
-                            <input type = "name" required>
+                        <div class="input-box">
+                            <input type="text" name="last_name" required>
                             <label>Last Name</label>
                         </div>
-                        
-                        <div class = "input-box">
-                            <input type = "email" required>
+                        <div class="input-box">
+                            <input type="email" name="email" required>
                             <label>Email</label>
                         </div>
-                        
-                        <div class = "input-box">
-                            <input type = "student_id" required>
+                        <div class="input-box">
+                            <input type="text" name="student_id" required>
                             <label>Student ID</label>
                         </div>
                     </form>
                 </div>
-        </div>
         
-        <div class = "meal-feedback">
-            
-                <div class = "form-box login">
-                    
-                    <form action = "#" method = "get" onsubmit="return validateEmail()">
-                        
-                        <h2>Rate the food</h2>
-
-                        <form action="/submit-rating" method="POST">
-                            <div id="star-rating">
-                                <!-- Stars will be generated by JavaScript -->
-                            </div>
-                            <input type="hidden" name="rating" id="rating-value">
-                            <button type="submit">Submit</button>
-                        </form>
-                        
-                        <h2>Food Feedback</h2>
-                        
-                        <div class ="message-form">
+                <!-- Rating + Feedback -->
+                <div class="cafeteria">
+                    <h2 style="text-align: center;">Rate Your Meal</h2>
+                    <form action="/submit-rating" method="POST" style="margin-top: 20px;">
+        
+                        <div id="star-rating" style="text-align: center; margin-bottom: 20px;">
+                            <!-- JavaScript will fill in stars -->
+                        </div>
+        
+                        <input type="hidden" name="rating" id="rating-value">
+        
+                        <div class="message-form" style="margin-top: 20px;">
                             <label>Your Feedback</label>
                             <br/>
-                            <input type="text" name="message" value="">
-                        </div>  
-                        <button type="button" class="btn btn-success">Submit</button>
+                            <input type="text" name="message" placeholder="Write something nice..." style="height: 80px;">
+                        </div>
+        
+                        <button type="submit" class="btn" style="margin-top: 20px;">Submit Feedback</button>
                     </form>
                 </div>
+        
+            </div>
+
+            
+            
         </div>
         
-    </div>
-    
-    
-{% endblock %}
+        
+    {% endblock %}
