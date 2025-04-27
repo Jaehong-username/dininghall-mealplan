@@ -117,7 +117,7 @@ class Student(db.Model):
     balance = db.Column(db.Float, nullable=False)
     admin_id = db.Column(db.Integer, db.ForeignKey(Admin.admin_id, ondelete='SET NULL'))  # foreign key to admin (many-to-one)
     # vars for managing meal plan
-    plan_id = db.Column(db.Integer, db.ForeignKey("meal_plan.plan_id", ondelete='SET NULL')) # foreign key to specific meal plan
+    plan_id = db.Column(db.Integer, db.ForeignKey("meal_plan.id", ondelete='SET NULL')) # foreign key to specific meal plan
 
     def to_dict(self):
         # Return table data in a json-ifiable format
@@ -130,14 +130,15 @@ class Student(db.Model):
 
     # relationships
     user = db.relationship('User')
-    meals = db.relationship('Meal', secondary='Students_Meals') # many-to-many w/ meals
-    menus = db.relationship('Menu', secondary='Students_Menus') # many-to-many w/ menus
+    meals = db.relationship('Meal', secondary='students_meals', back_populates='students')  # many-to-many w/ meals
+    menus = db.relationship('Menu', secondary='students_menus', back_populates='students')  # many-to-many w/ menus
     
 
-    def __init__(self, user_id, balance):
+    def __init__(self, user_id, admin_id, plan_id, balance):
         self.user_id = user_id
         self.balance = balance
-        plan_id = 0              
+        self.admin_id = admin_id
+        self.plan_id = plan_id
     
     def get_student_by_id(uid):
         st = Student.query.filter_by(user_id = uid).first()
@@ -147,10 +148,7 @@ class Student(db.Model):
         else:
             return None
 
-    # relationships
-    user = db.relationship('User')
-    meals = db.relationship('Meal', secondary='students_meals', back_populates='students')  # many-to-many w/ meals
-    menus = db.relationship('Menu', secondary='students_menus', back_populates='students')  # many-to-many w/ menus
+    
 
 # Employee table
 class Employee(db.Model):
