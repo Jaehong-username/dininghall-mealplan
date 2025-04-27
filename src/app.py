@@ -244,7 +244,12 @@ def create_db():
                 db.session.commit()
         
 ### Program entrypoint (place at bottom of script)
-create_db() ## Create all databasees if they don't exist
+#create_db() ## Create all databasees if they don't exist
+
+# above is incorrect - you only create a db if it doesnt exist
+if not os.path.exists(os.path.join(basedir, "data/database.db")):
+    create_db()
+
 
 # Initialize bcrypt
 bcrypt.init_app(app)
