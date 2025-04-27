@@ -22,13 +22,13 @@
             <!-- only print according to the menu's specific location -->
             {% if menu.location == location %}
 
+                <div class="card shadow-sm mb-4 p-4">
                 <!-- for loop for each meal category stored in the menu -->
                 {% for category in menu.meal_categories %}
-
+                
                     <!-- only printing category that belongs to the specific menu and is not empty -->
                     {% for t in category.types %}
                         {% if t.type == type %}
-                        <div class="card shadow-sm mb-4 p-4">
                         <h3 class="card-title mb-3"><b><u>{{ category.category }}</u></b></h3>
                         {% endif %}
                     {% endfor %}
@@ -78,8 +78,8 @@
                         {% endif %}
                         
                         {% endfor %} <!-- end meal loop-->
-                    </div>
                 {% endfor %} <!-- end category loop-->
+                </div>
             {% endif %} <!-- end location loop -->
 
         </div>
