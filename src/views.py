@@ -16,7 +16,6 @@ import os
 from werkzeug.utils import secure_filename
 
 # variables related to image uploads
-UPLOAD_FOLDER = os.path.join('static', 'uploads')
 ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg'}
 
 views = Blueprint('views', __name__)
@@ -316,7 +315,7 @@ def upload_file():
                 return redirect(request.url)
             
             # otherwise continue with data
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
             return render_template('feedback-page.html', filename=filename, form=form)
 

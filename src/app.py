@@ -24,10 +24,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, "da
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/14253/Desktop/dininghall-mealplan-1/data/database.db'
 bcrypt = Bcrypt(app)
 
-
-UPLOAD_FOLDER = os.path.join('static', 'uploads')
+# image upload setup
 ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'static', 'uploads')
 
 
 # Create secret key
