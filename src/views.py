@@ -301,7 +301,7 @@ def submit_rating():
 # to access the meal's official image for a menu, it will follow the format: static/uploads/meal/<meal_id>
 @views.route('/post-meal', methods=['GET', 'POST'])
 def post_meal():
-
+    meals = Meal.query.all()
     form = ImageForm()
     
     # checking if form went through
@@ -317,11 +317,21 @@ def post_meal():
                 return redirect(request.url)
             
             # otherwise continue with data
-            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            file.save(file_path)
-            return render_template('post-meal.html', filename=filename, form=form)
 
-    return render_template('post-meal.html', form=form)
+            # first, rename according to meal option
+            root, ext = os.path.splitext(filename)
+            meal_id = str(form.meal_id.data)
+            new_filename = meal_id + ext
+
+            # create new file path
+            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], new_filename)
+            file.save(file_path)
+
+            # details of meal
+            selected_meal = Meal.query.get(meal_id)
+            return render_template('post-meal.html', filename=filename, form=form, meals=meals, selected_meal=selected_meal)
+
+    return render_template('post-meal.html', form=form, meals=meals)
 
 
 @views.route('/meal-feedback-list', methods=['GET', 'POST'])

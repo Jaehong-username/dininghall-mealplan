@@ -194,8 +194,8 @@ class MealCategoryForm(FlaskForm):
 
 class ImageForm(FlaskForm):
     file = FileField(validators=[FileRequired()])
+    meal_id = IntegerField('Enter Corresponding Meal ID')
     submit = SubmitField('Upload Image')
-
 
 # class RegisterForm(FlaskForm):
 #     email = EmailField(validators=[

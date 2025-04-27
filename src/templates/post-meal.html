@@ -19,15 +19,21 @@
                 <br><br>
                 
                 <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
-                <br><br>
+                <br>
                 
+                <b>Enter Corresponding Meal ID</b>
+                {{ form.meal_id() }}
+                <br>
+
                 <input type="submit" value="Upload">
             </form>
             
             <!-- Display uploaded image -->
             {% if filename %}
-                <h2>Uploaded Image:</h2>
-                <img src="{{ url_for('static', filename='uploads/meals/' + filename) }}" width="200">
+                <h2>Details:</h2>
+                <p><b>Selected Meal: </b>{{ selected_meal.meal_name }}</p>
+                <p><b>Uploaded Image:</b></p>
+                <img src="{{ url_for('static', filename='uploads/meals/' + filename) }}" width="100">
             {% endif %}
             
         </div>

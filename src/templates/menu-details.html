@@ -69,7 +69,6 @@
 
                                     <!-- image according to meal id, file extension -->
                                     <img src="{{ url_for('static', filename='uploads/meals/' ~ meal.id ~ meal.file_extension) }}" style="width: 150px; height: 150px; object-fit: cover; border-radius: 10px; align-self: center">
-                                
                                 <br><hr>
                                 
                                 {% endif %} <!-- end multiple type check (lunch/dinner?)-->
