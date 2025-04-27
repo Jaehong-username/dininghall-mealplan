@@ -29,7 +29,7 @@ bcrypt = Bcrypt(app)
 
 # image upload setup
 ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg'}
-app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'static', 'uploads')
+app.config['UPLOAD_FOLDER'] = os.path.join(basedir, 'static', 'uploads', 'meals')
 
 
 # Create secret key

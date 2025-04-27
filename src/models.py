@@ -243,6 +243,9 @@ class Meal(db.Model):
     meal_name = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
     number_sold = db.Column(db.Integer, nullable=False)
+
+    # default to jpg for now - will be able to edit whenever a new image is uploaded by employees
+    file_extension = db.Column(db.String)
     
     #newly addedfor the comment :  
 
@@ -251,6 +254,7 @@ class Meal(db.Model):
         self.meal_name = meal_name
         self.price = price
         self.number_sold = number_sold
+        self.file_extension = '.jpg'
         
     def to_dict(self):
         # Return table data in a json-ifiable format

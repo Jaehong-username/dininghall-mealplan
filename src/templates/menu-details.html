@@ -49,6 +49,9 @@
                                 {% endif %}
                                 </p>
 
+                                <!-- image according to meal id, file extension -->
+                                <img src="{{ url_for('static', filename='uploads/meals/' ~ meal.id ~ meal.file_extension) }}" width="200">
+
                                 <!-- displaying meal attributes ; restriction: allergen  -->
                                 <p><span style="color:#FF0000"><b>Allergens:</b></span>
                                 {% if not meal.restrictions %}

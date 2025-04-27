@@ -298,6 +298,7 @@ def submit_rating():
     # You can store this rating in your database here
     return redirect(url_for('views.feedback'))  # Or show a "Thank you" page
 
+# to access the meal's official image for a menu, it will follow the format: static/uploads/meal/<meal_id>
 @views.route('/post-meal', methods=['GET', 'POST'])
 def post_meal():
 
@@ -371,3 +372,8 @@ def upload_file():
             return render_template('feedback-page.html', filename=filename, form=form)
 
     return render_template('feedback-page.html', form=form)
+
+# image handling
+@views.route('/uploads/meals/<name>')
+def image_file(name):
+    return send_from_directory(current_app.config["UPLOAD_FOLDER"], name)
