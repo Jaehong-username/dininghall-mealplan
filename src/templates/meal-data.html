@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+ 
+ {% block title %}Dining Hall Meal Plan Manager - View Meal Data{% endblock %}
+ 
+ {% block content %}
+     <div class="contact-container">
+         
+         <h1 class="title">Meal Data Analysis</h1>
+         <h3>Here is the meal data report</h3>
+ 
+                 
+         <div class="contact">
+             <div class="contact-info">
+                 
+                 
+                 <h2><strong>Best-selling meal</strong></h2>
+                 <p><strong>Meal Name:</strong> {{ most_sold_meal.meal_name }}</p>
+                 <p><strong>Number Sold:</strong> {{ most_sold_meal.number_sold }}</p>
+                 <p><strong>Price:</strong> ${{ most_sold_meal.price }}</p>
+                 <p><strong>Most Revenue:</strong> ${{ most }}</p>
+             </div>
+ 
+             <div class="contact-info">
+                 
+                 
+                 <h2><strong>Lowest-selling meal</strong> </h2>
+                 <p><strong>Meal Name:</strong> {{ least_sold_meal.meal_name }}</p>
+                 <p><strong>Number Sold:</strong> {{ least_sold_meal.number_sold }}</p>
+                 <p><strong>Price:</strong> ${{ least_sold_meal.price }}</p>
+                 <p><strong>Least Revenue:</strong> ${{ least }}</p>
+             </div>
+             
+         </div>
+     </div>
+ {% endblock %}
