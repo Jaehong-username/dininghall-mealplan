@@ -19,10 +19,19 @@ body{
 .content {
     background-color: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(8px);
-    padding: 20px;
+    padding: 40px 30px;
     border-radius: 10px;
+    margin-top: 80px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 80px; /* Ensures content starts below fixed header */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 .header{
@@ -90,6 +99,25 @@ body{
     background-color: transparent;
     color:#F39C12;
 }
+
+h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #2C3E50;
+}
+
+h2 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #34495E;
+}
+
+h3 {
+    font-size: 22px;
+    font-weight: 500;
+    color: #34495E;
+}
+
 .login-container{
     width: 400px;
     height: 500px;
@@ -185,10 +213,10 @@ body{
 
 .input-box input, .message-form textarea {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     border-radius: 5px;
     border: 1px solid #ddd;
-    font-size: 16px;
+    font-size: 18px;
     background: white;
     transition: border-color 0.3s;
 }
@@ -201,8 +229,8 @@ body{
 
 
 .input-box label {
-    font-size: 14px;
-    color: #555;
+    font-size: 16px;
+    color: #2C3E50;
     position: absolute;
     top: 10px;
     left: 10px;
@@ -227,11 +255,11 @@ body{
 .btn {
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background:  #3498db;
     color: white;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 18px;
+    font-weight: 600;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -247,9 +275,10 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    gap: 20px;
-    max-width: 1200px;
-    margin: auto;
+    gap: 30px;
+    /*max-width: 1200px;
+    margin: auto;*/
+    margin-top: 30px;
 }
 
 .cafeteria{
@@ -345,18 +374,21 @@ body{
 
 
 
-.meal-feedback{
+.meal-feedback, .cafeteria {
     width: 350px;
-    height: 500px;
-    background: rgba(215, 198, 46, 0.8);
-    border-radius: 30px;
-    padding: 10px;
+    height: auto;
+    background: rgba(255, 255, 255, 0.95); /* soft white background */
+    border-radius: 20px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1); /* nice shadow */
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 
+
 .fa-star {
-    font-size: 35px !important;
-    color: gray;
+    font-size: 40px !important;
+    color: lightgray;
     cursor: pointer; /*signals users that the is clickable*/
     transition: color 0.2s; /*the color will fade instead of fading instantly*/
 }
@@ -364,6 +396,11 @@ body{
 /*when selecting the star or hovering the stars*/
 .fa-star.hover,
 .fa-star.selected {
+    color: gold;
+}
+
+.fa-star:hover {
+    transform: scale(1.2);
     color: orange;
 }
 
@@ -432,4 +469,31 @@ body{
     padding: 5px;
 
     height: 500px;
+}
+
+.feedback-card {
+    width: 300px;
+    min-height: 500px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.feedback-card h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    text-align: center;
+}
+
+.feedback-card li, 
+.feedback-card label, 
+.feedback-card input, 
+.feedback-card p {
+    font-size: 16px;
+    color: #34495e;
 }
