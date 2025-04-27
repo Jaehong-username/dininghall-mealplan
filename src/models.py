@@ -175,7 +175,7 @@ class Meal_Plan(db.Model):
     def to_dict(self):
         # Return table data in a json-ifiable format
         return {
-            "!id": self.plan_id,
+            "!id": self.id,
             "price": self.price
         }
 
