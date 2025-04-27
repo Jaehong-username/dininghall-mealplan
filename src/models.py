@@ -70,6 +70,19 @@ class User(UserMixin, db.Model):
         else:
             return False
         
+    # checks if they are working at dining hall (employee, manager, admin)
+    def is_employee(self):
+        if(Employee.get_employee_by_id(self.user_id) is not None or Admin.get_admin_by_id(self.user_id) is not None or Manager.get_manager_by_id(self.user_id) is not None):
+            return True
+        else:
+            return False
+        
+    def is_student(self):
+        if(Student.get_student_by_id(self.user_id) is not None):
+            return True
+        else:
+            return False
+        
     def set_password(self, new_pw):
         self.password = bcrypt.generate_password_hash(new_pw)
 
@@ -105,6 +118,14 @@ class Manager(db.Model):
         return {
             "manager_id": self.manager_id
         }
+    
+    def get_manager_by_id(uid):
+        man = Manager.query.filter_by(manager_id = uid).first()
+        
+        if man is not None:
+            return man
+        else:
+            return None
 
     # relationships
     menus = db.relationship('Menu', secondary='managers_menus', back_populates='managers')  # many-to-many w/ menu
@@ -162,6 +183,14 @@ class Employee(db.Model):
             "!id": self.employee_id,
             "menu_id": self.menu_id
         }
+
+    def get_employee_by_id(uid):
+        emp = Employee.query.filter_by(employee_id = uid).first()
+        
+        if emp is not None:
+            return emp
+        else:
+            return None
 
     # relationships
     meals = db.relationship('Meal', secondary='employees_meals', back_populates='employees') # many-to-many w/ meals

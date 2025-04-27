@@ -77,14 +77,39 @@ def create_db():
                     password="admin"
                 )
 
+                employee_user = User(
+                    name="employee",
+                    email="employee@email.com",
+                    password="employee"
+                )
+
+                manager_user = User(
+                    name="manager",
+                    email="manager@email.com",
+                    password="manager"
+                )
+
                 db.session.add(temp_user)
                 db.session.add(admin_user)
+                db.session.add(employee_user)
+                db.session.add(manager_user)
                 db.session.commit()
 
                 temp_admin = Admin(
                     admin_id=admin_user.user_id
                 )
+
+                temp_employee = Employee(
+                    employee_id=employee_user.user_id
+                )
+
+                temp_manager = Manager(
+                    manager_id=manager_user.user_id
+                )
+
                 db.session.add(temp_admin)
+                db.session.add(temp_employee)
+                db.session.add(temp_manager)
                 db.session.commit()
             
                 temp_student = Student(

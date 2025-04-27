@@ -27,15 +27,24 @@
                 {% if current_user.is_admin() %}
                 <a href="{{url_for('views.admin_portal_main')}}">Admin Portal</a>
                 {% endif %}
+
+                {% if current_user.is_employee() %}
+                <a href = "{{url_for ('views.post_meal')}}">Upload Meal</a>           
+                {% endif %}
+
                 <a href="{{url_for('views.logout')}}">Log Out</a>
+
+                <!-- only can view meal plan if you are a student -->
+                {% if current_user.is_student() %}
                 <a href="{{ url_for('views.meal_plan_id') }}">Meal Plan</a>
+                {% endif %}
+
             {% else %}
                 <a href = "{{ url_for('views.login') }}">Login</a>
             {% endif %}
 
             <a href = "{{ url_for('views.meal_feedback_list') }}">Feedback</a> <!--should be the name of the url-->
             <a href = "{{ url_for('views.contact') }}">Contact</a>
-            <a href = "{{url_for ('views.post_meal')}}">Upload Meal</a>           
 
         </nav>
     </header>
