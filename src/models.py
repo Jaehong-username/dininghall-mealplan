@@ -150,7 +150,7 @@ class Student(db.Model):
         }
 
     # relationships
-    user = db.relationship('User')
+    user = db.relationship('User', back_populates='students')
     meals = db.relationship('Meal', secondary='students_meals', back_populates='students')  # many-to-many w/ meals
     menus = db.relationship('Menu', secondary='students_menus', back_populates='students')  # many-to-many w/ menus
     
