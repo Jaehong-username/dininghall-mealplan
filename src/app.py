@@ -1,6 +1,8 @@
 #flask library packages
 from flask import Flask, render_template, url_for, redirect, flash, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
 from flask_login import UserMixin,LoginManager, login_user, logout_user, current_user, login_required
 # Flask forms extension packages
 from flask_wtf import FlaskForm, CSRFProtect
@@ -11,6 +13,7 @@ import secrets
 from models import *
 from form_classes import *
 from views import *
+from api import *
 from datetime import date
 
 #import related to uploading images
@@ -36,40 +39,61 @@ csrf = CSRFProtect(app)
 
 app.register_blueprint(views)
 app.register_blueprint(models_bp)
+app.register_blueprint(api_bp)
 
 # Create all databases if they don't exist
 db.init_app(app)
+
+# Enable foreign key constraints for SQLite every query connection.
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
 
 # sample data for database
 def create_db():
     with app.app_context():
         db.drop_all()  # This will drop all tables from the database
         db.create_all()
-        
+
         with db.session.no_autoflush:
             # TEMP STUDENT FOR TESTING PURPOSES (since no info in database yet)
             # to clean out (ONLY DO WITH NON-IMPORTANT DB): rm database.db & rerun code after commenting code out
+            # TEMP STUDENT FOR TESTING PURPOSES (since no info in database yet)
             existing_user = User.query.filter_by(user_id=1).first()
-
-            if (existing_user):
+            if existing_user:
                 print("Temp user exists")
-            
             else:
                 temp_user = User(
                     name="test",
                     email="test@email.com",
                     password="test"
                 )
+                
+                admin_user = User(
+                    name="admin",
+                    email="admin@email.com",
+                    password="admin"
+                )
 
                 db.session.add(temp_user)
+                db.session.add(admin_user)
                 db.session.commit()
 
+                temp_admin = Admin(
+                    admin_id=admin_user.user_id
+                )
+                db.session.add(temp_admin)
+                db.session.commit()
+            
                 temp_student = Student(
                     user_id=temp_user.user_id,
                     balance=1000.00,
-                    #admin_id=1,
+                    admin_id=temp_admin.admin_id,
+                    plan_id=None
                 )
-
+            
                 db.session.add(temp_student)
                 db.session.commit()
 
@@ -243,7 +267,12 @@ def create_db():
                 db.session.commit()
         
 ### Program entrypoint (place at bottom of script)
-create_db() ## Create all databasees if they don't exist
+#create_db() ## Create all databasees if they don't exist
+
+# above is incorrect - you only create a db if it doesnt exist
+if not os.path.exists(os.path.join(basedir, "data/database.db")):
+    create_db()
+
 
 # Initialize bcrypt
 bcrypt.init_app(app)
@@ -256,6 +285,69 @@ def load_user(id):
     return User.query.get(int(id))
 login_manager.init_app(app)
 
+@login_manager.unauthorized_handler
+def unauthorized():
+    print(f"Redirecting to login: {url_for(login_manager.login_view, next=request.url)}")
+    return redirect(url_for(login_manager.login_view, next=request.url))
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# upload file images
+@app.route('/feedback-page', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        #check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            # Pass filename back to template
+            return render_template('comment-page.html', filename=filename)
+
+    return render_template('comment-page.html')
+
+## FROM ADMIN PORTAL MERGE CONFLICT BRANCH, DELETE IF NOT NEEDED.
+# choose meal plan (with id)
+@app.route("/<int:student_id>/meal-plan", methods=["GET", "POST"])
+def meal_plan_id(student_id):
+
+    # find student in database
+    student = Student.query.filter_by(user_id=student_id).first()
+    
+    # display error & return to home if student not found
+    if not student:
+        print("Student does not exist")
+        return "<h3>Student does not exist!</h3>" \
+        "<form action='/'><button type='submit'>Return Home</button></form>"
+    
+    # updating meal plan
+    if request.method == 'POST':
+        print("Now changing meal plan")
+        updated_plan = request.form.get("plan_id")
+        student.plan_id = int(updated_plan)
+        db.session.commit() # update in database
+        # BASE TYPES FOR TESTING
+        base_types = ["Breakfast", "Lunch", "Brunch", "Dinner"]
+        for type in base_types:
+            existing_type = Meal_Type.query.filter_by(type=type).first()
+            if not existing_type:
+                new_type = Meal_Type(type=type)
+                db.session.add(new_type)
+            
+        db.session.commit()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=3000, debug=True) #debugg

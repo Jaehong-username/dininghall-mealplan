@@ -1,0 +1,31 @@
+{% extends "admin-portal.html" %}
+{% block scripts %}
+<script src="/static/admin_data.js"></script>
+<script>
+    setCSRF('{{ csrf_token() }}');
+</script>
+{% endblock %}
+{% block dashboard_content %}
+<h2>Menus:</h2>
+    <div id="menuTable">
+    <button onclick="toggleElement('newMenuForm');">Add Menu</button>
+    <div class="inlineForm hidden" id="newMenuForm">
+        <form action="javascript:writeAdminApi('/api/add_menu', 'menu', 'menu-entries', 
+        'new_menu_form')" method="post" id="new_menu_form">
+            {% with f = new_menu_form %}
+                {{ message }}
+                {{ f.hidden_tag() }}
+                {% for field in f if field.widget.input_type != 'hidden' %}
+                {{ field.label }}: {{ field }}
+                {% endfor %}
+                {% endwith %}
+        </form>
+    </div>
+    
+    <table id="menu-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>getDataInTable("menu", "menu-entries");</script>
+
+</div>
+{% endblock %}

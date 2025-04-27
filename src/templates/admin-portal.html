@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block title %}Admin Portal{% endblock %}
+{% block content %}
+<div class="admin-dashboard">
+    <div class="admin-dashboard-content">
+    <h1>Admin dashboard</h1>
+    {% block dashboard_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

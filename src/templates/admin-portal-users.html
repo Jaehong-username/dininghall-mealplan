@@ -1,0 +1,132 @@
+{% extends "admin-portal.html" %}
+{% block scripts %}
+<script src="/static/admin_data.js"></script>
+<script>
+    setCSRF('{{ csrf_token() }}');
+</script>
+{% endblock %}
+{% block dashboard_content %}
+
+<h2>User accounts:</h2>
+<div id="userTable">
+    <button onclick="toggleElement('newUserFormContainer');">Add User</button>
+    <button onclick="toggleElement('editUserForm');">Edit User</button>
+    <div class="inlineForm hidden" id="newUserFormContainer">
+        <form action="javascript:writeAdminApi('/api/add_user', 'user', 'user-entries', 
+        'new_user_form')" method="post" id="new_user_form">
+            {% if message %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endif %}
+            {% with f = user_forms["new_user_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <div class="inlineForm hidden" id="editUserForm">
+        <form action="javascript:writeAdminApi('/api/update_user', 'user', 'user-entries', 
+        'update_user_form')" method="post" id="update_user_form">
+            {% with f = user_forms["edit_user_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    
+    <table id="user-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>getDataInTable("user", "user-entries");</script>
+</div>
+<hr>
+<div id="studentTable">
+    <h2>Students:</h2>
+    <button onclick="toggleElement('newStudentForm');">Add Student</button>
+    <div class="inlineForm hidden" id="newStudentForm">
+        <form  action="javascript:writeAdminApi('/api/add_student', 'student', 'student-entries', 
+        'new_student_form')" method="post" id="new_student_form">
+            {% with f = user_forms["new_student_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <table id="student-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>getDataInTable("student", "student-entries");</script>
+</div>
+<hr>
+<div id="adminTable">
+    <h2>Admins:</h2>
+    <button onclick="toggleElement('newAdminForm');">Add Admin</button>
+    <div class="inlineForm hidden" id="newAdminForm">
+        <form action="javascript:writeAdminApi('/api/add_admin', 'admin', 'admin-entries', 
+        'new_admin_form')" method="post" id="new_admin_form">
+            {% with f = user_forms["new_admin_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <table id="admin-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>getDataInTable("admin", "admin-entries");</script>
+</div>
+<hr>
+<div id="managerTable">
+    <h2>Managers:</h2>
+    <button onclick="toggleElement('newManagerForm');">Add Manager</button>
+    <div class="inlineForm hidden" id="newManagerForm">
+        <form action="javascript:writeAdminApi('/api/add_manager', 'manager', 'manager-entries', 
+        'new_manager_form')" method="post" id="new_manager_form">
+            {% with f = user_forms["new_manager_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <table id="manager-entries">
+        <tr><td>Loading...</td></tr>
+    </table>   
+    <script>getDataInTable("manager", "manager-entries");</script>
+</div>
+<hr>
+<div id="employeeTable">
+    <h2>Employees:</h2>
+    <button onclick="toggleElement('newEmployeeForm');">Add Employee</button>
+    <div class="inlineForm hidden" id="newEmployeeForm">
+        <form action="javascript:writeAdminApi('/api/add_employee', 'employee', 'employee-entries', 
+        'new_employee_form')" method="post" id="new_employee_form">
+            {% with f = user_forms["new_employee_form"] %}
+            {{ message }}
+            {{ f.hidden_tag() }}
+            {% for field in f if field.widget.input_type != 'hidden' %}
+            {{ field.label }}: {{ field }}
+            {% endfor %}
+            {% endwith %}
+        </form>
+    </div>
+    <table id="employee-entries">
+        <tr><td>Loading...</td></tr>
+    </table>
+    <script>getDataInTable("employee", "employee-entries");</script>
+</div>
+<hr>
+{% endblock %}
