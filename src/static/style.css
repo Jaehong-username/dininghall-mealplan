@@ -293,7 +293,7 @@ h3 {
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
-    gap: 30px;
+    gap: 5px;
     /*max-width: 1200px;
     margin: auto;*/
     margin-top: 30px;
@@ -536,4 +536,9 @@ h3 {
 .feedback-card p {
     font-size: 16px;
     color: #34495e;
+}
+
+
+.card {
+    margin-top: 1200px; /* Adjust this value to move it further down */
 }
