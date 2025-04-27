@@ -11,6 +11,14 @@ import qrcode
 import io
 from base64 import b64encode
 
+# import related to uploading images
+import os
+from werkzeug.utils import secure_filename
+
+# variables related to image uploads
+UPLOAD_FOLDER = os.path.join('static', 'uploads')
+ALLOWED_EXTENSIONS = { 'png', 'jpg', 'jpeg'}
+
 views = Blueprint('views', __name__)
 
 @views.route('/')
@@ -242,7 +250,27 @@ def submit_rating():
 
 @views.route('/post-meal', methods=['GET', 'POST'])
 def post_meal():
-    return render_template('post-meal.html')
+
+    form = ImageForm()
+    
+    # checking if form went through
+    if form.validate_on_submit():
+        file = form.file.data
+        
+        if file:
+            filename = secure_filename(file.filename)
+
+            # error checking name (if empty) or if correct extension type
+            if filename == '' or not allowed_file(file.filename):
+                flash('Incompatible file. Please try again.')
+                return redirect(request.url)
+            
+            # otherwise continue with data
+            file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            return render_template('post-meal.html', filename=filename, form=form)
+
+    return render_template('post-meal.html', form=form)
 
 
 @views.route('/meal-feedback-list', methods=['GET', 'POST'])
@@ -265,3 +293,31 @@ def meal_feedback_list():
     }
     avg_rating = 3.5
     return render_template('meal-feedback-list.html', comments = comments, avg_rating = avg_rating, another_comments = another_comments)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# upload file images
+@views.route('/feedback-page', methods=['GET', 'POST'])
+def upload_file():
+    form = ImageForm()
+    
+    # checking if form went through
+    if form.validate_on_submit():
+        file = form.file.data
+        
+        if file:
+            filename = secure_filename(file.filename)
+
+            # error checking name (if empty) or if correct extension type
+            if filename == '' or not allowed_file(file.filename):
+                flash('Incompatible file. Please try again.')
+                return redirect(request.url)
+            
+            # otherwise continue with data
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            return render_template('feedback-page.html', filename=filename, form=form)
+
+    return render_template('feedback-page.html', form=form)

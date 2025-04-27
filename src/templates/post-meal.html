@@ -12,10 +12,15 @@
             
             <h2>Upload an Image</h2>
             <form method="POST" enctype="multipart/form-data">
-                <input type="file" name="file" id="fileInput" accept="image/*">
+                {{ form.hidden_tag() }}
+
+                <!-- <input type="file" name="file" id="fileInput" accept="image/*"> -->
+                {{ form.file() }}
                 <br><br>
+                
                 <img id="imagePreview" src="#" alt="Image Preview" style="display: none;">
                 <br><br>
+                
                 <input type="submit" value="Upload">
             </form>
             

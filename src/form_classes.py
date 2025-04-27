@@ -5,6 +5,9 @@ from wtforms import *
 from wtforms.validators import *
 from models import *
 
+# https://flask-wtf.readthedocs.io/en/0.15.x/form/
+from flask_wtf.file import FileField, FileRequired
+
 class RegisterForm(FlaskForm):
     email = EmailField(validators=[
                            DataRequired(), Email(), Length(min=4, max=255)], render_kw={"placeholder": "Email Address"})
@@ -116,6 +119,10 @@ class MealCategoryForm(FlaskForm):
     # adds additional html attribute. Meal Category" will appear as a faded text inside the field, 
     category = StringField('Category', validators=[DataRequired(), Length(min=1, max=64)], render_kw={"placeholder": " Meal Category"})
     submit = SubmitField('Add Category')
+
+class ImageForm(FlaskForm):
+    file = FileField(validators=[FileRequired()])
+    submit = SubmitField('Upload Image')
 
 
 
