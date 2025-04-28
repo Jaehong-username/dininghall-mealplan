@@ -46,7 +46,7 @@ Please review the following code files, which were actively developed during thi
    * [dynamic.js](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/static/dynamic.js)
     * [style.css](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/static/dynamic.js)
     * [util.js](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/static/util.js)
-    * 
+      
 - **templates folder**
     * [2fa.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/2fa.html)
     * [admin-portal-main.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/admin-portal-main.html)
