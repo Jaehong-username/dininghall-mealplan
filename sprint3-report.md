@@ -23,6 +23,8 @@ Here are links to the issues that we completed in this sprint:
 
 ## Incomplete Issues/User Stories
 Here are links to issues we worked on but did not complete in this sprint:
+* https://github.com/Jaehong-username/dininghall-mealplan/issues/9 : This feature was not fully implemented due to the complexity of user authorization in our application; in order to have a password change functionality, the server would have to send an email to the user. We worked more on 2FA.
+* https://github.com/Jaehong-username/dininghall-mealplan/issues/10 : 
 
 
 ## Code Files for Review
