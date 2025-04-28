@@ -41,8 +41,10 @@
             <div class="card-body">
                 <h4 class="card-title mb-3">Plan Info</h4>
                 <p class="mb-3">All plans get 40% off dining center meals and 10% off at campus cafés. Use your CougarCard like a prepaid card.</p>
-
-                {% if student.plan_id == 1 %}
+                
+                {% if student.plan_id is none %}
+                    <p class="text-danger">No plan selected.</p>
+                {% elif student.plan_id == 1 %}
                     <h6><strong>Level 1</strong></h6>
                     <p>$935 Base + $1,120 Dining Dollars → <b>$2,055 Total</b></p>
                     <p>2 meals most weekdays, cook often or off-campus.</p>
