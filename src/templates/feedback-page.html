@@ -37,7 +37,8 @@
         <div class="cafeteria small-card">
             <h2 style="text-align: center;">Upload Meal Image</h2>
             <form method="POST" enctype="multipart/form-data" style="margin-top: 20px; text-align: center;">
-                <input type="file" name="file" id="fileInput" class="btn" style="background: #3498db;">
+                <label for="fileInput" class="custom-file-upload">Choose File</label>
+                <input type="file" name="file" id="fileInput">
                 <br><br>
                 <img id="imagePreview" src="#" alt="Image Preview" style="display: none; max-width: 100%; margin-top: 10px;">
                 <br>

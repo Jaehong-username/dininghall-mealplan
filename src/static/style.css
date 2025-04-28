@@ -328,12 +328,32 @@ h3 {
     color: #2c3e50;
 }
 
+.custom-file-upload {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.custom-file-upload:hover {
+    background-color: #2980b9;
+}
+
 input[type="file"] {
+    display: none;
     padding: 12px 15px;   /* increase padding for height */
     font-size: 16px;
     border-radius: 8px;
     background: white;
     border: 1px solid #ccc;
+    
 }
 
 
