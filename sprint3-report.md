@@ -24,69 +24,66 @@ Here are links to the issues that we completed in this sprint:
 ## Incomplete Issues/User Stories
 Here are links to issues we worked on but did not complete in this sprint:
 * https://github.com/Jaehong-username/dininghall-mealplan/issues/9 : This feature was not fully implemented due to the complexity of user authorization in our application; in order to have a password change functionality, the server would have to send an email to the user. We worked more on 2FA.
-* https://github.com/Jaehong-username/dininghall-mealplan/issues/10 : 
-
+* https://github.com/Jaehong-username/dininghall-mealplan/issues/10 : Sending user comments and feedback to the database is limited due to some backend errors that our team hasn’t been able to resolve. Hence, the meal feedback list doesn’t update itself on the fly.
 
 ## Code Files for Review
+Due to technical difficulties with merging, we have our final files under the project-final branch instead of main.
 Please review the following code files, which were actively developed during this sprint, for quality:
 
 - **src folder**
-    * [api.py](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/api.py)
-    * [app.py (main)](https://github.com/Jaehong-username/dininghall-mealplan/blob/main/src/app.py)
-    * [app.py (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/app.py)
-    * [form_classes.py (main)](https://github.com/Jaehong-username/dininghall-mealplan/blob/main/src/form_classes.py)
-    * [form_classes.py (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/form_classes.py)
-    * [form_classes.py (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/tree/mealplan-ui/src)
-    * [models.py (main)](https://github.com/Jaehong-username/dininghall-mealplan/blob/main/src/models.py)
-    * [models.py (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/models.py)
-    * [models.py (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/models.py)
+    * [api.py](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/api.py)
+    * [app.py](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/app.py)
+    * [form_classes.py](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/form_classes.py)
+    * [models.py](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/models.py)
     * [views.py (menu-UI)](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/views.py)
-    * [views.py (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/views.py)
-    * [views.py (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/views.py)
+    * [views.py](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/views.py)
     * [views_temp.py (post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/views_temp.py)
     * [models_temp.py (post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/models_temp.py)
     * [form_classes_temp.py (post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/form_classes_temp.py)
  
 - **static folder**
-    * [admin_data.js](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/static/admin_data.js)
-    * [util.js](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/static/util.js)
-    * [style.css (menu-UI)](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/static/style.css)
-    * [style.css (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/static/style.css)
-    * [style.css (post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/static/style.css)
-    * [dynamic.js (post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/static/dynamic.js)
-
+    * [admin_data.js](https://github.com/Jaehong-username/dininghall-mealplan/tree/project-final/src/static)
+   * [dynamic.js](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/static/dynamic.js)
+    * [style.css](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/static/dynamic.js)
+    * [util.js](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/static/util.js)
+    * 
 - **templates folder**
-    * [admin-portal-main.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-main.html)
-    * [admin-portal-mealplans.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-mealplans.html)
-    * [admin-portal-menus.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-menus.html)
-    * [admin-portal-users.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/admin-portal-users.html)
-    * [contact.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/templates/contact.html)
-    * [dashboard.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/dashboard.html)
-    * [layout.html (menu-UI)](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/templates/layout.html)
-    * [layout.html (admin_portal)](https://github.com/Jaehong-username/dininghall-mealplan/blob/admin_portal/src/templates/layout.html)
-    * [meal-plan.html (menu-UI)](https://github.com/Jaehong-username/dininghall-mealplan/blob/menu-UI/src/templates/meal-plan.html)
-    * [meal-plan.html (mealplan-ui)](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/templates/meal-plan.html)
-    * [menu-details.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/mealplan-ui/src/templates/menu-details.html)
-    * [feedback-page.html(post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/templates/feedback-page.html)
-    * [meal-feedback-list.html (post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/templates/meal-feedback-list.html)
-    * [post-meal.html (post)](https://github.com/Jaehong-username/dininghall-mealplan/blob/post/src/templates/post-meal.html)
+    * [2fa.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/2fa.html)
+    * [admin-portal-main.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/admin-portal-main.html)
+    * [admin-portal-mealplans.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/admin-portal-mealplans.html)
+    * [admin-portal-menus.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/admin-portal-menus.html)
+    * [admin-portal-users.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/admin-portal-users.html)
+    * [admin-portal.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/admin-portal.html)
+    * [contact.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/contact.html)
+    * [dashboard.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/dashboard.html)
+    * [dining-halls.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/dining-halls.html)
+    * [feedback-page.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/feedback-page.html)
+    * [forgot-password.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/forgot-password.html)
+    * [home.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/home.html)
+    * [layout.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/layout.html)
+    * [login.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/login.html)
+    * [meal-data.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/meal-data.html)
+    * [meal-feedback-list.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/meal-feedback-list.html)
+    * [meal-plan.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/meal-plan.html)
+    * [meal-details.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/menu-details.html)
+    * [menu-options.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/menu-options.html)
+    * [post-meal.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/post-meal.html)
+   * [register.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/register.html)
+    * [verify-otop.html](https://github.com/Jaehong-username/dininghall-mealplan/blob/project-final/src/templates/verify-otp.html)
 
 ## Retrospective Summary
 Here's what went well:
 * Easy communication with team members
 * Collaboration and task division within our team
-* Backend functionality progress
-* Effective sprint planning
+* Main backend features completed
+* Main frontend polishing UI finished
 
-Here's what we'd like to improve:
-* Improve version control practices to minimize merge conflicts
-* Allocate more time for working on issues before the sprint deadline
-* Adding more comments to our code to ensure easy readability
+Here's what we'd like to improve (our current limitations):
+* Sending user comments and feedback to the database is limited due to some backend errors that our team hasn’t been able to resolve. Hence, the meal feedback list doesn’t update itself on the fly.
+* Updating current password (changing password) features
+* Cleaning up models if needed and making additions as needed
 
-Here are the changes we plan to implement in the next sprint:
-* Incorporation of 2FA to secure our web app
-* Merging features we’ve worked on from separate branches into one main branch
-* Completing the rest of the functional requirements such as manager usage reports and changing password
-* Implementing more backend features as needed
-* Adding frontend features to pages lacking a specific UI, to match the overarching theme of the project
-* Discussing and planning how to implement future features together
+Here are the changes we would like to implement as possible future improvements or new modules:
+* Resolving the issues related to sending Comment and Feedback data to the database is a priority, as this is one of the core functionalities to help students make informed decisions about choosing school meals. Hence, each meal’s student feedback doesn’t get dynamically updated.
+* Working on each school meal feedback page to display the photo and its dietary and restriction information according to the database.
+* Adding more variety of pictures to our web application to give users a more pleasant and user-friendly design.
