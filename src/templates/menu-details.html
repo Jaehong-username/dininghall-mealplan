@@ -5,7 +5,7 @@
 {% block content %}
 
 <div class="container mt-5 d-flex justify-content-center">
-    <div class="w-100" style="max-width: 600px;"> <!-- Constrain width -->
+    <div class="w-100" style="max-width: 600px; margin-left: 200px; margin-right: 200px"> <!-- Constrain width -->
 
         <div style="text-align:center">
             <h1 class="display-5 text-center mb-4"><b>{{ location }} Cafe</b></h1>
@@ -22,7 +22,7 @@
             <!-- only print according to the menu's specific location -->
             {% if menu.location == location %}
 
-                <div class="card shadow-sm mb-4 p-4">
+                <div class="card shadow-sm mb-4 p-4" style="width: 600px;">
                 <!-- for loop for each meal category stored in the menu -->
                 {% for category in menu.meal_categories %}
                 
