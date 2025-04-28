@@ -29,9 +29,9 @@ body{
     padding: 15px;
     border-radius: 5px;
     margin-top: 55px; */
-    min-height: 80% !important;
+    /*min-height: 80% !important;
     height: 90%;
-    width: 80%;
+    width: 80%;*/
     /* from main branch */
     background-color: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(8px);
@@ -230,7 +230,7 @@ h3 {
 }
 
 .input-box input, .message-form textarea {
-    width: 100%;
+    width: 90%;
     padding: 14px;
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -241,8 +241,9 @@ h3 {
 
 
 .message-form input{
-    height: 200px; width: 330px;
-    border-radius: 30px;
+    height: 100px; 
+    width: 90%;
+    border-radius: 10px;
 }
 
 
@@ -327,12 +328,39 @@ h3 {
     color: #2c3e50;
 }
 
+.custom-file-upload {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.custom-file-upload:hover {
+    background-color: #2980b9;
+}
+
+input[type="file"] {
+    display: none;
+    padding: 12px 15px;   /* increase padding for height */
+    font-size: 16px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #ccc;
+    
+}
 
 
 .input-box{
     position: relative;
     width: 100%;
-    margin: 20px; /*top bottom margin 30px   left and right margin 0px*/
+    margin: 10px; /*top bottom margin 30px   left and right margin 0px*/
     /*border-bottom: 2px solid wheat;*/
 }
 
@@ -424,9 +452,33 @@ h3 {
     margin-bottom: 20px;
 }
 
+.feedback-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px;
+}
 
+.small-card {
+    flex: 1 1 180px; /* grow, shrink, and minimum width */
+    max-width: 200px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    text-align: center;
+}
+
+#star-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; 
+}
 
 .fa-star {
+    display: inline-block; 
     font-size: 40px !important;
     color: lightgray;
     cursor: pointer; /*signals users that the is clickable*/
@@ -541,4 +593,14 @@ h3 {
 
 .card {
     margin-top: 1200px; /* Adjust this value to move it further down */
+}
+
+
+.tell-us-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    height: auto;
+    margin-top: 5px;
 }

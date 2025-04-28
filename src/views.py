@@ -348,17 +348,18 @@ def meal_feedback_list():
     students = ['Student1', 'Student2', 'Student3', 'Student4']
     
     comments = {
-        'student1': 'It was great food',
-        'student2': 'The egg scramble was pretty dried.',
-        'student3': 'It looks different from what I expected.',
-        'student4': 'Its okay.',
-        'student5': 'It was great food'
+        'Student 1': 'It was great food',
+        'Student 2': 'The egg scramble was pretty dry.',
+        'Student 3': 'It looks different from what I expected.',
+        'Student 4': 'Its okay.',
+        
     }
     
     another_comments = {
-        'student6': 'Great food.',
-        'student7': 'I liked how the eggs tasted!',
-        'student8': 'Its alright.'
+        'Student 5': 'It was yummy food.',
+        'Student 6': 'Good food.',
+        'Student 7': 'I liked how the eggs tasted!',
+        'Student 8': 'Its alright.'
     }
     avg_rating = 3.5
     return render_template('meal-feedback-list.html', comments = comments, avg_rating = avg_rating, another_comments = another_comments)
